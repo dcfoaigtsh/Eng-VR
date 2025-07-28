@@ -4,7 +4,22 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/MainMenu.unity
+    guid: 1aed64d8f0646ea43a87edc446003184
+  - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/Standard.unity
+    guid: 7bb53f1d54877714cb359a93844e1a1d
+  - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/ASDmode.unity
+    guid: adb9fed50be5ed34e94517880d0826cf
+  - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/IDmode.unity
+    guid: deaac2e55c65ff24cba230291230bcb9
+  - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/SLDmode.unity
+    guid: a12dde364b58c504e9c242f73461cf26
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: a10e7646e5f12584ca8efcc45b7d5653, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8112fdefebe499e4baa4d04f29e5570f, type: 2}
