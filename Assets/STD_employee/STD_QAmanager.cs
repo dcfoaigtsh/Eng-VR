@@ -174,6 +174,7 @@ public class STD_QAmanager : MonoBehaviour
                 // ✅ 切換導航路線到下一位顧客
                 if (drawer != null)
                 {
+                    agentForThisRoute.gameObject.SetActive(true); // ✅ 顧客2的物件啟用
                     if (nextCustomer != null)
                         drawer.ChangeDestination(nextCustomer); // ✅ 把終點設為顧客2
 
