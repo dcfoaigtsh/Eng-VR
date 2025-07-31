@@ -11111,6 +11111,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LineDrawer
       objectReference: {fileID: 0}
+    - target: {fileID: 5442367572439056540, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8445708173921112524, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: floor
       value: 
@@ -13208,8 +13212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -24.3, y: -8.1}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: -24.3, y: 1}
+  m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &406398973
 MonoBehaviour:
@@ -13224,7 +13228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13918,7 +13922,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -14420,7 +14424,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -24.5, y: -29.1}
-  m_SizeDelta: {x: 60, y: 30}
+  m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &427235266
 MonoBehaviour:
@@ -14435,7 +14439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -31461,7 +31465,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -35327,8 +35331,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.5, y: -8.1}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: 25.5, y: 1}
+  m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1096825070
 MonoBehaviour:
@@ -35343,7 +35347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -36887,7 +36891,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -38415,7 +38419,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1188912774}
-  - component: {fileID: 1188912776}
+  - component: {fileID: 1188912775}
   m_Layer: 0
   m_Name: Order Board(1)
   m_TagString: Untagged
@@ -38439,7 +38443,7 @@ Transform:
   - {fileID: 1442936342}
   m_Father: {fileID: 1167237968}
   m_LocalEulerAnglesHint: {x: 0, y: -7.087, z: 0}
---- !u!114 &1188912776
+--- !u!114 &1188912775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38452,7 +38456,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 703264814}
-  scoreText: {fileID: 2017267247}
   optionButtons:
   - {fileID: 406398975}
   - {fileID: 427235268}
@@ -38463,6 +38466,45 @@ MonoBehaviour:
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1074777242}
+  stages:
+  - question: Hi, May I help you?
+    options:
+    - text: I want a hamburger and coke.
+      image: {fileID: 0}
+    - text: May I go to the bathroom?
+      image: {fileID: 0}
+    - text: ' I like chocolate.'
+      image: {fileID: 0}
+    - text: ' You''re welcome.'
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Sure, please cheak your food.
+    options:
+    - text: hamburger
+      image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
+    - text: friedchicken
+      image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
+    - text: fries
+      image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
+    - text: nugget
+      image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
+    correctIndex: 0
+  - question: Next, please cheak your drink
+    options:
+    - text: Cola
+      image: {fileID: 21300000, guid: e6da25b2e1abf81438edcec1f12610c6, type: 3}
+    - text: coffee
+      image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
+    - text: juice
+      image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
+    - text: tea
+      image: {fileID: 21300000, guid: a8c11dd57f82e624cb4c08c2df4a7d02, type: 3}
+    correctIndex: 0
+  - question: Have a nice day!
+    options:
+    - text: thank you!
+      image: {fileID: 0}
+    correctIndex: 0
 --- !u!1001 &1189574701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43596,7 +43638,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -44901,7 +44943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
+  m_Color: {r: 0.9622642, g: 0.9422927, b: 0.9422927, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -44944,7 +44986,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 24.1, y: -28.3}
-  m_SizeDelta: {x: 60, y: 30}
+  m_SizeDelta: {x: 60, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1353153319
 GameObject:
