@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/POLY_fast_food/DemoScene/MainMenu.unity
     guid: 1aed64d8f0646ea43a87edc446003184
   - enabled: 1
+    path: Assets/POLY_fast_food/DemoScene/WordLearning.unity
+    guid: 2b1597b476e28e645b45ca007445f1dd
+  - enabled: 1
     path: Assets/POLY_fast_food/DemoScene/Standard.unity
     guid: 7bb53f1d54877714cb359a93844e1a1d
   - enabled: 1

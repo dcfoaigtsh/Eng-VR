@@ -14,7 +14,7 @@ public class MenuUI : MonoBehaviour
         else if (modeIndex == 1)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("ASDmode");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
         }
         else if (modeIndex == 2)
         {
