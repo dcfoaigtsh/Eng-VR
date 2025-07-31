@@ -20,38 +20,64 @@ public class FlashcardManager : MonoBehaviour
     public Image imageDisplay;
     public TextMeshProUGUI wordEnglish;
     public TextMeshProUGUI wordChinese;
+
+    public Button flipButton;
     public Button nextButton;
-    public Button previousButton;           // ✅ 加入上一張按鈕
+    public Button previousButton;
     public Button startGameButton;
+    public Button againButton;
 
     private int currentIndex = 0;
+    private bool isFlipped = false;
 
     void Start()
     {
         currentIndex = 0;
-        ShowCard(currentIndex);
+        ShowCardFront(currentIndex);
 
-        previousButton.gameObject.SetActive(false);  // 開始時隱藏
-        startGameButton.gameObject.SetActive(false); // 最後一張才顯示
-
+        // 按鈕事件綁定
+        flipButton.onClick.AddListener(OnFlipClicked);
         nextButton.onClick.AddListener(OnNextClicked);
         previousButton.onClick.AddListener(OnPreviousClicked);
         startGameButton.onClick.AddListener(OnStartGameClicked);
+        againButton.onClick.AddListener(OnAgainClicked);
+
+        UpdateButtonState();
     }
 
-    void ShowCard(int index)
+    void ShowCardFront(int index)
     {
-        if (index < 0 || index >= wordCards.Count) return;
-
         var card = wordCards[index];
         imageDisplay.sprite = card.image;
+        wordEnglish.text = "";
+        wordChinese.text = "";
+        isFlipped = false;
+
+        UpdateButtonState();
+    }
+
+    void ShowCardBack()
+    {
+        var card = wordCards[currentIndex];
         wordEnglish.text = card.englishWord;
         wordChinese.text = card.chineseWord;
+        isFlipped = true;
 
-        // 控制按鈕狀態
-        previousButton.gameObject.SetActive(index > 0);
-        nextButton.gameObject.SetActive(index < wordCards.Count - 1);
-        startGameButton.gameObject.SetActive(index == wordCards.Count - 1);
+        UpdateButtonState();
+    }
+
+    void UpdateButtonState()
+    {
+        flipButton.gameObject.SetActive(!isFlipped);
+        previousButton.gameObject.SetActive(isFlipped && currentIndex > 0);
+        nextButton.gameObject.SetActive(isFlipped && currentIndex < wordCards.Count - 1);
+        startGameButton.gameObject.SetActive(isFlipped && currentIndex == wordCards.Count - 1);
+        againButton.gameObject.SetActive(isFlipped && currentIndex == wordCards.Count - 1);
+    }
+
+    void OnFlipClicked()
+    {
+        ShowCardBack();
     }
 
     void OnNextClicked()
@@ -59,7 +85,7 @@ public class FlashcardManager : MonoBehaviour
         if (currentIndex < wordCards.Count - 1)
         {
             currentIndex++;
-            ShowCard(currentIndex);
+            ShowCardFront(currentIndex);
         }
     }
 
@@ -68,12 +94,18 @@ public class FlashcardManager : MonoBehaviour
         if (currentIndex > 0)
         {
             currentIndex--;
-            ShowCard(currentIndex);
+            ShowCardFront(currentIndex);
         }
     }
 
     void OnStartGameClicked()
     {
-        SceneManager.LoadScene("ASDmode"); // ✅ 請確認這是你遊戲主場景的正確名稱
+        SceneManager.LoadScene("ASDmode");  // 改成你的遊戲主場景名稱
+    }
+
+    void OnAgainClicked()
+    {
+        currentIndex = 0;
+        ShowCardFront(currentIndex);
     }
 }
