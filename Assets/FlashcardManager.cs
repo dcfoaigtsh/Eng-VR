@@ -44,12 +44,16 @@ public class FlashcardManager : MonoBehaviour
     public Button previousButton;
     public Button startGameButton;
     public Button againButton;
+    public Button finishReviewButton; // 新增：完成複習按鈕
 
     private int currentIndex = 0;
     private bool isFlipped = false;
+    private bool isReviewMode = false;
 
     void Start()
     {
+        isReviewMode = PlayerPrefs.GetInt("IsReviewMode", 0) == 1;
+
         currentIndex = 0;
         ShowCardFront(currentIndex);
 
@@ -58,7 +62,9 @@ public class FlashcardManager : MonoBehaviour
         previousButton.onClick.AddListener(OnPreviousClicked);
         startGameButton.onClick.AddListener(OnStartGameClicked);
         againButton.onClick.AddListener(OnAgainClicked);
+        finishReviewButton.onClick.AddListener(OnFinishReviewClicked);
 
+        finishReviewButton.gameObject.SetActive(false);
         UpdateButtonState();
     }
 
@@ -70,23 +76,21 @@ public class FlashcardManager : MonoBehaviour
 
         if (card.isSentenceMode)
         {
-            // 顯示句子英文，隱藏中文
             wordEnglish.gameObject.SetActive(false);
             wordChinese.gameObject.SetActive(false);
 
             sentenceEng1.gameObject.SetActive(true);
             sentenceEng2.gameObject.SetActive(true);
-            sentenceChi1.gameObject.SetActive(true);  // 這邊要顯示出來，但內容清空
+            sentenceChi1.gameObject.SetActive(true);
             sentenceChi2.gameObject.SetActive(true);
 
             sentenceEng1.text = card.englishSentence1;
             sentenceEng2.text = card.englishSentence2;
-            sentenceChi1.text = ""; // 清空中文
+            sentenceChi1.text = "";
             sentenceChi2.text = "";
         }
         else
         {
-            // 顯示單字模式
             wordEnglish.gameObject.SetActive(true);
             wordChinese.gameObject.SetActive(true);
 
@@ -101,7 +105,6 @@ public class FlashcardManager : MonoBehaviour
 
         UpdateButtonState();
     }
-
 
     void ShowCardBack()
     {
@@ -134,8 +137,19 @@ public class FlashcardManager : MonoBehaviour
         nextButton.gameObject.SetActive(isFlipped && currentIndex < wordCards.Count - 1);
 
         bool isLast = isFlipped && currentIndex == wordCards.Count - 1;
-        startGameButton.gameObject.SetActive(isLast);
-        againButton.gameObject.SetActive(isLast);
+
+        if (isReviewMode)
+        {
+            finishReviewButton.gameObject.SetActive(isLast);
+            startGameButton.gameObject.SetActive(false);
+            againButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            startGameButton.gameObject.SetActive(isLast);
+            againButton.gameObject.SetActive(isLast);
+            finishReviewButton.gameObject.SetActive(false);
+        }
     }
 
     void OnFlipClicked()
@@ -170,5 +184,11 @@ public class FlashcardManager : MonoBehaviour
     {
         currentIndex = 0;
         ShowCardFront(currentIndex);
+    }
+
+    void OnFinishReviewClicked()
+    {
+        PlayerPrefs.SetInt("IsReviewMode", 0); // 清除狀態
+        SceneManager.LoadScene("MainMenu"); // 跳轉到結束畫面
     }
 }
