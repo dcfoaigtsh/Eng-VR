@@ -10,17 +10,12 @@ public class FlashcardManager : MonoBehaviour
     public class WordCard
     {
         public Sprite image;
-
-        // 單字卡內容
         public string englishWord;
         public string chineseWord;
-
-        // 句子卡內容（可選）
         public string englishSentence1;
         public string englishSentence2;
         public string chineseSentence1;
         public string chineseSentence2;
-
         public bool isSentenceMode;
     }
 
@@ -28,12 +23,8 @@ public class FlashcardManager : MonoBehaviour
 
     [Header("UI 元件")]
     public Image imageDisplay;
-
-    // 單字模式 UI
     public TextMeshProUGUI wordEnglish;
     public TextMeshProUGUI wordChinese;
-
-    // 句子模式 UI
     public TextMeshProUGUI sentenceEng1;
     public TextMeshProUGUI sentenceEng2;
     public TextMeshProUGUI sentenceChi1;
@@ -44,7 +35,7 @@ public class FlashcardManager : MonoBehaviour
     public Button previousButton;
     public Button startGameButton;
     public Button againButton;
-    public Button finishReviewButton; // 新增：完成複習按鈕
+    public Button finishReviewButton;
 
     private int currentIndex = 0;
     private bool isFlipped = false;
@@ -177,7 +168,25 @@ public class FlashcardManager : MonoBehaviour
 
     void OnStartGameClicked()
     {
-        SceneManager.LoadScene("ASDmode");
+        // 根據目前模式載入對應場景
+        switch (ModeManager.Instance.currentMode)
+        {
+            case LearningMode.Standard:
+                SceneManager.LoadScene("Standard");
+                break;
+            case LearningMode.ASD:
+                SceneManager.LoadScene("ASDmode");
+                break;
+            case LearningMode.ID:
+                SceneManager.LoadScene("IDmode");
+                break;
+            case LearningMode.SLD:
+                SceneManager.LoadScene("SLDmode");
+                break;
+            default:
+                Debug.LogWarning("⚠ 無法識別的學習模式");
+                break;
+        }
     }
 
     void OnAgainClicked()
@@ -188,7 +197,7 @@ public class FlashcardManager : MonoBehaviour
 
     void OnFinishReviewClicked()
     {
-        PlayerPrefs.SetInt("IsReviewMode", 0); // 清除狀態
-        SceneManager.LoadScene("MainMenu"); // 跳轉到結束畫面
+        PlayerPrefs.SetInt("IsReviewMode", 0);
+        SceneManager.LoadScene("MainMenu");
     }
 }

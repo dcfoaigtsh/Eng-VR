@@ -374,7 +374,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5050689306061031296, guid: 65139bb48bb9f1244bb49cd2785754df, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 92
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 6389109697780353526, guid: 65139bb48bb9f1244bb49cd2785754df, type: 3}
       propertyPath: m_Name
@@ -1471,7 +1471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 217.20001, y: -145.8}
+  m_AnchoredPosition: {x: 192, y: -145.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1132886482
@@ -2311,7 +2311,7 @@ MonoBehaviour:
     chineseWord: 
     englishSentence1: ' What does he want for dinner?'
     englishSentence2: 'He wants a hamburger '
-    chineseSentence1: "\u4ED6\u60F3\u8981\u5403\u751A\u9EBC?"
+    chineseSentence1: "\u4ED6\u665A\u9910\u60F3\u8981\u5403\u751A\u9EBC?"
     chineseSentence2: "\u4ED6\u60F3\u8981\u5403\u6F22\u5821"
     isSentenceMode: 1
   - image: {fileID: 21300000, guid: f10ea5d9ac29eac4ba04d929de07a9c1, type: 3}

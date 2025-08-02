@@ -9,8 +9,6 @@ public class ASD_Gameflow : MonoBehaviour
 
     [Header("結束畫面 UI")]
     public ASD_GameOverUI gameOverUI;      // 拖入 Game Over 面板腳本
-
-    private bool hasStarted = false;
     private bool hasCompleted = false;
 
     void Start()
@@ -34,7 +32,7 @@ public class ASD_Gameflow : MonoBehaviour
         }
 
         Debug.Log("顧客 1 出現！");
-        hasStarted = true;
+        
     }
 
     // 提供給 QA Manager 呼叫：完成點餐後執行

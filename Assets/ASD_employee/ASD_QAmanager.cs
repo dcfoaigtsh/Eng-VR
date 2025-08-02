@@ -109,7 +109,7 @@ public class ASD_QAmanager : MonoBehaviour
     // 所有題目完成時
     void FinishQAFlow()
     {
-        statementText.text = "You welcome!";
+        statementText.text = "You're welcome!";
         foreach (var btn in optionAdvancedButtons)
             btn.gameObject.SetActive(false);
 

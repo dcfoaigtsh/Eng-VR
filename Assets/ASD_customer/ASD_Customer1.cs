@@ -146,7 +146,7 @@ public class ASD_SingleCustomer : MonoBehaviour
     {
         returningWithFood = true;
         currentStage = 0;
-        gameObject.SetActive(true);
+        // gameObject.SetActive(true);
         ShowCurrentStage();
     }
 

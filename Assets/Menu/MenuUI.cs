@@ -9,7 +9,7 @@ public class MenuUI : MonoBehaviour
         if (modeIndex == 0)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("Standard");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
         }
         else if (modeIndex == 1)
         {
@@ -19,12 +19,12 @@ public class MenuUI : MonoBehaviour
         else if (modeIndex == 2)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("IDmode");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
         }
         else if (modeIndex == 3)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("SLDmode");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
         }
         else
         {

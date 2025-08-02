@@ -10,6 +10,7 @@ public class ASD_GameDescription : MonoBehaviour
     public TextMeshProUGUI InfoContent;
     public Button CloseButton, NextButton, PreviousButton;
     public GameObject VisualPage; // 新增的圖像說明頁
+    public GameObject VisualPage2; // 新增的圖像說明頁
 
     public List<ASD_Info> Infos = new List<ASD_Info>();  
     public int currentInfo;
@@ -18,12 +19,12 @@ public class ASD_GameDescription : MonoBehaviour
     {
         Infos.Add(new ASD_Info()
         {
-            Content = "Welcome to 'Order Assistant'!\n\nYou are a new helper. Your job is to take orders from customers. Read carefully and choose the right food!"
+            Content = "Welcome to 'Order Assistant'!\n\nYou are a helper. \nYou will help your friend order food."
         });
 
         Infos.Add(new ASD_Info()
         {
-            Content = "1. When a customer comes, click to talk.\n2. Follow the steps and find the right clerk.\n3. Each customer wants a main dish, side dish, snack, and drink."
+            Content = "How to play: \n1. Click the ! talk to your friend.\n2. Talk to the staff \n3. Return to your friend with food."
         });
 
         Infos.Add(new ASD_Info()
@@ -33,7 +34,12 @@ public class ASD_GameDescription : MonoBehaviour
 
         Infos.Add(new ASD_Info()
         {
-            Content = "Help every customer finish their order!\n\nWhen all orders are done, you’ll see your results. Good luck!"
+            Content = "" // 圖像頁，不需文字
+        });
+
+        Infos.Add(new ASD_Info()
+        {
+            Content = "Once you finish taking orders, your task is completed.\nThen, review the words again. \n Good luck!"
         });
     }
 
@@ -52,19 +58,25 @@ public class ASD_GameDescription : MonoBehaviour
 
     void SetupPageContent()
     {
+        // 先關閉所有圖像頁，避免殘留
+        if (VisualPage != null) VisualPage.SetActive(false);
+        if (VisualPage2 != null) VisualPage2.SetActive(false);
+
         if (currentInfo == 2 && VisualPage != null)
         {
             InfoContent.text = "";
             VisualPage.SetActive(true);
         }
+        else if (currentInfo == 3 && VisualPage2 != null)
+        {
+            InfoContent.text = "";
+            VisualPage2.SetActive(true);
+        }
         else
         {
             InfoContent.text = Infos[currentInfo].Content;
-            if (VisualPage != null)
-                VisualPage.SetActive(false);
         }
     }
-
     void TurnPage(int dir)
     {
         currentInfo += dir;
