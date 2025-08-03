@@ -57764,6 +57764,22 @@ PrefabInstance:
       propertyPath: agentForThisRoute
       value: 
       objectReference: {fileID: 1167237971}
+    - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: stages.Array.data[0].question
+      value: 'Peter: Hi'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: stages.Array.data[1].question
+      value: "Peter: I\u2019m hungry"
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: stages.Array.data[2].question
+      value: 'Peter: I want a hamburger and juice'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: returnDialogueStages.Array.data[0].question
+      value: 'Peter:  Hi, did you receive my order? '
+      objectReference: {fileID: 0}
     - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Camera
       value: 

@@ -877,12 +877,12 @@ MonoBehaviour:
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1167237971}
   stages:
-  - question: 'Friend: Hi'
+  - question: 'Fred: Hi'
     options:
     - text: Hi, how are you
       image: {fileID: 0}
     correctIndex: 0
-  - question: "Friend: I\u2019m hungry"
+  - question: "Fred: I'\u2019m hungry"
     options:
     - text: What do you want for dinner?
       image: {fileID: 0}
@@ -893,7 +893,7 @@ MonoBehaviour:
     - text: 'I have blue pen '
       image: {fileID: 0}
     correctIndex: 0
-  - question: 'Friend: I want a hamburger and juice'
+  - question: Fred:I want a hamburger and juice
     options:
     - text: 
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
@@ -903,7 +903,7 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 2
   returnDialogueStages:
-  - question: 'Friend: Hi, did you receive my order? '
+  - question: 'Fred: Hi, did you receive my order? '
     options:
     - text: Here is your hamburger and juice
       image: {fileID: 0}
