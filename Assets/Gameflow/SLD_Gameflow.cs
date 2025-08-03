@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class SLD_Gameflow : MonoBehaviour
 {
-    [Header("List of all customer GameObjects in order")]
-    public List<GameObject> customerList;  // 拖入所有顧客物件
+    [Header("所有顧客物件（依序）")]
+    public List<GameObject> customerList;
 
     [Header("結束畫面 UI")]
-    public SLD_GameOverUI gameOverUI;  // 拖入 Game Over 面板腳本
+    public SLD_GameOverUI gameOverUI;
 
     private int currentCustomerIndex = 0;
+    private bool waitingForDelivery = false;
 
     void Start()
     {
-        ActivateCustomer(currentCustomerIndex);
+        if (customerList != null && customerList.Count > 0)
+        {
+            ActivateCustomer(0);
+        }
+        else
+        {
+            Debug.LogWarning("⚠ 顧客清單為空！");
+        }
     }
 
-    // 啟用指定顧客，其餘關閉
     void ActivateCustomer(int index)
     {
         for (int i = 0; i < customerList.Count; i++)
@@ -25,18 +32,36 @@ public class SLD_Gameflow : MonoBehaviour
             customerList[i].SetActive(i == index);
         }
 
-        Debug.Log($"顧客 {index + 1} 出現！");
+        Debug.Log($"🧍 顧客 {index + 1} 出現！");
+        waitingForDelivery = false;
     }
 
-    // 提供給 QAManager 呼叫，切換下一位顧客
     public void NextCustomer()
     {
-        if (currentCustomerIndex >= customerList.Count)
+        if (waitingForDelivery || currentCustomerIndex >= customerList.Count)
         {
-            Debug.Log("所有顧客都完成點餐！（已超出索引）");
+            Debug.LogWarning("⚠ 無法回到顧客交餐階段，可能已完成或索引錯誤");
             return;
         }
 
+        waitingForDelivery = true;
+        Debug.Log($"✅ 顧客 {currentCustomerIndex + 1} 完成點餐，準備交餐");
+
+        customerList[currentCustomerIndex].SetActive(true); // ✅ 確保顧客顯示
+
+        var customer = customerList[currentCustomerIndex].GetComponent<SLD_SingleCustomer>();
+        if (customer != null)
+        {
+            customer.BeginFinalDialogue();
+        }
+        else
+        {
+            Debug.LogWarning("⚠ 無法取得 STD_SingleCustomer 元件");
+        }
+    }
+
+    public void ProceedToNextCustomer()
+    {
         customerList[currentCustomerIndex].SetActive(false);
         currentCustomerIndex++;
 
@@ -46,13 +71,17 @@ public class SLD_Gameflow : MonoBehaviour
         }
         else
         {
-            Debug.Log("✅ 所有顧客都完成點餐！");
-    
-            if (gameOverUI != null)
-            {
-                Debug.Log(" 顯示結束面板！");
-                gameOverUI.ShowGameOver(); // <== 這一行！！
-            }
+            Debug.Log("所有顧客互動完畢！");
+            ShowGameOverManually();
+        }
+    }
+
+    public void ShowGameOverManually()
+    {
+        if (gameOverUI != null)
+        {
+            Debug.Log("顯示 Game Over 畫面");
+            gameOverUI.ShowGameOver();
         }
     }
 }
