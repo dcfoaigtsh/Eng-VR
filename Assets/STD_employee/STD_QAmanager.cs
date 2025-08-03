@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// 管理 STD 模式下的問答流程
 public class STD_QAmanager : MonoBehaviour
 {
-    public TextMeshProUGUI statementText; // 顯示問題文字的 UI 元件
-    public List<Button> optionAdvancedButtons; // 使用新版按鈕（含圖片）
+    public TextMeshProUGUI statementText;
+    public List<Button> optionAdvancedButtons;
 
-    public STD_SingleCustomer singleCustomer; // 通知顧客流程（STD版本）
+    public STD_SingleCustomer singleCustomer;
+    public STD_Gameflow gameflow;
 
     [Header("Path Management")]
-    public DestinationLineDrawer drawer;         // 路線繪製
-    public Transform nextCustomer;               // 下一位顧客的目的地（通常是店員）
-    public UnityEngine.AI.NavMeshAgent agentForThisRoute; // 導航代理
+    public DestinationLineDrawer drawer;
+    public Transform nextCustomer;
+    public UnityEngine.AI.NavMeshAgent agentForThisRoute;
 
     [System.Serializable]
     public class QAOption
@@ -33,7 +33,6 @@ public class STD_QAmanager : MonoBehaviour
     }
 
     public List<Stage> stages;
-
     private int currentStage = 0;
 
     void Start()
@@ -41,7 +40,6 @@ public class STD_QAmanager : MonoBehaviour
         ShowCurrentStage();
     }
 
-    // 顯示目前的題目與選項
     void ShowCurrentStage()
     {
         if (currentStage >= stages.Count)
@@ -88,7 +86,6 @@ public class STD_QAmanager : MonoBehaviour
         }
     }
 
-    // 回答選項時的處理
     IEnumerator OnOptionSelected(int index)
     {
         Stage stage = stages[currentStage];
@@ -96,21 +93,29 @@ public class STD_QAmanager : MonoBehaviour
         if (index == stage.correctIndex)
         {
             currentStage++;
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
+
+            if (currentStage >= stages.Count)
+            {
+                yield return new WaitForSeconds(1f);
+                FinishQAFlow();
+            }
+            else
+            {
+                yield return new WaitForSeconds(1f);
+                ShowCurrentStage();
+            }
         }
         else
         {
-            statementText.text = "Hmm... Try again";
+            statementText.text = "Employee:Hmm... Try again";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
         }
     }
 
-    // 所有題目完成時
     void FinishQAFlow()
     {
-        statementText.text = "You're welcome!";
+        statementText.text = "Employee:You're welcome!";
         foreach (var btn in optionAdvancedButtons)
             btn.gameObject.SetActive(false);
 
@@ -129,9 +134,12 @@ public class STD_QAmanager : MonoBehaviour
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
 
-        gameObject.SetActive(false); // 關閉 QA 管理器
+        gameObject.SetActive(false);
 
-        if (singleCustomer != null)
-            singleCustomer.BeginFinalDialogue(); // 通知顧客回來交餐
+        if (gameflow != null)
+        {
+            Debug.Log("呼叫 Gameflow 切換到交餐流程！");
+            gameflow.NextCustomer(); // ✅ 呼叫顧客進入交餐對話
+        }
     }
 }

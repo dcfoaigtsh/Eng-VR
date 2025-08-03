@@ -8719,6 +8719,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -8863,6 +8871,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4951639773009775669, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -9039,22 +9051,43 @@ MonoBehaviour:
   - {fileID: 296302273}
   - {fileID: 296302272}
   - {fileID: 296302271}
-  singleCustomer: {fileID: 2130306080}
+  singleCustomer: {fileID: 1837967219}
+  gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1074777242}
   stages:
-  - question: 
-    options: []
+  - question: 'Employee:Hi, ready to order? '
+    options:
+    - text: Yes!
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:What would you like to order?
+    options:
+    - text: A hamberger and fries
+      image: {fileID: 0}
+    - text: A hotdog and juice
+      image: {fileID: 0}
+    - text: Fries and coffee
+      image: {fileID: 0}
+    - text: 'Chicken and salad '
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:It costs 50 dollars.
+    options:
+    - text: It's fifty
+      image: {fileID: 0}
+    - text: It's sixty
+      image: {fileID: 0}
+    - text: 'Forty '
+      image: {fileID: 0}
+    - text: 'Fifty-five dollars '
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:Have a nice Day!
+    options:
+    - text: Thank you
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &299948151
 PrefabInstance:
@@ -9924,6 +9957,10 @@ PrefabInstance:
     - target: {fileID: 5442367572439056540, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: m_Name
       value: LineDrawer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5442367572439056540, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8445708173921112524, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: floor
@@ -12271,8 +12308,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -12533,6 +12570,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 57.5
       objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -12677,6 +12722,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -132.61
       objectReference: {fileID: 0}
+    - target: {fileID: 4951639773009775669, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -12853,21 +12902,42 @@ MonoBehaviour:
   - {fileID: 421767703}
   - {fileID: 421767702}
   singleCustomer: {fileID: 1236490409}
+  gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1366404235}
   stages:
-  - question: 
-    options: []
+  - question: 'Employee:Hi, ready to order? '
+    options:
+    - text: Yes!
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:What do you want to eat?
+    options:
+    - text: Chicken burger
+      image: {fileID: 0}
+    - text: Hotdog
+      image: {fileID: 0}
+    - text: Cheeseburger
+      image: {fileID: 0}
+    - text: French fries
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:Any special request?
+    options:
+    - text: No pickles
+      image: {fileID: 0}
+    - text: 'Add ketchup '
+      image: {fileID: 0}
+    - text: Extra cheese
+      image: {fileID: 0}
+    - text: No lettuce
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:Have a nice Day!
+    options:
+    - text: Thank you
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &426846615
 PrefabInstance:
@@ -19417,6 +19487,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19561,6 +19639,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4951639773009775669, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19737,21 +19819,42 @@ MonoBehaviour:
   - {fileID: 656813599}
   - {fileID: 656813598}
   singleCustomer: {fileID: 1578236247}
+  gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1594368326}
   stages:
-  - question: 
-    options: []
+  - question: 'Employee:Hi, ready to order? '
+    options:
+    - text: Yes!
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:What would you like today?
+    options:
+    - text: ' Burger with cheese and lettuce'
+      image: {fileID: 0}
+    - text: 'Burger with ketchup '
+      image: {fileID: 0}
+    - text: 'Chicken nuggets '
+      image: {fileID: 0}
+    - text: Fish sandwich
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:How many slices of cheese?
+    options:
+    - text: Two
+      image: {fileID: 0}
+    - text: One
+      image: {fileID: 0}
+    - text: Four
+      image: {fileID: 0}
+    - text: Three
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:Have a nice Day!
+    options:
+    - text: Thank you
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &663210170
 PrefabInstance:
@@ -21232,7 +21335,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1453383565}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -22722,7 +22825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &762458761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31060,6 +31163,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1074777242}
+    - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1074777244}
   m_SourcePrefab: {fileID: 100100000, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
 --- !u!1 &1074777239 stripped
 GameObject:
@@ -31093,6 +31199,69 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1074777244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074777239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statementText: {fileID: 1236490407}
+  optionButtons:
+  - {fileID: 1236490406}
+  - {fileID: 1236490405}
+  - {fileID: 1236490404}
+  - {fileID: 1236490403}
+  customerManager: {fileID: 119774790}
+  completeIcon: {fileID: 1297932631}
+  drawer: {fileID: 391013545}
+  employee1: {fileID: 1428747557}
+  agentForThisRoute: {fileID: 463433639}
+  stages:
+  - question: Friend:Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:Can you order for me?
+    options:
+    - text: Sure
+      image: {fileID: 0}
+    - text: No thanks
+      image: {fileID: 0}
+    - text: Ask someone else
+      image: {fileID: 0}
+    - text: " I\u2019m eating"
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:want a chicken burger with no pickles.
+    options:
+    - text: ' Chicken with no pickles?'
+      image: {fileID: 0}
+    - text: Burger and coke?
+      image: {fileID: 0}
+    - text: 'Chicken and pickles? '
+      image: {fileID: 0}
+    - text: ' Chicken with no lettuce?'
+      image: {fileID: 0}
+    correctIndex: 0
+  returnDialogueStages:
+  - question: Friend:Did you get no pickles?
+    options:
+    - text: 'Yes, no pickles '
+      image: {fileID: 0}
+    - text: ' I forgot'
+      image: {fileID: 0}
+    - text: With pickles
+      image: {fileID: 0}
+    - text: ' Only fries '
+      image: {fileID: 0}
+    correctIndex: 0
 --- !u!1 &1075039712 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2892540752811642817, guid: 625c87662bb16c448a0bf96d6ea0ca1e, type: 3}
@@ -35733,6 +35902,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9082105935492499674, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.77789956
@@ -35853,7 +36034,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1236490408}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
   m_Name: 
@@ -35864,25 +36045,50 @@ MonoBehaviour:
   - {fileID: 1236490405}
   - {fileID: 1236490404}
   - {fileID: 1236490403}
-  completeIcon: {fileID: 0}
   customerManager: {fileID: 119774790}
-  qaManager: {fileID: 0}
+  completeIcon: {fileID: 0}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 463433639}
   stages:
-  - question: 
-    options: []
+  - question: Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Can you order for me?
+    options:
+    - text: Sure
+      image: {fileID: 0}
+    - text: No thanks
+      image: {fileID: 0}
+    - text: Ask someone else
+      image: {fileID: 0}
+    - text: " I\u2019m eating"
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: want a chicken burger with no pickles.
+    options:
+    - text: ' Chicken with no pickles?'
+      image: {fileID: 0}
+    - text: Burger and coke?
+      image: {fileID: 0}
+    - text: 'Chicken and pickles? '
+      image: {fileID: 0}
+    - text: ' Chicken with no lettuce?'
+      image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: 
-    options: []
+  - question: Did you get no pickles?
+    options:
+    - text: 'Yes, no pickles '
+      image: {fileID: 0}
+    - text: ' I forgot'
+      image: {fileID: 0}
+    - text: With pickles
+      image: {fileID: 0}
+    - text: ' Only fries '
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &1240962406
 PrefabInstance:
@@ -38270,8 +38476,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 56
+  m_fontSizeBase: 56
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -38306,7 +38512,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -457.0474, y: -88.45421, z: -289.32117, w: -158.92609}
+  m_margin: {x: -457.0474, y: -88.45421, z: -374.18732, w: -158.92609}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -40065,6 +40271,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1366404235}
+    - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1366404237}
   m_SourcePrefab: {fileID: 100100000, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
 --- !u!1 &1366404232 stripped
 GameObject:
@@ -40098,6 +40307,69 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1366404237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1366404232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statementText: {fileID: 1578236245}
+  optionButtons:
+  - {fileID: 1578236244}
+  - {fileID: 1578236243}
+  - {fileID: 1578236242}
+  - {fileID: 1578236241}
+  customerManager: {fileID: 119774790}
+  completeIcon: {fileID: 225283412}
+  drawer: {fileID: 391013545}
+  employee1: {fileID: 1428747557}
+  agentForThisRoute: {fileID: 2101194925}
+  stages:
+  - question: Friend:Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:Can you help me buy food?
+    options:
+    - text: 'Yes, of course! '
+      image: {fileID: 0}
+    - text: "I\u2019m tired "
+      image: {fileID: 0}
+    - text: Not now
+      image: {fileID: 0}
+    - text: No, bye
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:I want a burger with lettuce and two slices of cheese.
+    options:
+    - text: Burger with cheese and lettuce?
+      image: {fileID: 0}
+    - text: Lettuce and ketchup?
+      image: {fileID: 0}
+    - text: No cheese?
+      image: {fileID: 0}
+    - text: 'Nuggets only? '
+      image: {fileID: 0}
+    correctIndex: 0
+  returnDialogueStages:
+  - question: Friend:Did you remember the cheese and lettuce?
+    options:
+    - text: 'Yes, both! '
+      image: {fileID: 0}
+    - text: 'Only cheese '
+      image: {fileID: 0}
+    - text: Just burger
+      image: {fileID: 0}
+    - text: 'No lettuce '
+      image: {fileID: 0}
+    correctIndex: 0
 --- !u!1 &1367816610
 GameObject:
   m_ObjectHideFlags: 0
@@ -40968,6 +41240,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2015513983}
     m_Modifications:
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4519285753597273534, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.74
@@ -41008,6 +41288,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4951639773009775669, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
     - target: {fileID: 7519240489725553069, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Name
       value: Order Board(4)
@@ -42999,21 +43283,42 @@ MonoBehaviour:
   - {fileID: 892544810}
   - {fileID: 526312980}
   singleCustomer: {fileID: 1489621246}
+  gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1594368326}
   stages:
-  - question: 
-    options: []
+  - question: 'Employee:Hi, ready to order? '
+    options:
+    - text: Yes!
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: 'Employee:What would you like to order? '
+    options:
+    - text: Nuggets and fries
+      image: {fileID: 0}
+    - text: 'Burger only '
+      image: {fileID: 0}
+    - text: Chicken sandwich
+      image: {fileID: 0}
+    - text: Fish sandwich
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:What drink do you want?
+    options:
+    - text: Iced coffee, no ice
+      image: {fileID: 0}
+    - text: 'Water with lemon  '
+      image: {fileID: 0}
+    - text: Milk tea
+      image: {fileID: 0}
+    - text: 'Cold juice '
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Employee:Have a nice Day!
+    options:
+    - text: Thank you
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &1456402323
 PrefabInstance:
@@ -43835,6 +44140,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9082105935492499674, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.77789956
@@ -43955,7 +44272,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489621239}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
   m_Name: 
@@ -43966,25 +44283,50 @@ MonoBehaviour:
   - {fileID: 1489621242}
   - {fileID: 1489621241}
   - {fileID: 1489621240}
-  completeIcon: {fileID: 0}
   customerManager: {fileID: 119774790}
-  qaManager: {fileID: 0}
+  completeIcon: {fileID: 0}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 2015513985}
   stages:
-  - question: 
-    options: []
+  - question: Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Can you help me order a big meal?
+    options:
+    - text: No problem!
+      image: {fileID: 0}
+    - text: I'm not hungry
+      image: {fileID: 0}
+    - text: It's Sunday
+      image: {fileID: 0}
+    - text: No, bye
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: I want nuggets, fries, and iced coffee with no ice.
+    options:
+    - text: ' Fries, nuggets, no ice coffee?'
+      image: {fileID: 0}
+    - text: 'Nuggets and tea? '
+      image: {fileID: 0}
+    - text: Nuggets, lettuce and juice?
+      image: {fileID: 0}
+    - text: 'Just fries? '
+      image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: 
-    options: []
+  - question: Did you get everything right?
+    options:
+    - text: Yes, all correct!
+      image: {fileID: 0}
+    - text: No fries
+      image: {fileID: 0}
+    - text: Just coffee
+      image: {fileID: 0}
+    - text: Forgot nuggets
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1001 &1491746665
 PrefabInstance:
@@ -46819,6 +47161,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9082105935492499674, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.77789956
@@ -46939,7 +47293,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1578236246}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
   m_Name: 
@@ -46950,25 +47304,50 @@ MonoBehaviour:
   - {fileID: 1578236243}
   - {fileID: 1578236242}
   - {fileID: 1578236241}
-  completeIcon: {fileID: 0}
   customerManager: {fileID: 119774790}
-  qaManager: {fileID: 0}
+  completeIcon: {fileID: 0}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 2101194925}
   stages:
-  - question: 
-    options: []
+  - question: Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: Can you help me buy food?
+    options:
+    - text: 'Yes, of course! '
+      image: {fileID: 0}
+    - text: "I\u2019m tired "
+      image: {fileID: 0}
+    - text: Not now
+      image: {fileID: 0}
+    - text: No, bye
+      image: {fileID: 0}
     correctIndex: 0
-  - question: 
-    options: []
+  - question: I want a burger with lettuce and two slices of cheese.
+    options:
+    - text: Burger with cheese and lettuce?
+      image: {fileID: 0}
+    - text: Lettuce and ketchup?
+      image: {fileID: 0}
+    - text: No cheese?
+      image: {fileID: 0}
+    - text: 'Nuggets only? '
+      image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: 
-    options: []
+  - question: Did you remember the cheese and lettuce?
+    options:
+    - text: 'Yes, both! '
+      image: {fileID: 0}
+    - text: 'Only cheese '
+      image: {fileID: 0}
+    - text: Just burger
+      image: {fileID: 0}
+    - text: 'No lettuce '
+      image: {fileID: 0}
     correctIndex: 0
 --- !u!1 &1579495370
 GameObject:
@@ -47502,7 +47881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.9100001
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -47565,6 +47944,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1594368326}
+    - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1594368328}
   m_SourcePrefab: {fileID: 100100000, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
 --- !u!1 &1594368323 stripped
 GameObject:
@@ -47598,6 +47980,69 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1594368328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594368323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statementText: {fileID: 1489621244}
+  optionButtons:
+  - {fileID: 1489621243}
+  - {fileID: 1489621242}
+  - {fileID: 1489621241}
+  - {fileID: 1489621240}
+  customerManager: {fileID: 119774790}
+  completeIcon: {fileID: 157763540}
+  drawer: {fileID: 391013545}
+  employee1: {fileID: 1428747557}
+  agentForThisRoute: {fileID: 2015513985}
+  stages:
+  - question: Friend:Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:Can you help me order a big meal?
+    options:
+    - text: No problem!
+      image: {fileID: 0}
+    - text: I'm not hungry
+      image: {fileID: 0}
+    - text: It's Sunday
+      image: {fileID: 0}
+    - text: No, bye
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:I want nuggets, fries, and iced coffee with no ice.
+    options:
+    - text: ' Fries, nuggets, no ice coffee?'
+      image: {fileID: 0}
+    - text: 'Nuggets and tea? '
+      image: {fileID: 0}
+    - text: Nuggets, lettuce and juice?
+      image: {fileID: 0}
+    - text: 'Just fries? '
+      image: {fileID: 0}
+    correctIndex: 0
+  returnDialogueStages:
+  - question: Friend:Did you get everything right?
+    options:
+    - text: Yes, all correct!
+      image: {fileID: 0}
+    - text: No fries
+      image: {fileID: 0}
+    - text: Just coffee
+      image: {fileID: 0}
+    - text: Forgot nuggets
+      image: {fileID: 0}
+    correctIndex: 0
 --- !u!1001 &1595471424
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52832,7 +53277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1778485834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55109,14 +55554,17 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2130306073}
+      addedObject: {fileID: 2066433115}
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2066433115}
+      addedObject: {fileID: 2130306073}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1837967217}
+    - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1837967219}
   m_SourcePrefab: {fileID: 100100000, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
 --- !u!4 &1837967216 stripped
 Transform:
@@ -55145,6 +55593,69 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1837967219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755819271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statementText: {fileID: 2130306078}
+  optionButtons:
+  - {fileID: 2130306077}
+  - {fileID: 2130306076}
+  - {fileID: 2130306075}
+  - {fileID: 2130306074}
+  customerManager: {fileID: 119774790}
+  completeIcon: {fileID: 1247999242}
+  drawer: {fileID: 391013545}
+  employee1: {fileID: 1428747557}
+  agentForThisRoute: {fileID: 1167237971}
+  stages:
+  - question: Friend:Oh, I'm hungry
+    options:
+    - text: May I help you?
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:Can you help me get some lunch?
+    options:
+    - text: ' Yes!'
+      image: {fileID: 0}
+    - text: No thanks
+      image: {fileID: 0}
+    - text: Maybe
+      image: {fileID: 0}
+    - text: 
+      image: {fileID: 0}
+    correctIndex: 0
+  - question: Friend:I want a hamburger and French fries.
+    options:
+    - text: OK !
+      image: {fileID: 0}
+    - text: Oh, really?
+      image: {fileID: 0}
+    - text: Tell me about it!
+      image: {fileID: 0}
+    - text: You got the wrong number.
+      image: {fileID: 0}
+    correctIndex: 0
+  returnDialogueStages:
+  - question: Friend:Are those my fries?
+    options:
+    - text: 'Here you go! '
+      image: {fileID: 0}
+    - text: Not yet
+      image: {fileID: 0}
+    - text: I ate them
+      image: {fileID: 0}
+    - text: Maybe
+      image: {fileID: 0}
+    correctIndex: 0
 --- !u!1001 &1839718300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56842,8 +57353,8 @@ RectTransform:
   m_LocalScale: {x: 0.08, y: 0.08, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1778485837}
   - {fileID: 913035291}
+  - {fileID: 1778485837}
   - {fileID: 98619600}
   m_Father: {fileID: 1568885689}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -64136,6 +64647,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1231192953}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 9062279002612507358, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9082105935492499674, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.77789956
@@ -64179,10 +64702,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 135573730044539491, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2130306080}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
 --- !u!4 &2130306073 stripped
 Transform:
@@ -64249,44 +64769,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 135573730044539491, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
   m_PrefabInstance: {fileID: 2130306072}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2130306080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2130306079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b3f11f2c42e1c64abeb39984ed4ec81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statementText: {fileID: 2130306078}
-  optionButtons:
-  - {fileID: 2130306077}
-  - {fileID: 2130306076}
-  - {fileID: 2130306075}
-  - {fileID: 2130306074}
-  completeIcon: {fileID: 0}
-  customerManager: {fileID: 119774790}
-  qaManager: {fileID: 0}
-  drawer: {fileID: 391013545}
-  employee1: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 1167237971}
-  stages:
-  - question: 
-    options: []
-    correctIndex: 0
-  - question: 
-    options: []
-    correctIndex: 0
-  - question: 
-    options: []
-    correctIndex: 0
-  returnDialogueStages:
-  - question: 
-    options: []
-    correctIndex: 0
 --- !u!1001 &2130679148
 PrefabInstance:
   m_ObjectHideFlags: 0

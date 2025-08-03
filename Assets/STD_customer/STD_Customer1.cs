@@ -9,9 +9,8 @@ public class STD_SingleCustomer : MonoBehaviour
 {
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
-    public GameObject completeIcon;
     public STD_Gameflow customerManager;
-    public GameObject qaManager;
+    public GameObject completeIcon;
 
     [Header("Navigation")]
     public DestinationLineDrawer drawer;
@@ -41,9 +40,17 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void OnEnable()
     {
-        returningWithFood = false;
-        currentStage = 0;
-        ShowCurrentStage();
+        if (returningWithFood)
+        {
+            // 顧客回來交餐的情況
+            ShowCurrentStage();
+        }
+        else
+        {
+            // 初次出現，點餐階段
+            currentStage = 0;
+            ShowCurrentStage();
+        }
     }
 
     void ShowCurrentStage()
@@ -111,7 +118,7 @@ public class STD_SingleCustomer : MonoBehaviour
         }
         else
         {
-            statementText.text = "Hmm... Try again!";
+            statementText.text = "Friend:mm... Try again!";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
         }
@@ -119,7 +126,7 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Thank you! Please help me order these.";
+        statementText.text = "Friend:Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 
@@ -138,8 +145,6 @@ public class STD_SingleCustomer : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
-        if (qaManager != null)
-            qaManager.SetActive(true);
     }
 
     // ✅ 店員點餐結束後，從 STD_Gameflow 呼叫這個
@@ -147,9 +152,7 @@ public class STD_SingleCustomer : MonoBehaviour
     {
         returningWithFood = true;
         currentStage = 0;
-        gameObject.SetActive(true); // STD 模式交餐時顧客要出現
-        if (qaManager != null)
-            qaManager.SetActive(false);
+        gameObject.SetActive(true); // 最後再打開顧客，避免提前觸發 OnEnable()
 
         ShowCurrentStage();
     }
@@ -157,13 +160,12 @@ public class STD_SingleCustomer : MonoBehaviour
     // ✅ 回來交餐完畢，通知 STD_Gameflow 換下一位顧客
     void ShowFinalThanks()
     {
-        statementText.text = "Customer: Thank you!";
+        statementText.text = "Friend:Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 
         if (completeIcon != null)
             completeIcon.SetActive(true);
-
         if (customerManager != null)
             customerManager.ProceedToNextCustomer();
     }
