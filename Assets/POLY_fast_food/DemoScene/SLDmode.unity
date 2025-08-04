@@ -9266,9 +9266,9 @@ MonoBehaviour:
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 1074777242}
+  agentForThisRoute: {fileID: 1837967217}
   stages:
-  - question: 'Clerk:Hi,What would you like to order?  '
+  - question: 'Clerk:Hi,What would <color=#66CCFF>You</color> like to <color=#FF6666>Order</color>?  '
     options:
     - text: Hamburger
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
@@ -9279,7 +9279,7 @@ MonoBehaviour:
     - text: Friedchicken
       image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
     correctIndex: 0
-  - question: Clerk:Any drink?
+  - question: 'Clerk:Ok,What drink would <color=#66CCFF>You</color> like to <color=#FF6666>Order</color>?  '
     options:
     - text: Cola
       image: {fileID: 21300000, guid: e6da25b2e1abf81438edcec1f12610c6, type: 3}
@@ -9290,7 +9290,8 @@ MonoBehaviour:
     - text: Juice
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     correctIndex: 0
-  - question: Clerk:Great! You ordered a hamburger and a cola. Right?
+  - question: 'Clerk: Great! <color=#66CCFF>You</color> <color=#FF6666>ordered</color>
+      a <color=#FFD700>Hamburger</color> and a <color=#FFD700>Cola</color>. Right? '
     options:
     - text: Right
       image: {fileID: 0}
@@ -10373,7 +10374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5442367572439056540, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8445708173921112524, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: floor
@@ -13412,9 +13413,10 @@ MonoBehaviour:
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 1366404235}
+  agentForThisRoute: {fileID: 1074777242}
   stages:
-  - question: Clerk:Hi! What food do you want?
+  - question: Clerk:Hi! What <color=#FFD700>Food</color> do <color=#66CCFF>you</color>
+      <color=#FF6666>want</color>?  ?
     options:
     - text: Hamburger
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
@@ -13425,7 +13427,7 @@ MonoBehaviour:
     - text: Friedchicken
       image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     correctIndex: 0
-  - question: Clerk:what would you like to drink?
+  - question: Clerk:what would  <color=#66CCFF>you</color> like to <color=#FF6666>drink</color>?
     options:
     - text: ' juice'
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
@@ -13436,7 +13438,8 @@ MonoBehaviour:
     - text: Coffee
       image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
     correctIndex: 0
-  - question: Clerk:Okay, nuggets and juice. Is that right?
+  - question: Clerk:Okay, Okay, <color=#FFD700>Nuggets</color> and <color=#FFD700>Juice</color>. 
+      . Is that right?
     options:
     - text: Yes
       image: {fileID: 0}
@@ -20359,9 +20362,9 @@ MonoBehaviour:
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 0}
+  agentForThisRoute: {fileID: 2101194925}
   stages:
-  - question: Clerk:Welcome! What would you like to eat?
+  - question: Clerk:Welcome! What would <color=#66CCFF>you</color> like to <color=#FF6666>eat</color>?
     options:
     - text: Hotdog
       image: {fileID: 21300000, guid: f82af490826575845ad0d731dc8c7cf9, type: 3}
@@ -20372,7 +20375,7 @@ MonoBehaviour:
     - text: Fries
       image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     correctIndex: 0
-  - question: Clerk:and what would you like to drink?
+  - question: Clerk:and what would <color=#66CCFF>you</color> like to <color=#FF6666>drink</color>?
     options:
     - text: Lemon tea
       image: {fileID: 21300000, guid: 22f83194e6889db46bf0110bef9d835d, type: 3}
@@ -20383,7 +20386,8 @@ MonoBehaviour:
     - text: Juice
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     correctIndex: 0
-  - question: Clerk:Got it! One hot dog and lemon tea
+  - question: Clerk:Got it! One <color=#FFD666>Hotdog</color> and <color=#FFD666>Lemon
+      tea</color>
     options:
     - text: Yes
       image: {fileID: 0}
@@ -31883,12 +31887,12 @@ MonoBehaviour:
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 463433639}
   stages:
-  - question: Emma:Oh, I'm hungry
+  - question: Emma:Oh, <color=#66CCFF>I'm</color> hungry
     options:
-    - text: What do you want to eat?
+    - text: What do <color=#66CCFF>you</color> want to <color=#FF6666>eat</color>?
       image: {fileID: 0}
     correctIndex: 0
-  - question: 'I want Nuggets '
+  - question: 'I <color=#66CCFF>want</color> <color=#FFD700>Nugget</color> '
     options:
     - text: 'Nuggets '
       image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
@@ -31899,7 +31903,7 @@ MonoBehaviour:
     - text: Friedchicken
       image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
     correctIndex: 0
-  - question: And juice.
+  - question: And <color=#FFD700>Juice</color> , please.
     options:
     - text: juice
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
@@ -31911,7 +31915,8 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: a8c11dd57f82e624cb4c08c2df4a7d02, type: 3}
     correctIndex: 0
   returnDialogueStages:
-  - question: "Emma:That\u2019s what I ordered. Thanks!"
+  - question: "Emma:That\u2019s what <color=#66CCFF>I</color>  <color=#FF6666>ordered</color>
+      . Thanks!"
     options:
     - text: You're welcome
       image: {fileID: 0}
@@ -36659,6 +36664,30 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 391013545}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeNavAgent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestinationLineDrawer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1366404235}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AI.NavMeshAgent, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Camera
       value: 
@@ -41108,7 +41137,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7541544132469272267, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       propertyPath: m_Controller
@@ -41187,12 +41216,12 @@ MonoBehaviour:
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 2101194925}
   stages:
-  - question: Mr.Wang:Oh, I need help
+  - question: Mr.Wang:Oh, <color=#66CCFF>I</color> need <color=#FF6666>help</color>
     options:
-    - text: I can help you!
+    - text: Let<b><color=#66CCFF> me</color> <color=#FF6666>help</color></b> <color=#66CCFF>you</color>!
       image: {fileID: 0}
     correctIndex: 0
-  - question: Mr.Wang:I want a hot dog
+  - question: 'Mr.Wang:<color=#66CCFF>I</color> <color=#FF6666>want</color>  a <color=#FFD700>Hotdog</color> '
     options:
     - text: 'Hot dog '
       image: {fileID: 21300000, guid: f82af490826575845ad0d731dc8c7cf9, type: 3}
@@ -41203,7 +41232,7 @@ MonoBehaviour:
     - text: Hamburger
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
     correctIndex: 0
-  - question: Mr.Wang:And lemon tea
+  - question: Mr.Wang:And <color=#FFD700>Lemon tea</color> , please
     options:
     - text: Lemon tea
       image: {fileID: 21300000, guid: 22f83194e6889db46bf0110bef9d835d, type: 3}
@@ -41226,7 +41255,7 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: Mr.Wang:That's all I need
+  - question: 'Mr.Wang:That''s all <color=#66CCFF>I</color> <color=#FF6666>need</color> '
     options:
     - text: You're welcome
       image: {fileID: 0}
@@ -55843,12 +55872,13 @@ MonoBehaviour:
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1167237971}
   stages:
-  - question: Leo:I need help
+  - question: 'Leo: <color=#66CCFF>I</color> need <b><color=#FF6666>help</color></b>'
     options:
-    - text: Let me help you!
+    - text: Let<color=#66CCFF> me</color> <color=#FF6666>help</color></b> you!
       image: {fileID: 0}
     correctIndex: 0
-  - question: Leo :I want a hamburger.
+  - question: 'Leo: <color=#66CCFF>I </color><b><color=#FF6666>want</color></b> 
+      a <color=#FFD700>Hamburger</color>'
     options:
     - text: Anything else?
       image: {fileID: 0}
@@ -55859,7 +55889,7 @@ MonoBehaviour:
     - text: Goodbye
       image: {fileID: 0}
     correctIndex: 0
-  - question: And a cola, please.
+  - question: And a <color=#FFD700>Cola</color>, please.
     options:
     - text: OK
       image: {fileID: 0}
@@ -55871,7 +55901,8 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: "Leo:Oh, that\u2019s my hamburger and cola!"
+  - question: "Leo:Oh, that\u2019s <b><color=#66CCFF>my</color>  <color=#FFD700>Hamburger</color>
+      and <color=#FFD700>Cola</color>!"
     options:
     - text: "You\u2019re welcome"
       image: {fileID: 0}
@@ -65293,6 +65324,30 @@ PrefabInstance:
     - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 391013545}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeNavAgent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestinationLineDrawer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1074777242}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AI.NavMeshAgent, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Camera

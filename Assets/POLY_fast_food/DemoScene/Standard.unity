@@ -9054,7 +9054,7 @@ MonoBehaviour:
   gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 1074777242}
+  agentForThisRoute: {fileID: 1837967217}
   stages:
   - question: 'Clerk:Hi, ready to order? '
     options:
@@ -9959,7 +9959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5442367572439056540, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8445708173921112524, guid: 38e9a0f9d3e50da48b759c0e6c30cb0a, type: 3}
       propertyPath: floor
@@ -12904,7 +12904,7 @@ MonoBehaviour:
   gameflow: {fileID: 119774790}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
-  agentForThisRoute: {fileID: 1366404235}
+  agentForThisRoute: {fileID: 1074777242}
   stages:
   - question: 'Clerk:Hi, ready to order? '
     options:
@@ -19509,6 +19509,38 @@ PrefabInstance:
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 391013545}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeNavAgent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestinationLineDrawer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1594368326}
+    - target: {fileID: 6396136271534840129, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AI.NavMeshAgent, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
@@ -35752,6 +35784,30 @@ PrefabInstance:
     - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 391013545}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeNavAgent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestinationLineDrawer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1366404235}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AI.NavMeshAgent, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Camera
@@ -64194,6 +64250,30 @@ PrefabInstance:
     - target: {fileID: 4444653108310300488, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 391013545}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeNavAgent
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestinationLineDrawer, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1074777242}
+    - target: {fileID: 5677386448420761682, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.AI.NavMeshAgent, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7871009092327141117, guid: 08cb0b8a8095e3342945af29f0c34df8, type: 3}
       propertyPath: m_Camera
