@@ -37,6 +37,14 @@ public class FlashcardManager : MonoBehaviour
     public Button againButton;
     public Button finishReviewButton;
 
+    [Header("Sound Icons")]
+    public GameObject soundBtnEng;
+    public GameObject soundBtnChi;
+    public GameObject soundBtnEng1;
+    public GameObject soundBtnEng2;
+    public GameObject soundBtnChi1;
+    public GameObject soundBtnChi2;
+
     private int currentIndex = 0;
     private bool isFlipped = false;
     private bool isReviewMode = false;
@@ -79,6 +87,14 @@ public class FlashcardManager : MonoBehaviour
             sentenceEng2.text = card.englishSentence2;
             sentenceChi1.text = "";
             sentenceChi2.text = "";
+
+            soundBtnEng1.SetActive(!string.IsNullOrWhiteSpace(card.englishSentence1));
+            soundBtnEng2.SetActive(!string.IsNullOrWhiteSpace(card.englishSentence2));
+            soundBtnChi1.SetActive(false);
+            soundBtnChi2.SetActive(false);
+
+            soundBtnEng.SetActive(false);
+            soundBtnChi.SetActive(false);
         }
         else
         {
@@ -92,6 +108,13 @@ public class FlashcardManager : MonoBehaviour
 
             wordEnglish.text = "";
             wordChinese.text = "";
+
+            soundBtnEng.SetActive(false);
+            soundBtnChi.SetActive(false);
+            soundBtnEng1.SetActive(false);
+            soundBtnEng2.SetActive(false);
+            soundBtnChi1.SetActive(false);
+            soundBtnChi2.SetActive(false);
         }
 
         UpdateButtonState();
@@ -111,11 +134,27 @@ public class FlashcardManager : MonoBehaviour
 
             sentenceChi1.text = card.chineseSentence1;
             sentenceChi2.text = card.chineseSentence2;
+
+            soundBtnChi1.SetActive(!string.IsNullOrWhiteSpace(card.chineseSentence1));
+            soundBtnChi2.SetActive(!string.IsNullOrWhiteSpace(card.chineseSentence2));
+
+            soundBtnEng1.SetActive(false);
+            soundBtnEng2.SetActive(false);
+            soundBtnEng.SetActive(false);
+            soundBtnChi.SetActive(false);
         }
         else
         {
             wordEnglish.text = card.englishWord;
             wordChinese.text = card.chineseWord;
+
+            soundBtnEng.SetActive(!string.IsNullOrWhiteSpace(card.englishWord));
+            soundBtnChi.SetActive(!string.IsNullOrWhiteSpace(card.chineseWord));
+
+            soundBtnEng1.SetActive(false);
+            soundBtnEng2.SetActive(false);
+            soundBtnChi1.SetActive(false);
+            soundBtnChi2.SetActive(false);
         }
 
         UpdateButtonState();
@@ -168,7 +207,6 @@ public class FlashcardManager : MonoBehaviour
 
     void OnStartGameClicked()
     {
-        // 根據目前模式載入對應場景
         switch (ModeManager.Instance.currentMode)
         {
             case LearningMode.Standard:
