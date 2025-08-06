@@ -26,11 +26,11 @@ public class GameOverManager : MonoBehaviour
 
     public void SetResults(float accuracy, float timeInSeconds)
     {
-        accuracyText.text = $"Accuracy：{accuracy:F1}%";
+        accuracyText.text = $"Accuracy:{accuracy:F1}%";
 
         int minutes = Mathf.FloorToInt(timeInSeconds / 60f);
         int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
-        timeText.text = $"Time Spent：{minutes} 分 {seconds} 秒";
+        timeText.text = $"Time Spent:{minutes} min {seconds} sec";
 
         commentText.text = GenerateComment(accuracy, timeInSeconds);
     }
