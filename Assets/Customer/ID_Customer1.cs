@@ -130,6 +130,8 @@ public class ID_SingleCustomer : MonoBehaviour
             if (agentForThisRoute != null)
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
+        if (customerManager != null)
+            customerManager.OnDialogueWithCustomerFinished();
 
         StartCoroutine(DelayedSwitch());
     }

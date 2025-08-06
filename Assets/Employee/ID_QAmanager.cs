@@ -136,7 +136,8 @@ public class ID_QAmanager : MonoBehaviour
             if (agentForThisRoute != null)
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
-
+        
+        FindObjectOfType<ID_Gameflow>()?.OnOrderFinished();
         gameObject.SetActive(false);
 
         if (singleCustomer != null)

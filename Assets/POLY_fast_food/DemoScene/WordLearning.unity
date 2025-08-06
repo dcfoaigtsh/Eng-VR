@@ -3692,7 +3692,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 421078215}
-  - {fileID: 2139163087}
   - {fileID: 1922740636}
   - {fileID: 1218593884}
   - {fileID: 1811773925}
@@ -3706,6 +3705,7 @@ RectTransform:
   - {fileID: 196331906}
   - {fileID: 309763835}
   - {fileID: 1814473448}
+  - {fileID: 2139163087}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

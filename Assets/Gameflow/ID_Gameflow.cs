@@ -5,17 +5,21 @@ using UnityEngine;
 public class ID_Gameflow : MonoBehaviour
 {
     [Header("只使用第1位顧客")]
-    public List<GameObject> customerList;  // 拖入顧客物件（只使用 index 0）
+    public List<GameObject> customerList;
 
     [Header("結束畫面 UI")]
-    public ID_GameOverUI gameOverUI;      // 拖入 Game Over 面板腳本
+    public ID_GameOverUI gameOverUI;
     private bool hasCompleted = false;
+
+    [Header("進度條控制")]
+    public IDProgressBar progressBar;  // 進度條控制元件
 
     void Start()
     {
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
+            progressBar?.SetProgress(0);  // 🎯 進入遊戲階段（初始）
         }
         else
         {
@@ -23,7 +27,7 @@ public class ID_Gameflow : MonoBehaviour
         }
     }
 
-    // 啟用顧客1（其實只有一位）
+    // 顧客出現
     void ActivateCustomer(int index)
     {
         for (int i = 0; i < customerList.Count; i++)
@@ -32,24 +36,29 @@ public class ID_Gameflow : MonoBehaviour
         }
 
         Debug.Log("顧客 1 出現！");
-        
     }
 
-    // 提供給 QA Manager 呼叫：完成點餐後執行
-    public void NextCustomer()
+    // 👉 QAManager 在玩家與顧客對話完呼叫
+    public void OnDialogueWithCustomerFinished()
+    {
+        Debug.Log("🗨 與顧客對話結束，進入點餐階段");
+        progressBar?.SetProgress(1); // 🎯 第二階段：顧客對話完成
+    }
+
+    // 👉 QAManager 在玩家點餐完成後呼叫
+    public void OnOrderFinished()
     {
         if (hasCompleted) return;
 
         hasCompleted = true;
 
-        Debug.Log("✅ 顧客1完成店員互動，準備回來找他交餐點");
+        Debug.Log("✅ 點餐完成，準備進入交餐流程");
 
-        // 👉 呼叫顧客1的回傳流程（交餐）
         var customer = customerList[0].GetComponent<ID_SingleCustomer>();
         if (customer != null)
-            customer.BeginFinalDialogue(); // ✅ 新增的 public 方法
+            customer.BeginFinalDialogue();
 
-        // ✅ 不顯示結束畫面，等到顧客結束對話才叫 ShowGameOver
+        progressBar?.SetProgress(2); // 🎯 第三階段：完成點餐
     }
 
     public void ShowGameOverManually()
@@ -58,6 +67,7 @@ public class ID_Gameflow : MonoBehaviour
         {
             Debug.Log("🎉 顯示結束畫面！");
             gameOverUI.ShowGameOver();
+            progressBar?.SetProgress(3); // 🎯 最終階段：顯示 GameOver
         }
     }
 }
