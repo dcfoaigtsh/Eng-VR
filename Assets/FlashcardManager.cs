@@ -236,6 +236,6 @@ public class FlashcardManager : MonoBehaviour
     void OnFinishReviewClicked()
     {
         PlayerPrefs.SetInt("IsReviewMode", 0);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("GameOver");
     }
 }
