@@ -27,9 +27,9 @@ public class ID_GameOverUI : MonoBehaviour
         {
             messageText.text = "All Orders Completed!\nYou did excellent.\nLet's review the words again.";
             gameOverPanel.SetActive(true);
-            closeButton.gameObject.SetActive(true); 
-            reviewButton.gameObject.SetActive(true); 
         }
+        closeButton.gameObject.SetActive(true); 
+        reviewButton.gameObject.SetActive(true); 
     }
 
     void OnReviewButtonClick()

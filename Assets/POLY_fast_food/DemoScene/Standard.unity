@@ -9751,6 +9751,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 204368222}
     m_Modifications:
+    - target: {fileID: 451598255483256457, guid: 0d76aba3a4a08b5478c485a06ee6335d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 451598255483256457, guid: 0d76aba3a4a08b5478c485a06ee6335d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 1603326015351906054, guid: 0d76aba3a4a08b5478c485a06ee6335d, type: 3}
       propertyPath: m_Camera
       value: 
@@ -9869,7 +9877,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8839078951038006068, guid: 0d76aba3a4a08b5478c485a06ee6335d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -46968,7 +46976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1568885688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59248,7 +59256,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: "Let\u2019s look at the menu again!"
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 2045028028}

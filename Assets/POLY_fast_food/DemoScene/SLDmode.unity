@@ -9448,7 +9448,7 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     correctIndex: 0
   - question: 'Clerk: Great! <color=#66CCFF><size=130%>You</size></color> <color=#FF6666><size=130%>Ordered</size></color>
-      a <color=#FFD700><size=130%>Hamburger</size></color> and a <color=#FFD700><size=130%>Cola</size></color>.
+      a <color=#008000><size=130%>Hamburger</size></color> and a <color=#008000><size=130%>Cola</size></color>.
       Right? '
     options:
     - text: Right
@@ -13637,7 +13637,7 @@ MonoBehaviour:
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1074777242}
   stages:
-  - question: Clerk:Hi! What <color=#FFD700><size=130%>Food</size></color> do <color=#66CCFF><size=130%>You</size></color>
+  - question: Clerk:Hi! What <color=#008000><size=130%>Food</size></color> do <color=#66CCFF><size=130%>You</size></color>
       <color=#FF6666><size=130%>Want</size></color>?  ?
     options:
     - text: Hamburger
@@ -13646,8 +13646,8 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     - text: Nuggets
       image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
-    - text: Friedchicken
-      image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
+    - text: Hotdog
+      image: {fileID: 21300000, guid: f82af490826575845ad0d731dc8c7cf9, type: 3}
     correctIndex: 0
   - question: Clerk:what would  <color=#66CCFF><size=130%>You</size></color> like
       to <color=#FF6666><size=130%>Drink</size></color>?
@@ -56634,7 +56634,7 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 0
   - question: 'Leo: <color=#66CCFF><size=130%>I</size> </color><b><color=#FF6666><size=130%>Want</size></color></b> 
-      a <color=#FFD700><size=130%>Hamburger</size></color>'
+      a <color=#008000><size=130%>Hamburger</size></color>'
     options:
     - text: Anything else?
       image: {fileID: 0}
@@ -56645,7 +56645,7 @@ MonoBehaviour:
     - text: Goodbye
       image: {fileID: 0}
     correctIndex: 0
-  - question: And a <color=#FFD700><size=130%>Cola</size></color>, please.
+  - question: And a <color=#008000><size=130%>Cola</size></color>, please.
     options:
     - text: OK
       image: {fileID: 0}
@@ -56658,7 +56658,7 @@ MonoBehaviour:
     correctIndex: 0
   returnDialogueStages:
   - question: "Leo:Oh, that\u2019s <b><color=#66CCFF><size=130%>My</size></color> 
-      <color=#FFD700><size=130%>Hamburger</size></color> and <color=#FFD700><size=130%>Cola</size></color>
+      <color=#008000><size=130%>Hamburger</size></color> and <color=#008000><size=130%>Cola</size></color>
       !"
     options:
     - text: "You\u2019re welcome"

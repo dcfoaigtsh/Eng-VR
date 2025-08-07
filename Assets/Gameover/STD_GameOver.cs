@@ -27,9 +27,9 @@ public class STD_GameOverUI : MonoBehaviour
         {
             messageText.text = "All Orders Completed!\nThanks for your service.\nWould you like to review the words again?";
             gameOverPanel.SetActive(true);
-            reviewButton.gameObject.SetActive(true); // 顯示 review 按鈕
-            closeButton.gameObject.SetActive(true); // 顯示 close 按鈕
         }
+        reviewButton.gameObject.SetActive(true); // 顯示 review 按鈕
+        closeButton.gameObject.SetActive(true); // 顯示 close 按鈕
     }
 
     void OnReviewButtonClick()

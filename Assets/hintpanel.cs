@@ -10,7 +10,7 @@ public class AssistantHintController : MonoBehaviour
     {
         if (hintPanel != null && hintText != null)
         {
-            hintText.text = "Let’s look at the menu again!";
+            hintText.text = message;
             hintPanel.SetActive(true);
         }
     }
