@@ -14,7 +14,9 @@ public class ID_GameOverUI : MonoBehaviour
     {
         gameOverPanel.SetActive(false); // 一開始隱藏面板
         closeButton.onClick.AddListener(() => gameOverPanel.SetActive(false));
+        closeButton.gameObject.SetActive(false); // 一開始隱藏 close 按鈕
         reviewButton.onClick.AddListener(OnReviewButtonClick); // 綁定 review 按鈕事件
+        
     }
 
     public void ShowGameOver()
@@ -25,6 +27,8 @@ public class ID_GameOverUI : MonoBehaviour
         {
             messageText.text = "All Orders Completed!\nYou did excellent.\nLet's review the words again.";
             gameOverPanel.SetActive(true);
+            closeButton.gameObject.SetActive(true); 
+            reviewButton.gameObject.SetActive(true); 
         }
     }
 

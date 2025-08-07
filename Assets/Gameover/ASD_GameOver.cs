@@ -15,6 +15,7 @@ public class ASD_GameOverUI : MonoBehaviour
         gameOverPanel.SetActive(false); // 一開始隱藏面板
         closeButton.onClick.AddListener(() => gameOverPanel.SetActive(false));
         reviewButton.onClick.AddListener(OnReviewButtonClick); // 綁定 review 按鈕事件
+        closeButton.gameObject.SetActive(false); 
     }
 
     public void ShowGameOver()
@@ -25,6 +26,8 @@ public class ASD_GameOverUI : MonoBehaviour
         {
             messageText.text = "All Orders Completed!\nThanks for your service.\nWould you like to review the words again?";
             gameOverPanel.SetActive(true);
+            closeButton.gameObject.SetActive(true);
+            reviewButton.gameObject.SetActive(true); // 顯示 review 按鈕 
         }
     }
 

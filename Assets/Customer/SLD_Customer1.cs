@@ -9,6 +9,8 @@ public class SLD_SingleCustomer : MonoBehaviour
 {
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
+    public List<GameObject> optionAudioIcons; // ✅ 對應喇叭圖示
+
     public SLD_Gameflow customerManager;
     public GameObject completeIcon;
 
@@ -35,19 +37,17 @@ public class SLD_SingleCustomer : MonoBehaviour
         public int correctIndex;
     }
 
-    public List<Stage> stages;               // 點餐前對話
-    public List<Stage> returnDialogueStages; // 回來交餐對話
+    public List<Stage> stages;
+    public List<Stage> returnDialogueStages;
 
     void OnEnable()
     {
         if (returningWithFood)
         {
-            // 顧客回來交餐的情況
             ShowCurrentStage();
         }
         else
         {
-            // 初次出現，點餐階段
             currentStage = 0;
             ShowCurrentStage();
         }
@@ -82,7 +82,8 @@ public class SLD_SingleCustomer : MonoBehaviour
                 var textComp = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>();
                 var imageComp = optionButtons[i].GetComponentInChildren<Image>();
 
-                textComp.text = stage.options[i].text;
+                string optionText = stage.options[i].text;
+                textComp.text = optionText;
 
                 if (stage.options[i].image != null)
                 {
@@ -94,6 +95,13 @@ public class SLD_SingleCustomer : MonoBehaviour
                     imageComp.enabled = false;
                 }
 
+                // ✅ 根據文字是否為空，決定是否顯示音效圖示
+                if (i < optionAudioIcons.Count)
+                {
+                    bool hasText = !string.IsNullOrWhiteSpace(optionText);
+                    optionAudioIcons[i].SetActive(hasText);
+                }
+
                 optionButtons[i].onClick.RemoveAllListeners();
                 int capturedIndex = i;
                 optionButtons[i].onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
@@ -101,6 +109,8 @@ public class SLD_SingleCustomer : MonoBehaviour
             else
             {
                 optionButtons[i].gameObject.SetActive(false);
+                if (i < optionAudioIcons.Count)
+                    optionAudioIcons[i].SetActive(false);
             }
         }
     }
@@ -129,6 +139,8 @@ public class SLD_SingleCustomer : MonoBehaviour
         statementText.text = "Friend:Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
+        foreach (var icon in optionAudioIcons)
+            icon.SetActive(false);
 
         if (drawer != null)
         {
@@ -147,22 +159,21 @@ public class SLD_SingleCustomer : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // ✅ 店員點餐結束後，從 STD_Gameflow 呼叫這個
     public void BeginFinalDialogue()
     {
         returningWithFood = true;
         currentStage = 0;
-        gameObject.SetActive(true); // 最後再打開顧客，避免提前觸發 OnEnable()
-
+        gameObject.SetActive(true);
         ShowCurrentStage();
     }
 
-    // ✅ 回來交餐完畢，通知 STD_Gameflow 換下一位顧客
     void ShowFinalThanks()
     {
         statementText.text = "Friend:Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
+        foreach (var icon in optionAudioIcons)
+            icon.SetActive(false);
 
         if (completeIcon != null)
             completeIcon.SetActive(true);

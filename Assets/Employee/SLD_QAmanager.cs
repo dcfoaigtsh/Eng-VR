@@ -8,6 +8,7 @@ public class SLD_QAmanager : MonoBehaviour
 {
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
+    public List<GameObject> optionAudioIcons; // ✅ 對應每個選項的喇叭圖示
 
     public SLD_SingleCustomer singleCustomer;
     public SLD_Gameflow gameflow;
@@ -69,11 +70,20 @@ public class SLD_QAmanager : MonoBehaviour
                 {
                     imageComp.sprite = stage.options[i].image;
                     imageComp.enabled = true;
+
+                    if (textComp != null)
+                        textComp.alignment = TextAlignmentOptions.Top; // 有圖片時文字靠上
                 }
                 else if (imageComp != null)
                 {
                     imageComp.enabled = false;
+
+                    if (textComp != null)
+                        textComp.alignment = TextAlignmentOptions.Midline; // 沒圖片時置中
                 }
+
+                if (i < optionAudioIcons.Count)
+                    optionAudioIcons[i].SetActive(true);
 
                 button.onClick.RemoveAllListeners();
                 int capturedIndex = i;
@@ -82,6 +92,9 @@ public class SLD_QAmanager : MonoBehaviour
             else
             {
                 optionAdvancedButtons[i].gameObject.SetActive(false);
+
+                if (i < optionAudioIcons.Count)
+                    optionAudioIcons[i].SetActive(false);
             }
         }
     }
@@ -107,7 +120,7 @@ public class SLD_QAmanager : MonoBehaviour
         }
         else
         {
-            statementText.text = "Employee:Hmm... Try again";
+            statementText.text = "Employee: Hmm... Try again";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
         }
@@ -115,9 +128,13 @@ public class SLD_QAmanager : MonoBehaviour
 
     void FinishQAFlow()
     {
-        statementText.text = "Employee:You're welcome!";
+        statementText.text = "Employee: You're welcome!";
+
         foreach (var btn in optionAdvancedButtons)
             btn.gameObject.SetActive(false);
+
+        foreach (var icon in optionAudioIcons)
+            icon.SetActive(false);
 
         StartCoroutine(SwitchToFinalDialogue());
     }
@@ -139,7 +156,7 @@ public class SLD_QAmanager : MonoBehaviour
         if (gameflow != null)
         {
             Debug.Log("呼叫 Gameflow 切換到交餐流程！");
-            gameflow.NextCustomer(); // ✅ 呼叫顧客進入交餐對話
+            gameflow.NextCustomer();
         }
     }
 }

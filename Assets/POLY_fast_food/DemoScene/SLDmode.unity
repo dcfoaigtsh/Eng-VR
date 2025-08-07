@@ -8999,11 +8999,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 483478738867945410, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 483478738867945410, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 483478738867945410, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_SizeDelta.x
@@ -9015,19 +9015,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483478738867945410, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -70
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 483478738867945410, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -157.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 731863262306939382, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 731863262306939382, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 731863262306939382, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_SizeDelta.x
@@ -9039,11 +9039,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 731863262306939382, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -70
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 731863262306939382, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 57.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_fontSize
@@ -9051,7 +9051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_margin.z
-      value: 46.148113
+      value: 0.91134644
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_fontSizeBase
@@ -9059,43 +9059,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2170853263723809717, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -132.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3343747785360394279, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3343747785360394279, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3343747785360394279, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_SizeDelta.x
@@ -9107,43 +9107,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3343747785360394279, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 170
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3343747785360394279, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -157.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3959405376457931856, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3959405376457931856, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3959405376457931856, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3959405376457931856, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -132.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210604714390205028, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210604714390205028, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210604714390205028, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4210604714390205028, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -132.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4519285753597273534, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9187,19 +9187,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4897231218930174734, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4897231218930174734, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4897231218930174734, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4897231218930174734, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -132.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4951639773009775669, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Camera
@@ -9207,35 +9207,51 @@ PrefabInstance:
       objectReference: {fileID: 1231192953}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 37.2
       objectReference: {fileID: 0}
     - target: {fileID: 7519240489725553069, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Name
@@ -9247,11 +9263,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8336583711502878876, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8336583711502878876, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8336583711502878876, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_SizeDelta.x
@@ -9263,11 +9279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8336583711502878876, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 170
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8336583711502878876, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 57.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8678825452996321638, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Enabled
@@ -9275,19 +9291,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -9396,13 +9412,19 @@ MonoBehaviour:
   - {fileID: 296302273}
   - {fileID: 296302272}
   - {fileID: 296302271}
+  optionAudioIcons:
+  - {fileID: 1095487746}
+  - {fileID: 2056938152}
+  - {fileID: 2146242762}
+  - {fileID: 1882964991}
   singleCustomer: {fileID: 1837967220}
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1837967217}
   stages:
-  - question: 'Clerk:Hi,What would <color=#66CCFF>You</color> like to <color=#FF6666>Order</color>?  '
+  - question: 'Clerk:Hi,What would <color=#66CCFF><size=130%>You</size></color> like
+      to <color=#FF6666><size=130%>Order</size></color>?  '
     options:
     - text: Hamburger
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
@@ -9413,7 +9435,8 @@ MonoBehaviour:
     - text: Friedchicken
       image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
     correctIndex: 0
-  - question: 'Clerk:Ok,What drink would <color=#66CCFF>You</color> like to <color=#FF6666>Order</color>?  '
+  - question: 'Clerk:Ok,What drink would <color=#66CCFF><size=130%>You</size></color>
+      like to <color=#FF6666><size=130%>Order</size></color>?  '
     options:
     - text: Cola
       image: {fileID: 21300000, guid: e6da25b2e1abf81438edcec1f12610c6, type: 3}
@@ -9424,8 +9447,9 @@ MonoBehaviour:
     - text: Juice
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     correctIndex: 0
-  - question: 'Clerk: Great! <color=#66CCFF>You</color> <color=#FF6666>ordered</color>
-      a <color=#FFD700>Hamburger</color> and a <color=#FFD700>Cola</color>. Right? '
+  - question: 'Clerk: Great! <color=#66CCFF><size=130%>You</size></color> <color=#FF6666><size=130%>Ordered</size></color>
+      a <color=#FFD700><size=130%>Hamburger</size></color> and a <color=#FFD700><size=130%>Cola</size></color>.
+      Right? '
     options:
     - text: Right
       image: {fileID: 0}
@@ -9793,7 +9817,8 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8336918290885734745, guid: 10e34d91003328041a6c2b7155d79684, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -13241,7 +13266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_margin.z
-      value: 43.742683
+      value: 0.7824745
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_fontSizeBase
@@ -13427,6 +13452,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -8.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 37
+      objectReference: {fileID: 0}
     - target: {fileID: 7519240489725553069, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Name
       value: Order Board(2)
@@ -13585,14 +13626,19 @@ MonoBehaviour:
   - {fileID: 421767704}
   - {fileID: 421767703}
   - {fileID: 421767702}
+  optionAudioIcons:
+  - {fileID: 297150192}
+  - {fileID: 1621131702}
+  - {fileID: 328528786}
+  - {fileID: 163974527}
   singleCustomer: {fileID: 1074777245}
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1074777242}
   stages:
-  - question: Clerk:Hi! What <color=#FFD700>Food</color> do <color=#66CCFF>you</color>
-      <color=#FF6666>want</color>?  ?
+  - question: Clerk:Hi! What <color=#FFD700><size=130%>Food</size></color> do <color=#66CCFF><size=130%>You</size></color>
+      <color=#FF6666><size=130%>Want</size></color>?  ?
     options:
     - text: Hamburger
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
@@ -13603,7 +13649,8 @@ MonoBehaviour:
     - text: Friedchicken
       image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     correctIndex: 0
-  - question: Clerk:what would  <color=#66CCFF>you</color> like to <color=#FF6666>drink</color>?
+  - question: Clerk:what would  <color=#66CCFF><size=130%>You</size></color> like
+      to <color=#FF6666><size=130%>Drink</size></color>?
     options:
     - text: ' juice'
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
@@ -13614,7 +13661,7 @@ MonoBehaviour:
     - text: Coffee
       image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
     correctIndex: 0
-  - question: Clerk:Okay, Okay, <color=#FFD700>Nuggets</color> and <color=#FFD700>Juice</color>. 
+  - question: Clerk:Okay,  <color=#FFD700><size=130%>Nuggets</size></color> and <color=#FFD700><size=130%>Juice</size></color>
       . Is that right?
     options:
     - text: Yes
@@ -20124,7 +20171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_margin.z
-      value: 45.826836
+      value: -0.15980177
       objectReference: {fileID: 0}
     - target: {fileID: 973034477313481970, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_fontSizeBase
@@ -20310,6 +20357,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6894126521279661332, guid: e701a3401db313447b9d214863100396, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 37.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7519240489725553069, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_Name
       value: Order Board(3)
@@ -20468,13 +20535,19 @@ MonoBehaviour:
   - {fileID: 656813600}
   - {fileID: 656813599}
   - {fileID: 656813598}
+  optionAudioIcons:
+  - {fileID: 2044043460}
+  - {fileID: 884447292}
+  - {fileID: 1848190991}
+  - {fileID: 752453879}
   singleCustomer: {fileID: 1366404236}
   gameflow: {fileID: 119774792}
   drawer: {fileID: 391013545}
   nextCustomer: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1366404235}
   stages:
-  - question: Clerk:Welcome! What would <color=#66CCFF>you</color> like to <color=#FF6666>eat</color>?
+  - question: Clerk:Welcome! What would <color=#66CCFF><size=130%>You</size></color>
+      like to <color=#FF6666><size=130%>Eat</size></color>?
     options:
     - text: Hotdog
       image: {fileID: 21300000, guid: f82af490826575845ad0d731dc8c7cf9, type: 3}
@@ -20485,7 +20558,8 @@ MonoBehaviour:
     - text: Fries
       image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     correctIndex: 0
-  - question: Clerk:and what would <color=#66CCFF>you</color> like to <color=#FF6666>drink</color>?
+  - question: Clerk:and what would <color=#66CCFF><size=130%>You</size></color> like
+      to <color=#FF6666><size=130%>Drink</size></color>?
     options:
     - text: Lemon tea
       image: {fileID: 21300000, guid: 22f83194e6889db46bf0110bef9d835d, type: 3}
@@ -20496,8 +20570,8 @@ MonoBehaviour:
     - text: Juice
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     correctIndex: 0
-  - question: Clerk:Got it! One <color=#FFD666>Hotdog</color> and <color=#FFD666>Lemon
-      tea</color>
+  - question: Clerk:Got it! One <color=#FFD666><size=130%>Hotdog</size></color> and
+      <color=#FFD666><size=130%>Lemon tea</size></color>
     options:
     - text: Yes
       image: {fileID: 0}
@@ -27816,7 +27890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8839078951038006068, guid: 0d76aba3a4a08b5478c485a06ee6335d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29809,6 +29883,124 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1540423510756240529, guid: 9a5b90eb25cae70498a6396e4660dce3, type: 3}
   m_PrefabInstance: {fileID: 995861632}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1005757914
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1284891466}
+    m_Modifications:
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 979
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 550
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -69
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -207
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726233646337099161, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+      propertyPath: m_Name
+      value: 'AssistantHintPanel '
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+--- !u!224 &1005757915 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3419121929826816158, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+  m_PrefabInstance: {fileID: 1005757914}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1005757916 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3726233646337099161, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+  m_PrefabInstance: {fileID: 1005757914}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1005757917 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5397895268704984618, guid: 3fec19b5c3a2a5e4486411cdddaf7db8, type: 3}
+  m_PrefabInstance: {fileID: 1005757914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005757916}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f0607a49efff34fa6c5bb205f5a1d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1010672360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32135,42 +32327,47 @@ MonoBehaviour:
   - {fileID: 1236490405}
   - {fileID: 1236490404}
   - {fileID: 1236490403}
+  optionAudioIcons:
+  - {fileID: 502646521}
+  - {fileID: 140664693}
+  - {fileID: 1900396687}
+  - {fileID: 752203327}
   customerManager: {fileID: 119774792}
   completeIcon: {fileID: 1297932631}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 463433639}
   stages:
-  - question: Emma:Oh, <color=#66CCFF>I'm</color> hungry
+  - question: Emma:Oh, <color=#66CCFF><size=130%>I'm</size></color> hungry
     options:
-    - text: What do <color=#66CCFF>you</color> want to <color=#FF6666>eat</color>?
+    - text: What do <color=#66CCFF><size=130%>You</size></color> want to <color=#FF6666><size=130%>Eat</size></color>?
       image: {fileID: 0}
     correctIndex: 0
-  - question: 'I <color=#66CCFF>want</color> <color=#FFD700>Nugget</color> '
+  - question: 'I <color=#66CCFF><size=130%>Want</size></color> <color=#FFD700><size=130%>Nugget</size></color> '
     options:
     - text: 'Nuggets '
-      image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
+      image: {fileID: 0}
     - text: Fries
-      image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
+      image: {fileID: 0}
     - text: Hamburger
-      image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
+      image: {fileID: 0}
     - text: Friedchicken
-      image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
+      image: {fileID: 0}
     correctIndex: 0
-  - question: And <color=#FFD700>Juice</color> , please.
+  - question: And <color=#FFD700><size=130%>Juice</size></color> , please.
     options:
     - text: juice
-      image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
+      image: {fileID: 0}
     - text: Cola
-      image: {fileID: 21300000, guid: e6da25b2e1abf81438edcec1f12610c6, type: 3}
+      image: {fileID: 0}
     - text: Coffee
-      image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
+      image: {fileID: 0}
     - text: Tea
-      image: {fileID: 21300000, guid: a8c11dd57f82e624cb4c08c2df4a7d02, type: 3}
+      image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: "Emma:That\u2019s what <color=#66CCFF>I</color>  <color=#FF6666>ordered</color>
-      . Thanks!"
+  - question: "Emma:That\u2019s what <color=#66CCFF><size=130%>I</size></color> 
+      <color=#FF6666><size=130%>Ordered</size></color> . Thanks!"
     options:
     - text: You're welcome
       image: {fileID: 0}
@@ -39022,15 +39219,106 @@ PrefabInstance:
       value: leftcorner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_RemovedGameObjects:
+    - {fileID: 4972212215872982292, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 123078475526356044, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1005757915}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9125072164503196406, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1284891469}
   m_SourcePrefab: {fileID: 100100000, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
 --- !u!224 &1284891466 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 123078475526356044, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
   m_PrefabInstance: {fileID: 1284891465}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1284891467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9125072164503196406, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
+  m_PrefabInstance: {fileID: 1284891465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1284891468 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4705883071684069837, guid: ee079eef17e2ba14f8abc4b95bd9ed05, type: 3}
+  m_PrefabInstance: {fileID: 1284891465}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284891467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1284891469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1284891467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1284891468}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1005757916}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1005757917}
+        m_TargetAssemblyTypeName: AssistantHintController, Assembly-CSharp
+        m_MethodName: ShowHint
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1285196507
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41566,38 +41854,45 @@ MonoBehaviour:
   - {fileID: 1578236243}
   - {fileID: 1578236242}
   - {fileID: 1578236241}
+  optionAudioIcons:
+  - {fileID: 1896779664}
+  - {fileID: 1786553510}
+  - {fileID: 1502438240}
+  - {fileID: 1133385107}
   customerManager: {fileID: 119774792}
   completeIcon: {fileID: 225283412}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 2101194925}
   stages:
-  - question: Mr.Wang:Oh, <color=#66CCFF>I</color> need <color=#FF6666>help</color>
+  - question: Mr.Wang:Oh, <color=#66CCFF><size=130%>I</size></color> need <color=#FF6666><size=130%>Help</size></color>
     options:
-    - text: Let<b><color=#66CCFF> me</color> <color=#FF6666>help</color></b> <color=#66CCFF>you</color>!
+    - text: Let<b><color=#66CCFF> <size=130%>Me</size></color> <color=#FF6666><size=130%>Help</size></color></b>
+        <color=#66CCFF>You</color>!
       image: {fileID: 0}
     correctIndex: 0
-  - question: 'Mr.Wang:<color=#66CCFF>I</color> <color=#FF6666>want</color>  a <color=#FFD700>Hotdog</color> '
+  - question: 'Mr.Wang:<color=#66CCFF><size=130%>I</size></color> <color=#FF6666><size=130%>Want</size></color> 
+      a <color=#FFD700><size=130%>Hotdog</size></color> '
     options:
     - text: 'Hot dog '
-      image: {fileID: 21300000, guid: f82af490826575845ad0d731dc8c7cf9, type: 3}
+      image: {fileID: 0}
     - text: Nuggets
-      image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
+      image: {fileID: 0}
     - text: Fries
-      image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
+      image: {fileID: 0}
     - text: Hamburger
-      image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
+      image: {fileID: 0}
     correctIndex: 0
-  - question: Mr.Wang:And <color=#FFD700>Lemon tea</color> , please
+  - question: Mr.Wang:And <color=#FFD700><size=130%>Lemon tea</size></color> , please
     options:
     - text: Lemon tea
-      image: {fileID: 21300000, guid: 22f83194e6889db46bf0110bef9d835d, type: 3}
+      image: {fileID: 0}
     - text: Cola
-      image: {fileID: 21300000, guid: e6da25b2e1abf81438edcec1f12610c6, type: 3}
+      image: {fileID: 0}
     - text: Coffee
-      image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
+      image: {fileID: 0}
     - text: Tea
-      image: {fileID: 21300000, guid: a8c11dd57f82e624cb4c08c2df4a7d02, type: 3}
+      image: {fileID: 0}
     correctIndex: 0
   - question: That's 60$
     options:
@@ -41611,7 +41906,7 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: 'Mr.Wang:That''s all <color=#66CCFF>I</color> <color=#FF6666>need</color> '
+  - question: 'Mr.Wang:That''s all <color=#66CCFF><size=130%>I</size></color> <color=#FF6666><size=130%>Need</size></color> '
     options:
     - text: You're welcome
       image: {fileID: 0}
@@ -56321,19 +56616,25 @@ MonoBehaviour:
   - {fileID: 2130306076}
   - {fileID: 2130306075}
   - {fileID: 2130306074}
+  optionAudioIcons:
+  - {fileID: 170737099}
+  - {fileID: 1997549159}
+  - {fileID: 415329609}
+  - {fileID: 762787584}
   customerManager: {fileID: 119774792}
   completeIcon: {fileID: 1247999242}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1167237971}
   stages:
-  - question: 'Leo: <color=#66CCFF>I</color> need <b><color=#FF6666>help</color></b>'
+  - question: 'Leo: <color=#66CCFF><size=130%>I</size></color> need <b><color=#FF6666><size=130%>Help</size></color></b>'
     options:
-    - text: Let<color=#66CCFF> me</color> <color=#FF6666>help</color></b> you!
+    - text: Let<color=#66CCFF> <size=130%>Me</size></color> <color=#FF6666><size=130%>Help</size></color></b>
+        you!
       image: {fileID: 0}
     correctIndex: 0
-  - question: 'Leo: <color=#66CCFF>I </color><b><color=#FF6666>want</color></b> 
-      a <color=#FFD700>Hamburger</color>'
+  - question: 'Leo: <color=#66CCFF><size=130%>I</size> </color><b><color=#FF6666><size=130%>Want</size></color></b> 
+      a <color=#FFD700><size=130%>Hamburger</size></color>'
     options:
     - text: Anything else?
       image: {fileID: 0}
@@ -56344,7 +56645,7 @@ MonoBehaviour:
     - text: Goodbye
       image: {fileID: 0}
     correctIndex: 0
-  - question: And a <color=#FFD700>Cola</color>, please.
+  - question: And a <color=#FFD700><size=130%>Cola</size></color>, please.
     options:
     - text: OK
       image: {fileID: 0}
@@ -56356,8 +56657,9 @@ MonoBehaviour:
       image: {fileID: 0}
     correctIndex: 0
   returnDialogueStages:
-  - question: "Leo:Oh, that\u2019s <b><color=#66CCFF>my</color>  <color=#FFD700>Hamburger</color>
-      and <color=#FFD700>Cola</color>!"
+  - question: "Leo:Oh, that\u2019s <b><color=#66CCFF><size=130%>My</size></color> 
+      <color=#FFD700><size=130%>Hamburger</size></color> and <color=#FFD700><size=130%>Cola</size></color>
+      !"
     options:
     - text: "You\u2019re welcome"
       image: {fileID: 0}
