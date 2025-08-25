@@ -27,6 +27,7 @@ public class SLD_SingleCustomer : MonoBehaviour
     {
         public string text;
         public Sprite image;
+        public AudioClip audio; // ✅ 新增音效欄位
     }
 
     [System.Serializable]
@@ -100,6 +101,31 @@ public class SLD_SingleCustomer : MonoBehaviour
                 {
                     bool hasText = !string.IsNullOrWhiteSpace(optionText);
                     optionAudioIcons[i].SetActive(hasText);
+                }
+
+                if (stage.options[i].audio != null)
+                {
+                    var audioSource = optionAudioIcons[i].GetComponent<AudioSource>();
+                    if (audioSource == null)
+                    {
+                        audioSource = optionAudioIcons[i].gameObject.AddComponent<AudioSource>();
+                    }
+                    audioSource.clip = stage.options[i].audio;
+
+                    // 移除舊的監聽器，避免重複添加
+                    var audioButton = optionAudioIcons[i].GetComponent<Button>();
+                    if (audioButton == null)
+                    {
+                        audioButton = optionAudioIcons[i].gameObject.AddComponent<Button>();
+                    }
+                    audioButton.onClick.RemoveAllListeners();
+                    audioButton.onClick.AddListener(() => audioSource.Play());
+                }
+                else
+                {
+                    var audioSource = optionAudioIcons[i].GetComponent<AudioSource>();
+                    audioSource.clip = null;
+                    optionAudioIcons[i].GetComponent<Button>().onClick.RemoveAllListeners();
                 }
 
                 optionButtons[i].onClick.RemoveAllListeners();
