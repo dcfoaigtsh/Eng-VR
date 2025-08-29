@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
-
+using System.Threading.Tasks;
 namespace OpenAI
 {
     public class ChatGPT : MonoBehaviour
@@ -9,7 +9,7 @@ namespace OpenAI
         [SerializeField] private InputField inputField;
         [SerializeField] private Button button;
         [SerializeField] private ScrollRect scroll;
-        
+
         [SerializeField] private RectTransform sent;
         [SerializeField] private RectTransform received;
 
@@ -18,10 +18,15 @@ namespace OpenAI
 
         private List<ChatMessage> messages = new List<ChatMessage>();
         private string prompt = "Act as a random stranger in a chat room and reply to the questions. Don't break character. Don't ever mention that you are an AI model.";
+        string replyText;
 
         private void Start()
         {
             button.onClick.AddListener(SendReply);
+        }
+        public void SetConfig(string key = null, string organization = null)
+        {
+            openai = new OpenAIApi(key, organization);
         }
 
         private void AppendMessage(ChatMessage message)
@@ -44,17 +49,17 @@ namespace OpenAI
                 Role = "user",
                 Content = inputField.text
             };
-            
+
             AppendMessage(newMessage);
 
-            if (messages.Count == 0) newMessage.Content = prompt + "\n" + inputField.text; 
-            
+            if (messages.Count == 0) newMessage.Content = prompt + "\n" + inputField.text;
+
             messages.Add(newMessage);
-            
+
             button.enabled = false;
             inputField.text = "";
             inputField.enabled = false;
-            
+
             // Complete the instruction
             var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
             {
@@ -66,7 +71,7 @@ namespace OpenAI
             {
                 var message = completionResponse.Choices[0].Message;
                 message.Content = message.Content.Trim();
-                
+
                 messages.Add(message);
                 AppendMessage(message);
             }
@@ -77,6 +82,53 @@ namespace OpenAI
 
             button.enabled = true;
             inputField.enabled = true;
+        }
+
+        public async Task<string> SendReply(string txt)
+        {
+            var newMessage = new ChatMessage()
+            {
+                Role = "user",
+                Content = txt
+            };
+
+            if (messages.Count == 0) newMessage.Content = prompt + "\n" + txt;
+
+            messages.Add(newMessage);
+
+            // Complete the instruction
+            var completionResponse = await openai.CreateChatCompletion(new CreateChatCompletionRequest()
+            {
+                Model = "gpt-4o-mini",
+                Messages = messages
+            });
+
+            if (completionResponse.Choices != null && completionResponse.Choices.Count > 0)
+            {
+                var message = completionResponse.Choices[0].Message;
+                message.Content = message.Content.Trim();
+
+                messages.Add(message);
+                return message.Content;
+            }
+            else
+            {
+                Debug.LogWarning("No text was generated from this prompt.");
+                return null;
+            }
+        }
+        public async Task MyFunc(string txt)
+        {
+            string result = await SendReply(txt);
+            Debug.Log(result);
+        }
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                string result = SendReply("Happy Happy Happy").Result;
+                Debug.Log(result);
+            }
         }
     }
 }
