@@ -3517,6 +3517,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: ba82c75e1821f6143804f3701edc6f7b, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 3f39c50868395524480ec794a9b54936, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
     englishWord: Coffee
     chineseWord: "\u5496\u5561"
@@ -3525,6 +3531,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: 8c02f5bce8c8d574494ad92a07b9062d, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 68202c1bdcd3d344b907847a87e579cd, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     englishWord: Juice
     chineseWord: "\u679C\u6C41"
@@ -3533,6 +3545,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: d0ed37134f6044f41b848dde329735d6, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 9054f6b0863e1bc4394caa0e4334adf0, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: a8c11dd57f82e624cb4c08c2df4a7d02, type: 3}
     englishWord: Tea
     chineseWord: "\u8336"
@@ -3541,6 +3559,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: 0bd37e1635905a749b0041a031347649, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: e560e0407219f8f4b91bf7ee5144b9a4, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
     englishWord: Hamburger
     chineseWord: "\u6F22\u5821"
@@ -3549,6 +3573,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: f5a255f50d0776b47aaf612b12223892, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 71a001fbfebd1c94bafbe9cbaec3dce8, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: 369c6d87ff168744d983f0f49fd3017e, type: 3}
     englishWord: Fries
     chineseWord: "\u85AF\u689D"
@@ -3557,6 +3587,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: 809f85570494bba4d96edd73d8d65825, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 045c28c96c8f83842a9762b7ecfa86fb, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: dace6f47744cc224c93866832ffcde51, type: 3}
     englishWord: Friedchicken
     chineseWord: "\u70B8\u96DE"
@@ -3565,6 +3601,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: 254352ad86524ab488d388c5783c3d51, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: 4ea1b5d7fe300e848a15123a899a0fd7, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: 41b82cc184aa38e41b59b265dd65f46f, type: 3}
     englishWord: Nugget
     chineseWord: "\u96DE\u584A"
@@ -3573,6 +3615,12 @@ MonoBehaviour:
     chineseSentence1: 
     chineseSentence2: 
     isSentenceMode: 0
+    englishWordAudio: {fileID: 8300000, guid: c8a2fec03af830b44bda9bab7a524f8f, type: 3}
+    chineseWordAudio: {fileID: 8300000, guid: d460439f2065d144f87b61f9d75b922f, type: 3}
+    englishSentence1Audio: {fileID: 0}
+    englishSentence2Audio: {fileID: 0}
+    chineseSentence1Audio: {fileID: 0}
+    chineseSentence2Audio: {fileID: 0}
   - image: {fileID: 21300000, guid: c083596c5f5f72d4ea78117b9a51a5b4, type: 3}
     englishWord: 
     chineseWord: 
@@ -3581,6 +3629,12 @@ MonoBehaviour:
     chineseSentence1: "\u4F60\u60F3\u8981\u5403\u751A\u9EBC?"
     chineseSentence2: "\u6211\u60F3\u8981\u5403\u9EB5"
     isSentenceMode: 1
+    englishWordAudio: {fileID: 0}
+    chineseWordAudio: {fileID: 0}
+    englishSentence1Audio: {fileID: 8300000, guid: 048d6dcd9f052d0418d6726f83ff0083, type: 3}
+    englishSentence2Audio: {fileID: 8300000, guid: a9968e16ff479d14eadb52cdb796fa47, type: 3}
+    chineseSentence1Audio: {fileID: 8300000, guid: ede7cedc2890f134cbced93c48f6535b, type: 3}
+    chineseSentence2Audio: {fileID: 8300000, guid: ab8b55561f043e744a2e8a0b66632a2e, type: 3}
   - image: {fileID: 21300000, guid: d73d17db1673f034abece39effc88a2f, type: 3}
     englishWord: 
     chineseWord: 
@@ -3589,6 +3643,12 @@ MonoBehaviour:
     chineseSentence1: "\u4ED6\u665A\u9910\u60F3\u8981\u5403\u751A\u9EBC?"
     chineseSentence2: "\u4ED6\u60F3\u8981\u5403\u6F22\u5821"
     isSentenceMode: 1
+    englishWordAudio: {fileID: 0}
+    chineseWordAudio: {fileID: 0}
+    englishSentence1Audio: {fileID: 8300000, guid: 166206a0f4ef3584db8f1702164984f0, type: 3}
+    englishSentence2Audio: {fileID: 8300000, guid: c3aefcc48338e7e4fa65ce36750a6766, type: 3}
+    chineseSentence1Audio: {fileID: 8300000, guid: bcfd8af763f6bb745a1de4b0a8dadd24, type: 3}
+    chineseSentence2Audio: {fileID: 8300000, guid: 1d182ebeb36c4e94fa7038248cdd595c, type: 3}
   - image: {fileID: 21300000, guid: f10ea5d9ac29eac4ba04d929de07a9c1, type: 3}
     englishWord: 
     chineseWord: 
@@ -3597,6 +3657,12 @@ MonoBehaviour:
     chineseSentence1: "\u5979\u60F3\u8981\u559D\u751A\u9EBC?"
     chineseSentence2: "\u4ED6\u60F3\u8981\u559D\u73CD\u73E0\u5976\u8336"
     isSentenceMode: 1
+    englishWordAudio: {fileID: 0}
+    chineseWordAudio: {fileID: 0}
+    englishSentence1Audio: {fileID: 8300000, guid: ecaf83f154b7695478c1a62f5e8e6339, type: 3}
+    englishSentence2Audio: {fileID: 8300000, guid: ba107b3c3dad5224593734dd956f55dd, type: 3}
+    chineseSentence1Audio: {fileID: 8300000, guid: 2cf5d75bf906ae5488dd9475d4078cb8, type: 3}
+    chineseSentence2Audio: {fileID: 8300000, guid: 44c01bc0ac510284383bcc83e90ae18a, type: 3}
   imageDisplay: {fileID: 409366346}
   wordEnglish: {fileID: 1111253971}
   wordChinese: {fileID: 2101203461}
@@ -3616,6 +3682,8 @@ MonoBehaviour:
   soundBtnEng2: {fileID: 196331905}
   soundBtnChi1: {fileID: 309763831}
   soundBtnChi2: {fileID: 1814473444}
+  soundButtons: []
+  audioSource: {fileID: 0}
 --- !u!114 &1576549389
 MonoBehaviour:
   m_ObjectHideFlags: 0
