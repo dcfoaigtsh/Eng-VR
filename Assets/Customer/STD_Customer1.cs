@@ -19,6 +19,7 @@ public class STD_SingleCustomer : MonoBehaviour
 
     private int currentStage = 0;
     private bool returningWithFood = false;
+    private bool firstAttemptPending = true; // ✅ 加入這個：控制每題只統計一次
 
     [System.Serializable]
     public class QAOption
@@ -42,12 +43,10 @@ public class STD_SingleCustomer : MonoBehaviour
     {
         if (returningWithFood)
         {
-            // 顧客回來交餐的情況
             ShowCurrentStage();
         }
         else
         {
-            // 初次出現，點餐階段
             currentStage = 0;
             ShowCurrentStage();
         }
@@ -55,6 +54,8 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        firstAttemptPending = true; // ✅ 每次進入新題目時，允許第一次作答計算
+
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
         if (currentStage >= currentList.Count)
@@ -110,6 +111,14 @@ public class STD_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
+        // ✅ 第一次作答才統計
+        if (firstAttemptPending && customerManager != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false;
+        }
+
         if (index == stage.correctIndex)
         {
             currentStage++;
@@ -118,7 +127,7 @@ public class STD_SingleCustomer : MonoBehaviour
         }
         else
         {
-            statementText.text = "Friend:mm... Try again!";
+            statementText.text = "Hmm... Try again!";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
         }
@@ -126,7 +135,7 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Friend:Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 
@@ -147,20 +156,18 @@ public class STD_SingleCustomer : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // ✅ 店員點餐結束後，從 STD_Gameflow 呼叫這個
     public void BeginFinalDialogue()
     {
         returningWithFood = true;
         currentStage = 0;
-        gameObject.SetActive(true); // 最後再打開顧客，避免提前觸發 OnEnable()
+        gameObject.SetActive(true);
 
         ShowCurrentStage();
     }
 
-    // ✅ 回來交餐完畢，通知 STD_Gameflow 換下一位顧客
     void ShowFinalThanks()
     {
-        statementText.text = "Friend:Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 

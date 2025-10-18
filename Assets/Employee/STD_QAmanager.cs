@@ -17,6 +17,9 @@ public class STD_QAmanager : MonoBehaviour
     public Transform nextCustomer;
     public UnityEngine.AI.NavMeshAgent agentForThisRoute;
 
+    // ✅ 新增：控制本題是否尚未回報「第一次作答」
+    private bool firstAttemptPending = true;
+
     [System.Serializable]
     public class QAOption
     {
@@ -42,6 +45,9 @@ public class STD_QAmanager : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        // ✅ 新增：每次顯示題目時，重置「等待第一次作答」
+        firstAttemptPending = true;
+
         if (currentStage >= stages.Count)
         {
             FinishQAFlow();
@@ -90,6 +96,14 @@ public class STD_QAmanager : MonoBehaviour
     {
         Stage stage = stages[currentStage];
 
+        // ✅ 新增：只在本題第一次作答時回報到 STD_Gameflow
+        if (firstAttemptPending && gameflow != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            gameflow.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false; // 鎖住：本題已回報過
+        }
+
         if (index == stage.correctIndex)
         {
             currentStage++;
@@ -107,7 +121,7 @@ public class STD_QAmanager : MonoBehaviour
         }
         else
         {
-            statementText.text = "Employee:Hmm... Try again";
+            statementText.text = "Clerk:Hmm... Try again";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
         }
@@ -115,7 +129,7 @@ public class STD_QAmanager : MonoBehaviour
 
     void FinishQAFlow()
     {
-        statementText.text = "Employee:You're welcome!";
+        statementText.text = "Clerk:You're welcome!";
         foreach (var btn in optionAdvancedButtons)
             btn.gameObject.SetActive(false);
 

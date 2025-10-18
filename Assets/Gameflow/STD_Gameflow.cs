@@ -13,6 +13,26 @@ public class STD_Gameflow : MonoBehaviour
     private int currentCustomerIndex = 0;
     private bool waitingForDelivery = false;
 
+    // 【新增統計變數與方法】！
+    public int totalQuestions = 0;       // 總題數（每題只算第一次作答）
+    public int correctFirstTry = 0;      // 第一次答對的題數
+
+    public void RegisterFirstAttempt(bool correct)
+    {
+        totalQuestions++;
+        if (correct) correctFirstTry++;
+        Debug.Log($"[STD統計] 回報作答：{(correct ? "✔" : "✘")}（正確/總題數 = {correctFirstTry}/{totalQuestions}）");
+
+    }
+
+    public float GetAccuracyPercent()
+    {
+        if (totalQuestions == 0) return 0f;
+        return (float)correctFirstTry / totalQuestions * 100f;
+    }
+    // 【到這裡結束】
+
+
     void Start()
     {
         if (customerList != null && customerList.Count > 0)
@@ -47,7 +67,7 @@ public class STD_Gameflow : MonoBehaviour
         waitingForDelivery = true;
         Debug.Log($"✅ 顧客 {currentCustomerIndex + 1} 完成點餐，準備交餐");
 
-        customerList[currentCustomerIndex].SetActive(true); // ✅ 確保顧客顯示
+        customerList[currentCustomerIndex].SetActive(true);
 
         var customer = customerList[currentCustomerIndex].GetComponent<STD_SingleCustomer>();
         if (customer != null)
@@ -78,6 +98,14 @@ public class STD_Gameflow : MonoBehaviour
 
     public void ShowGameOverManually()
     {
+        // ✅ 統計資料
+        float accuracyPercent = GetAccuracyPercent();
+        float timeSpent = Time.timeSinceLevelLoad;
+
+        PlayerPrefs.SetFloat("Accuracy", accuracyPercent);
+        PlayerPrefs.SetFloat("TimeSpent", timeSpent);
+        PlayerPrefs.Save();
+
         if (gameOverUI != null)
         {
             Debug.Log("顯示 Game Over 畫面");

@@ -9,22 +9,22 @@ public class MenuUI : MonoBehaviour
         if (modeIndex == 0)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  
         }
         else if (modeIndex == 1)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  
         }
         else if (modeIndex == 2)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  
         }
         else if (modeIndex == 3)
         {
             ModeManager.Instance.SetMode(modeIndex);
-            SceneManager.LoadScene("WordLearning");  // 改成你遊戲場景的名稱
+            SceneManager.LoadScene("WordLearning");  
         }
         else
         {

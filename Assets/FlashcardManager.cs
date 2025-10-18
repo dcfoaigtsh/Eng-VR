@@ -284,7 +284,7 @@ public class FlashcardManager : MonoBehaviour
                 SceneManager.LoadScene("SLDmode");
                 break;
             default:
-                Debug.LogWarning("⚠ 無法識別的學習模式");
+                Debug.LogWarning("無法識別的學習模式");
                 break;
         }
     }

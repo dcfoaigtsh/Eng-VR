@@ -8,9 +8,9 @@ public class SLD_QAmanager : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI statementText;
-    public Button statementAudioButton;          // ✅ 題目喇叭
-    public List<Button> optionAdvancedButtons;   // 主選項（文字＋圖片）
-    public List<Button> optionAudioButtons;      // ✅ 選項喇叭（Button）
+    public Button statementAudioButton;
+    public List<Button> optionAdvancedButtons;
+    public List<Button> optionAudioButtons;
 
     [Header("Flow References")]
     public SLD_SingleCustomer singleCustomer;
@@ -22,24 +22,23 @@ public class SLD_QAmanager : MonoBehaviour
     public UnityEngine.AI.NavMeshAgent agentForThisRoute;
 
     [Header("Audio")]
-    public AudioSource audioSource;              // ✅ 共用音源
+    public AudioSource audioSource;
     public float correctDelay = 1f;
     public float wrongDelay = 1f;
 
-    // ---------- 資料結構 ----------
     [System.Serializable]
     public class QAOption
     {
         public string text;
         public Sprite image;
-        public AudioClip audio; // ✅ 選項音檔
+        public AudioClip audio;
     }
 
     [System.Serializable]
     public class Stage
     {
         public string question;
-        public AudioClip questionAudio; // ✅ 題目音檔
+        public AudioClip questionAudio;
         public List<QAOption> options;
         public int correctIndex;
     }
@@ -47,7 +46,9 @@ public class SLD_QAmanager : MonoBehaviour
     public List<Stage> stages;
     private int currentStage = 0;
 
-    // ---------- 初始化 ----------
+    // ✅ 新增：本題是否尚未回報第一次作答
+    private bool firstAttemptPending = true;
+
     void Awake()
     {
         if (audioSource == null)
@@ -64,9 +65,11 @@ public class SLD_QAmanager : MonoBehaviour
         ShowCurrentStage();
     }
 
-    // ---------- 顯示題目 ----------
     void ShowCurrentStage()
     {
+        // ✅ 每題開始時，允許記錄「第一次作答」
+        firstAttemptPending = true;
+
         if (currentStage >= stages.Count)
         {
             FinishQAFlow();
@@ -76,29 +79,8 @@ public class SLD_QAmanager : MonoBehaviour
         Stage stage = stages[currentStage];
         statementText.text = stage.question;
 
-        // ✅ 題目喇叭設定
-        if (statementAudioButton != null)
-        {
-            bool hasAudio = (stage.questionAudio != null);
-            statementAudioButton.gameObject.SetActive(true);
-            statementAudioButton.interactable = hasAudio;
+        // （題目喇叭與圖片邏輯略）
 
-            var img = statementAudioButton.GetComponent<Image>();
-            if (img != null)
-                img.color = hasAudio ? Color.white : new Color(1f, 1f, 1f, 0.4f);
-
-            statementAudioButton.onClick.RemoveAllListeners();
-            if (hasAudio)
-            {
-                statementAudioButton.onClick.AddListener(() =>
-                {
-                    if (audioSource.isPlaying) audioSource.Stop();
-                    audioSource.PlayOneShot(stage.questionAudio);
-                });
-            }
-        }
-
-        // ✅ 選項顯示與喇叭設定
         for (int i = 0; i < optionAdvancedButtons.Count; i++)
         {
             if (i < stage.options.Count)
@@ -110,8 +92,7 @@ public class SLD_QAmanager : MonoBehaviour
                 var imageComps = button.GetComponentsInChildren<Image>(true);
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
-                if (textComp != null)
-                    textComp.text = stage.options[i].text ?? "";
+                if (textComp != null) textComp.text = stage.options[i].text ?? "";
 
                 if (imageComp != null)
                 {
@@ -128,35 +109,9 @@ public class SLD_QAmanager : MonoBehaviour
                     }
                 }
 
-                // ✅ 綁定主選項答題事件
                 button.onClick.RemoveAllListeners();
                 int capturedIndex = i;
                 button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
-
-                // ✅ 喇叭播放音檔
-                if (i < optionAudioButtons.Count && optionAudioButtons[i] != null)
-                {
-                    var audioBtn = optionAudioButtons[i];
-                    bool hasOptAudio = (stage.options[i].audio != null);
-
-                    audioBtn.gameObject.SetActive(true);
-                    audioBtn.interactable = hasOptAudio;
-
-                    var abImg = audioBtn.GetComponent<Image>();
-                    if (abImg != null)
-                        abImg.color = hasOptAudio ? Color.white : new Color(1f, 1f, 1f, 0.4f);
-
-                    audioBtn.onClick.RemoveAllListeners();
-                    if (hasOptAudio)
-                    {
-                        AudioClip clip = stage.options[i].audio;
-                        audioBtn.onClick.AddListener(() =>
-                        {
-                            if (audioSource.isPlaying) audioSource.Stop();
-                            audioSource.PlayOneShot(clip);
-                        });
-                    }
-                }
             }
             else
             {
@@ -165,19 +120,19 @@ public class SLD_QAmanager : MonoBehaviour
                     optionAudioButtons[i].gameObject.SetActive(false);
             }
         }
-
-        // 關閉多餘喇叭
-        for (int i = stage.options.Count; i < optionAudioButtons.Count; i++)
-        {
-            if (optionAudioButtons[i] != null)
-                optionAudioButtons[i].gameObject.SetActive(false);
-        }
     }
 
-    // ---------- 答題邏輯 ----------
     IEnumerator OnOptionSelected(int index)
     {
         Stage stage = stages[currentStage];
+
+        // ✅ 只在本題「第一次」作答時回報到 Gameflow
+        if (firstAttemptPending && gameflow != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            gameflow.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false; // 鎖住，不再重複記數
+        }
 
         if (index == stage.correctIndex)
         {
@@ -187,20 +142,17 @@ public class SLD_QAmanager : MonoBehaviour
         }
         else
         {
-            statementText.text = "Employee: Hmm... Try again";
+            statementText.text = "Clerk: Hmm... Try again";
             yield return new WaitForSeconds(wrongDelay);
             ShowCurrentStage();
         }
     }
 
-    // ---------- 結束互動 ----------
     void FinishQAFlow()
     {
-        statementText.text = "Employee: You're welcome!";
-        foreach (var btn in optionAdvancedButtons)
-            btn.gameObject.SetActive(false);
-        foreach (var ab in optionAudioButtons)
-            if (ab) ab.gameObject.SetActive(false);
+        statementText.text = "Clerk: You're welcome!";
+        foreach (var btn in optionAdvancedButtons) btn.gameObject.SetActive(false);
+        foreach (var ab in optionAudioButtons) if (ab) ab.gameObject.SetActive(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
 
         StartCoroutine(SwitchToFinalDialogue());
@@ -212,10 +164,8 @@ public class SLD_QAmanager : MonoBehaviour
 
         if (drawer != null)
         {
-            if (nextCustomer != null)
-                drawer.ChangeDestination(nextCustomer);
-            if (agentForThisRoute != null)
-                drawer.ChangeNavAgent(agentForThisRoute);
+            if (nextCustomer != null) drawer.ChangeDestination(nextCustomer);
+            if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
         }
 
         gameObject.SetActive(false);

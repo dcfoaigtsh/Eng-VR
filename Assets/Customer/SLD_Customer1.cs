@@ -9,9 +9,9 @@ public class SLD_SingleCustomer : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI statementText;
-    public Button statementAudioButton;          // ✅ 題目喇叭
-    public List<Button> optionButtons;           // 選項按鈕（圖+字）
-    public List<Button> optionAudioButtons;      // 對應的喇叭按鈕（同索引）
+    public Button statementAudioButton;
+    public List<Button> optionButtons;
+    public List<Button> optionAudioButtons;
 
     [Header("Flow Hooks")]
     public SLD_Gameflow customerManager;
@@ -23,27 +23,27 @@ public class SLD_SingleCustomer : MonoBehaviour
     public NavMeshAgent agentForThisRoute;
 
     [Header("Audio")]
-    public AudioSource audioSource;              // 共用音源（建議在 Inspector 指定）
+    public AudioSource audioSource;
     public float wrongHintDelay = 1f;
     public float stageAdvanceDelay = 0.5f;
 
     private int currentStage = 0;
     private bool returningWithFood = false;
+    private bool firstAttemptPending = true; // ✅ 加入這個旗標！
 
-    // ====== Data Types ======
     [System.Serializable]
     public class QAOption
     {
         public string text;
         public Sprite image;
-        public AudioClip audio; // 每個選項各自的音檔
+        public AudioClip audio;
     }
 
     [System.Serializable]
     public class Stage
     {
         public string question;
-        public AudioClip questionAudio;          // ✅ 題目音檔（可選）
+        public AudioClip questionAudio;
         public List<QAOption> options;
         public int correctIndex;
     }
@@ -52,10 +52,8 @@ public class SLD_SingleCustomer : MonoBehaviour
     public List<Stage> stages;
     public List<Stage> returnDialogueStages;
 
-    // ====== Unity Lifecycle ======
     void Awake()
     {
-        // 若沒指定 audioSource，動態建立一個
         if (audioSource == null)
         {
             var go = new GameObject("SLD_OptionAudioSource");
@@ -78,11 +76,11 @@ public class SLD_SingleCustomer : MonoBehaviour
         if (audioSource != null) audioSource.Stop();
     }
 
-    // ====== UI & Logic ======
     void ShowCurrentStage()
     {
-        List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
+        firstAttemptPending = true; // ✅ 每題開始時重設旗標！
 
+        List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         if (currentStage >= currentList.Count)
         {
             if (!returningWithFood) FinishInteraction();
@@ -93,13 +91,12 @@ public class SLD_SingleCustomer : MonoBehaviour
         Stage stage = currentList[currentStage];
         statementText.text = stage.question;
 
-        // 題目喇叭：有音檔才顯示並可播放
         if (statementAudioButton != null)
         {
             bool hasQAudio = (stage.questionAudio != null);
-            
             statementAudioButton.gameObject.SetActive(true);
             statementAudioButton.onClick.RemoveAllListeners();
+
             if (hasQAudio)
             {
                 statementAudioButton.onClick.AddListener(() =>
@@ -110,7 +107,6 @@ public class SLD_SingleCustomer : MonoBehaviour
             }
         }
 
-        // 防呆：兩個 List 長度不同時，以較小者為準
         for (int i = 0; i < optionButtons.Count; i++)
         {
             bool show = (i < stage.options.Count);
@@ -119,31 +115,24 @@ public class SLD_SingleCustomer : MonoBehaviour
             if (!show) continue;
 
             var opt = stage.options[i];
-
-            // 設定文字與圖片
-            var textComp  = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>(true);
+            var textComp = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>(true);
             var imageComp = optionButtons[i].GetComponentInChildren<Image>(true);
 
-            if (textComp != null)  textComp.text = opt.text ?? "";
+            if (textComp != null) textComp.text = opt.text ?? "";
             if (imageComp != null)
             {
                 if (opt.image != null)
                 {
-                    imageComp.sprite  = opt.image;
+                    imageComp.sprite = opt.image;
                     imageComp.enabled = true;
                 }
-                else
-                {
-                    imageComp.enabled = false;
-                }
+                else imageComp.enabled = false;
             }
 
-            // 綁定主按鈕事件
             optionButtons[i].onClick.RemoveAllListeners();
-            int captured = i; // 避免閉包
+            int captured = i;
             optionButtons[i].onClick.AddListener(() => StartCoroutine(OnOptionSelected(captured)));
 
-            // 選項喇叭：有音檔才可按，沒有就隱藏（或想顯示但不可按，把下面兩行改成 SetActive(true)/interactable=false）
             if (i < optionAudioButtons.Count)
             {
                 bool hasAudio = (opt.audio != null);
@@ -162,7 +151,6 @@ public class SLD_SingleCustomer : MonoBehaviour
             }
         }
 
-        // 隱藏多餘的喇叭按鈕（若 stage.options 比 UI 少）
         for (int i = stage.options.Count; i < optionAudioButtons.Count; i++)
         {
             optionAudioButtons[i].gameObject.SetActive(false);
@@ -174,6 +162,14 @@ public class SLD_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
+        // ✅ 第一次作答才記錄
+        if (firstAttemptPending && customerManager != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false;
+        }
+
         if (index == stage.correctIndex)
         {
             currentStage++;
@@ -182,7 +178,7 @@ public class SLD_SingleCustomer : MonoBehaviour
         }
         else
         {
-            statementText.text = "Friend: Hmm... Try again!";
+            statementText.text = "Hmm... Try again!";
             yield return new WaitForSeconds(wrongHintDelay);
             ShowCurrentStage();
         }
@@ -190,7 +186,7 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         ToggleAllOptions(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
 
@@ -219,7 +215,7 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     void ShowFinalThanks()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         ToggleAllOptions(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
 

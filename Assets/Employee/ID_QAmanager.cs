@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// 管理 ID 模式下的問答流程
 public class ID_QAmanager : MonoBehaviour
 {
-    public TextMeshProUGUI statementText; // 顯示問題文字的 UI 元件
-    public List<Button> optionAdvancedButtons; // 使用新版按鈕（含圖片）
+    public TextMeshProUGUI statementText;
+    public List<Button> optionAdvancedButtons;
 
-    public ID_SingleCustomer singleCustomer; // 通知顧客流程
+    public ID_SingleCustomer singleCustomer;
+
     [Header("Path Management")]
-    public DestinationLineDrawer drawer;         // 路線繪製
-    public Transform nextCustomer;               // 下一位顧客的目的地
-    public UnityEngine.AI.NavMeshAgent agentForThisRoute; // 導航代理
+    public DestinationLineDrawer drawer;
+    public Transform nextCustomer;
+    public UnityEngine.AI.NavMeshAgent agentForThisRoute;
 
     [System.Serializable]
     public class QAOption
@@ -34,15 +34,17 @@ public class ID_QAmanager : MonoBehaviour
     public List<Stage> stages;
 
     private int currentStage = 0;
+    private bool firstAttemptPending = true; // ✅ 控制每題是否記錄第一次作答
 
     void Start()
     {
         ShowCurrentStage();
     }
 
-    // 顯示目前的題目與選項
     void ShowCurrentStage()
     {
+        firstAttemptPending = true; // ✅ 顯示新題目時重設
+
         if (currentStage >= stages.Count)
         {
             FinishQAFlow();
@@ -87,24 +89,30 @@ public class ID_QAmanager : MonoBehaviour
         }
     }
 
-    // 回答選項時的處理
     IEnumerator OnOptionSelected(int index)
     {
         Stage stage = stages[currentStage];
+
+        // ✅ 第一次作答才記錄
+        if (firstAttemptPending)
+        {
+            bool isCorrect = (index == stage.correctIndex);
+            FindObjectOfType<ID_Gameflow>()?.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
         if (index == stage.correctIndex)
         {
             currentStage++;
             yield return new WaitForSeconds(1f);
 
-            // ✅ 判斷是否已經完成所有題目
             if (currentStage >= stages.Count)
             {
-                FinishQAFlow(); // 顯示結束文字、開啟顧客
+                FinishQAFlow();
             }
             else
             {
-                ShowCurrentStage(); // 還有題目，繼續顯示
+                ShowCurrentStage();
             }
         }
         else
@@ -115,7 +123,6 @@ public class ID_QAmanager : MonoBehaviour
         }
     }
 
-    // 所有題目完成時
     void FinishQAFlow()
     {
         statementText.text = "You're welcome!";
@@ -136,7 +143,7 @@ public class ID_QAmanager : MonoBehaviour
             if (agentForThisRoute != null)
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
-        
+
         FindObjectOfType<ID_Gameflow>()?.OnOrderFinished();
         gameObject.SetActive(false);
 

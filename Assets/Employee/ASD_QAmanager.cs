@@ -7,14 +7,18 @@ using TMPro;
 // 管理 ASD 模式下的問答流程
 public class ASD_QAmanager : MonoBehaviour
 {
-    public TextMeshProUGUI statementText; // 顯示問題文字的 UI 元件
-    public List<Button> optionAdvancedButtons; // 使用新版按鈕（含圖片）
+    public TextMeshProUGUI statementText;
+    public List<Button> optionAdvancedButtons;
 
-    public ASD_SingleCustomer singleCustomer; // 通知顧客流程
+    public ASD_SingleCustomer singleCustomer;
+
     [Header("Path Management")]
-    public DestinationLineDrawer drawer;         // 路線繪製
-    public Transform nextCustomer;               // 下一位顧客的目的地
-    public UnityEngine.AI.NavMeshAgent agentForThisRoute; // 導航代理
+    public DestinationLineDrawer drawer;
+    public Transform nextCustomer;
+    public UnityEngine.AI.NavMeshAgent agentForThisRoute;
+
+    // ✅ 新增：控制是否第一次作答
+    private bool firstAttemptPending = true;
 
     [System.Serializable]
     public class QAOption
@@ -40,9 +44,10 @@ public class ASD_QAmanager : MonoBehaviour
         ShowCurrentStage();
     }
 
-    // 顯示目前的題目與選項
     void ShowCurrentStage()
     {
+        firstAttemptPending = true; // ✅ 每題開始時重設 pending 狀態
+
         if (currentStage >= stages.Count)
         {
             FinishQAFlow();
@@ -87,10 +92,17 @@ public class ASD_QAmanager : MonoBehaviour
         }
     }
 
-    // 回答選項時的處理
     IEnumerator OnOptionSelected(int index)
     {
         Stage stage = stages[currentStage];
+
+        // ✅ 第一次作答才回報到 ASD_Gameflow
+        if (firstAttemptPending && singleCustomer != null && singleCustomer.customerManager != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            singleCustomer.customerManager.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false;
+        }
 
         if (index == stage.correctIndex)
         {
@@ -106,7 +118,6 @@ public class ASD_QAmanager : MonoBehaviour
         }
     }
 
-    // 所有題目完成時
     void FinishQAFlow()
     {
         statementText.text = "You're welcome!";

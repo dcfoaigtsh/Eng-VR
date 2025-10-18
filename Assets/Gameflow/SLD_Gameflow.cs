@@ -13,8 +13,18 @@ public class SLD_Gameflow : MonoBehaviour
     private int currentCustomerIndex = 0;
     private bool waitingForDelivery = false;
 
+    // ✅ 答題統計
+    private int totalQuestions = 0;
+    private int correctAnswers = 0;
+
+    // ✅ 計時器
+    private float startTime;
+    private float endTime;
+
     void Start()
     {
+        startTime = Time.time; // ✅ 開始計時
+
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
@@ -36,6 +46,15 @@ public class SLD_Gameflow : MonoBehaviour
         waitingForDelivery = false;
     }
 
+    // ✅ 給 QA Manager 回報每題結果（僅第一次作答）
+    public void RegisterFirstAttempt(bool isCorrect)
+    {
+        totalQuestions++;
+        if (isCorrect) correctAnswers++;
+
+        Debug.Log($"📊 記錄作答結果：目前 {correctAnswers}/{totalQuestions}");
+    }
+
     public void NextCustomer()
     {
         if (waitingForDelivery || currentCustomerIndex >= customerList.Count)
@@ -47,7 +66,7 @@ public class SLD_Gameflow : MonoBehaviour
         waitingForDelivery = true;
         Debug.Log($"✅ 顧客 {currentCustomerIndex + 1} 完成點餐，準備交餐");
 
-        customerList[currentCustomerIndex].SetActive(true); // ✅ 確保顧客顯示
+        customerList[currentCustomerIndex].SetActive(true);
 
         var customer = customerList[currentCustomerIndex].GetComponent<SLD_SingleCustomer>();
         if (customer != null)
@@ -56,7 +75,7 @@ public class SLD_Gameflow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("⚠ 無法取得 STD_SingleCustomer 元件");
+            Debug.LogWarning("⚠ 無法取得 SLD_SingleCustomer 元件");
         }
     }
 
@@ -78,10 +97,25 @@ public class SLD_Gameflow : MonoBehaviour
 
     public void ShowGameOverManually()
     {
+        // ✅ 統計資料
+        float accuracyPercent = GetAccuracyPercent();
+        float timeSpent = Time.timeSinceLevelLoad;
+
+        PlayerPrefs.SetFloat("Accuracy", accuracyPercent);
+        PlayerPrefs.SetFloat("TimeSpent", timeSpent);
+        PlayerPrefs.Save();
+
         if (gameOverUI != null)
         {
             Debug.Log("顯示 Game Over 畫面");
             gameOverUI.ShowGameOver();
         }
+    }
+
+    // ✅ 計算正確率（百分比）
+    private float GetAccuracyPercent()
+    {
+        if (totalQuestions == 0) return 100f;
+        return ((float)correctAnswers / totalQuestions) * 100f;
     }
 }

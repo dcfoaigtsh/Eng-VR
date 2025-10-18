@@ -18,8 +18,8 @@ public class GameOverManager : MonoBehaviour
         currentMode = ModeManager.Instance.currentMode;
 
         // 顯示分數資料（從 PlayerPrefs 讀取）
-        float acc = PlayerPrefs.GetFloat("Accuracy", 100f);
-        float time = PlayerPrefs.GetFloat("TimeSpent", 320f);
+        float acc = PlayerPrefs.GetFloat("Accuracy", 0f);
+        float time = PlayerPrefs.GetFloat("TimeSpent", 0f);
 
         SetResults(acc, time);
     }

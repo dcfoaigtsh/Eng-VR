@@ -12,14 +12,18 @@ public class ID_Gameflow : MonoBehaviour
     private bool hasCompleted = false;
 
     [Header("進度條控制")]
-    public IDProgressBar progressBar;  // 進度條控制元件
+    public IDProgressBar progressBar;
+
+    // ✅ 統計欄位
+    public int totalQuestions = 0;
+    public int correctFirstTry = 0;
 
     void Start()
     {
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
-            progressBar?.SetProgress(0);  // 🎯 進入遊戲階段（初始）
+            progressBar?.SetProgress(0);
         }
         else
         {
@@ -27,7 +31,6 @@ public class ID_Gameflow : MonoBehaviour
         }
     }
 
-    // 顧客出現
     void ActivateCustomer(int index)
     {
         for (int i = 0; i < customerList.Count; i++)
@@ -38,14 +41,27 @@ public class ID_Gameflow : MonoBehaviour
         Debug.Log("顧客 1 出現！");
     }
 
-    // 👉 QAManager 在玩家與顧客對話完呼叫
+    // ✅ 提供 QA manager 呼叫：回報第一次作答結果
+    public void RegisterFirstAttempt(bool correct)
+    {
+        totalQuestions++;
+        if (correct) correctFirstTry++;
+        Debug.Log($"[ID統計] 第一次作答：{(correct ? "✔" : "✘")}，目前 {correctFirstTry}/{totalQuestions}");
+    }
+
+    // ✅ 提供 GameOver 顯示用
+    public float GetAccuracyPercent()
+    {
+        if (totalQuestions == 0) return 0f;
+        return (float)correctFirstTry / totalQuestions * 100f;
+    }
+
     public void OnDialogueWithCustomerFinished()
     {
         Debug.Log("🗨 與顧客對話結束，進入點餐階段");
-        progressBar?.SetProgress(1); // 🎯 第二階段：顧客對話完成
+        progressBar?.SetProgress(1);
     }
 
-    // 👉 QAManager 在玩家點餐完成後呼叫
     public void OnOrderFinished()
     {
         if (hasCompleted) return;
@@ -58,16 +74,24 @@ public class ID_Gameflow : MonoBehaviour
         if (customer != null)
             customer.BeginFinalDialogue();
 
-        progressBar?.SetProgress(2); // 🎯 第三階段：完成點餐
+        progressBar?.SetProgress(2);
     }
 
     public void ShowGameOverManually()
     {
+        // ✅ 寫入 PlayerPrefs
+        float accuracyPercent = GetAccuracyPercent();
+        float timeSpent = Time.timeSinceLevelLoad;
+
+        PlayerPrefs.SetFloat("Accuracy", accuracyPercent);
+        PlayerPrefs.SetFloat("TimeSpent", timeSpent);
+        PlayerPrefs.Save();
+
         if (gameOverUI != null)
         {
             Debug.Log("🎉 顯示結束畫面！");
             gameOverUI.ShowGameOver();
-            progressBar?.SetProgress(3); // 🎯 最終階段：顯示 GameOver
+            progressBar?.SetProgress(3);
         }
     }
 }

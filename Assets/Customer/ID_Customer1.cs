@@ -21,6 +21,7 @@ public class ID_SingleCustomer : MonoBehaviour
 
     private int currentStage = 0;
     private bool returningWithFood = false;
+    private bool firstAttemptPending = true; // ✅ 新增：控制是否第一次作答
 
     [System.Serializable]
     public class QAOption
@@ -48,6 +49,8 @@ public class ID_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        firstAttemptPending = true; // ✅ 每題顯示時重設（等待第一次作答）
+
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
         if (currentStage >= currentList.Count)
@@ -103,6 +106,14 @@ public class ID_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
+        // ✅ 第一次作答才統計（只記一次）
+        if (firstAttemptPending && customerManager != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false;
+        }
+
         if (index == stage.correctIndex)
         {
             currentStage++;
@@ -119,7 +130,7 @@ public class ID_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 
@@ -130,6 +141,7 @@ public class ID_SingleCustomer : MonoBehaviour
             if (agentForThisRoute != null)
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
+
         if (customerManager != null)
             customerManager.OnDialogueWithCustomerFinished();
 
@@ -147,7 +159,6 @@ public class ID_SingleCustomer : MonoBehaviour
             employeePanel.SetActive(true);
     }
 
-    // ✅ 店員點餐結束後，從 Gameflow 呼叫這個
     public void BeginFinalDialogue()
     {
         returningWithFood = true;
@@ -156,10 +167,9 @@ public class ID_SingleCustomer : MonoBehaviour
         ShowCurrentStage();
     }
 
-    // ✅ 回來交餐完畢，顯示勾勾與結束畫面
     void ShowFinalThanks()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 

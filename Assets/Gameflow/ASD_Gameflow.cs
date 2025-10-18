@@ -11,6 +11,10 @@ public class ASD_Gameflow : MonoBehaviour
     public ASD_GameOverUI gameOverUI;      // 拖入 Game Over 面板腳本
     private bool hasCompleted = false;
 
+    // ✅ 統計變數
+    public int totalQuestions = 0;
+    public int correctFirstTry = 0;
+
     void Start()
     {
         if (customerList != null && customerList.Count > 0)
@@ -23,6 +27,21 @@ public class ASD_Gameflow : MonoBehaviour
         }
     }
 
+    // ✅ 回報第一次作答結果（答對 true / 答錯 false）
+    public void RegisterFirstAttempt(bool correct)
+    {
+        totalQuestions++;
+        if (correct) correctFirstTry++;
+        Debug.Log($"[ASD統計] 第一次作答：{(correct ? "✔" : "✘")}，目前 {correctFirstTry}/{totalQuestions}");
+    }
+
+    // ✅ 回傳目前正確率（百分比）
+    public float GetAccuracyPercent()
+    {
+        if (totalQuestions == 0) return 0f;
+        return (float)correctFirstTry / totalQuestions * 100f;
+    }
+
     // 啟用顧客1（其實只有一位）
     void ActivateCustomer(int index)
     {
@@ -32,7 +51,6 @@ public class ASD_Gameflow : MonoBehaviour
         }
 
         Debug.Log("顧客 1 出現！");
-        
     }
 
     // 提供給 QA Manager 呼叫：完成點餐後執行
@@ -48,16 +66,22 @@ public class ASD_Gameflow : MonoBehaviour
         var customer = customerList[0].GetComponent<ASD_SingleCustomer>();
         if (customer != null)
             customer.BeginFinalDialogue(); // ✅ 新增的 public 方法
-
-        // ✅ 不顯示結束畫面，等到顧客結束對話才叫 ShowGameOver
     }
 
     public void ShowGameOverManually()
-{
-    if (gameOverUI != null)
     {
-        Debug.Log("🎉 顯示結束畫面！");
-        gameOverUI.ShowGameOver();
+        // ✅ 結算統計資料寫入 PlayerPrefs
+        float accuracyPercent = GetAccuracyPercent();
+        float timeSpent = Time.timeSinceLevelLoad;
+
+        PlayerPrefs.SetFloat("Accuracy", accuracyPercent);
+        PlayerPrefs.SetFloat("TimeSpent", timeSpent);
+        PlayerPrefs.Save();
+
+        if (gameOverUI != null)
+        {
+            Debug.Log("🎉 顯示結束畫面！");
+            gameOverUI.ShowGameOver();
+        }
     }
-}
 }

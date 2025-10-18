@@ -20,6 +20,7 @@ public class ASD_SingleCustomer : MonoBehaviour
 
     private int currentStage = 0;
     private bool returningWithFood = false;
+    private bool firstAttemptPending = true; // ✅ 新增：控制第一次作答
 
     [System.Serializable]
     public class QAOption
@@ -47,6 +48,8 @@ public class ASD_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        firstAttemptPending = true; // ✅ 每題開始前重設為等待第一次作答
+
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
         if (currentStage >= currentList.Count)
@@ -102,6 +105,14 @@ public class ASD_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
+        // ✅ 第一次作答才統計
+        if (firstAttemptPending && customerManager != null)
+        {
+            bool isCorrectFirstTry = (index == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
+            firstAttemptPending = false;
+        }
+
         if (index == stage.correctIndex)
         {
             currentStage++;
@@ -118,7 +129,7 @@ public class ASD_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 
@@ -146,14 +157,13 @@ public class ASD_SingleCustomer : MonoBehaviour
     {
         returningWithFood = true;
         currentStage = 0;
-        // gameObject.SetActive(true);
         ShowCurrentStage();
     }
 
     // ✅ 回來交餐完畢，顯示勾勾與結束畫面
     void ShowFinalThanks()
     {
-        statementText.text = "Friend: Thank you!";
+        statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
 

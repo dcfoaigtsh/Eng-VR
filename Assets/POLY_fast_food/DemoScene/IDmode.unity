@@ -984,7 +984,7 @@ MonoBehaviour:
     - text: Hi, how are you
       image: {fileID: 0}
     correctIndex: 0
-  - question: "Fred: I'\u2019m hungry"
+  - question: 'Fred: I''m hungry'
     options:
     - text: What do you want for dinner?
       image: {fileID: 0}
@@ -995,11 +995,12 @@ MonoBehaviour:
     options:
     - text: 
       image: {fileID: 21300000, guid: 78ff92de25939be4a86e60d96156d93b, type: 3}
+    correctIndex: 0
+  - question: Fred:I want a hamburger and juice
+    options:
     - text: 
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
-    - text: Ok !
-      image: {fileID: 0}
-    correctIndex: 2
+    correctIndex: 0
   returnDialogueStages:
   - question: 'Fred: Hi, did you receive my order? '
     options:
@@ -3412,6 +3413,8 @@ MonoBehaviour:
   - {fileID: 755819271}
   gameOverUI: {fileID: 1568885691}
   progressBar: {fileID: 2106520277}
+  totalQuestions: 0
+  correctFirstTry: 0
 --- !u!1001 &122241833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32672,6 +32675,13 @@ MonoBehaviour:
       image: {fileID: 21300000, guid: 2cd8384057d59814296a551242d7ac74, type: 3}
     - text: Coffee
       image: {fileID: 21300000, guid: f5f56cdd9f35f1441b715ee58f6cc327, type: 3}
+    correctIndex: 0
+  - question: 'Clerk: Anything else?'
+    options:
+    - text: That's all I need
+      image: {fileID: 0}
+    - text: I don't know
+      image: {fileID: 0}
     correctIndex: 0
   - question: 'Clerk: Have a nice day!'
     options:
