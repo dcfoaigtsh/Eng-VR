@@ -7,8 +7,11 @@ using UnityEngine.AI;
 
 public class STD_SingleCustomer : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
+
+    [Header("Flow")]
     public STD_Gameflow customerManager;
     public GameObject completeIcon;
 
@@ -17,9 +20,17 @@ public class STD_SingleCustomer : MonoBehaviour
     public Transform employee1;
     public NavMeshAgent agentForThisRoute;
 
+    [Header("Randomization")]
+    [Tooltip("若 >= 0，使用固定亂數種子以重現相同洗牌結果。")]
+    public int randomSeed = -1;
+
     private int currentStage = 0;
     private bool returningWithFood = false;
-    private bool firstAttemptPending = true; // ✅ 加入這個：控制每題只統計一次
+    private bool firstAttemptPending = true;
+
+    // ✅ 避免重複洗牌
+    private bool optionsShuffled = false;
+    private bool returnOptionsShuffled = false;
 
     [System.Serializable]
     public class QAOption
@@ -36,38 +47,56 @@ public class STD_SingleCustomer : MonoBehaviour
         public int correctIndex;
     }
 
-    public List<Stage> stages;               // 點餐前對話
+    [Header("Dialogue Data")]
+    public List<Stage> stages;               // 初次點餐對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
     void OnEnable()
     {
-        if (returningWithFood)
+        if (randomSeed >= 0) Random.InitState(randomSeed);
+
+        if (!returningWithFood)
         {
+            if (!optionsShuffled)
+            {
+                ShuffleOptionsInEachStage(stages);
+                optionsShuffled = true;
+            }
+            currentStage = 0;
             ShowCurrentStage();
         }
         else
         {
-            currentStage = 0;
+            if (!returnOptionsShuffled)
+            {
+                ShuffleOptionsInEachStage(returnDialogueStages);
+                returnOptionsShuffled = true;
+            }
             ShowCurrentStage();
         }
     }
 
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // ✅ 每次進入新題目時，允許第一次作答計算
+        firstAttemptPending = true;
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
+
+        if (currentList == null || currentList.Count == 0)
+        {
+            if (!returningWithFood)
+                FinishInteraction();
+            else
+                ShowFinalThanks();
+            return;
+        }
 
         if (currentStage >= currentList.Count)
         {
             if (!returningWithFood)
-            {
                 FinishInteraction();
-            }
             else
-            {
                 ShowFinalThanks();
-            }
             return;
         }
 
@@ -78,16 +107,18 @@ public class STD_SingleCustomer : MonoBehaviour
         {
             if (i < stage.options.Count)
             {
-                optionButtons[i].gameObject.SetActive(true);
+                var button = optionButtons[i];
+                button.gameObject.SetActive(true);
 
-                var textComp = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-                var imageComp = optionButtons[i].GetComponentInChildren<Image>();
+                var textComp = button.GetComponentInChildren<TextMeshProUGUI>();
+                var imageComp = button.GetComponentInChildren<Image>();
 
-                textComp.text = stage.options[i].text;
+                var opt = stage.options[i];
+                textComp.text = opt.text ?? "";
 
-                if (stage.options[i].image != null)
+                if (opt.image != null)
                 {
-                    imageComp.sprite = stage.options[i].image;
+                    imageComp.sprite = opt.image;
                     imageComp.enabled = true;
                 }
                 else
@@ -95,9 +126,9 @@ public class STD_SingleCustomer : MonoBehaviour
                     imageComp.enabled = false;
                 }
 
-                optionButtons[i].onClick.RemoveAllListeners();
+                button.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                optionButtons[i].onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
             }
             else
             {
@@ -111,7 +142,7 @@ public class STD_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
-        // ✅ 第一次作答才統計
+        // ✅ 第一次作答才記錄
         if (firstAttemptPending && customerManager != null)
         {
             bool isCorrectFirstTry = (index == stage.correctIndex);
@@ -161,7 +192,6 @@ public class STD_SingleCustomer : MonoBehaviour
         returningWithFood = true;
         currentStage = 0;
         gameObject.SetActive(true);
-
         ShowCurrentStage();
     }
 
@@ -175,5 +205,38 @@ public class STD_SingleCustomer : MonoBehaviour
             completeIcon.SetActive(true);
         if (customerManager != null)
             customerManager.ProceedToNextCustomer();
+    }
+
+    // ===================== ✅ 核心：隨機打亂每題選項 =====================
+    private void ShuffleOptionsInEachStage(List<Stage> list)
+    {
+        if (list == null || list.Count == 0) return;
+
+        foreach (Stage stage in list)
+        {
+            if (stage.options == null || stage.options.Count <= 1) continue;
+
+            // 記住原本正確選項
+            QAOption correctOption = stage.options[stage.correctIndex];
+
+            // Fisher–Yates 洗牌
+            for (int i = 0; i < stage.options.Count; i++)
+            {
+                int r = Random.Range(i, stage.options.Count);
+                QAOption tmp = stage.options[i];
+                stage.options[i] = stage.options[r];
+                stage.options[r] = tmp;
+            }
+
+            // 重新找回正確選項的新索引
+            for (int j = 0; j < stage.options.Count; j++)
+            {
+                if (stage.options[j] == correctOption)
+                {
+                    stage.correctIndex = j;
+                    break;
+                }
+            }
+        }
     }
 }

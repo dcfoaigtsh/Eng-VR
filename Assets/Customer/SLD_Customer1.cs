@@ -27,9 +27,17 @@ public class SLD_SingleCustomer : MonoBehaviour
     public float wrongHintDelay = 1f;
     public float stageAdvanceDelay = 0.5f;
 
+    [Header("Randomization (optional)")]
+    [Tooltip("若 >= 0，使用固定 seed 讓洗牌可重現；-1 則使用預設隨機。")]
+    public int randomSeed = -1;
+
     private int currentStage = 0;
     private bool returningWithFood = false;
-    private bool firstAttemptPending = true; // ✅ 加入這個旗標！
+    private bool firstAttemptPending = true; // ✅ 只記錄第一次作答
+
+    // 只洗牌一次的旗標
+    private bool mainOptionsShuffled = false;
+    private bool returnOptionsShuffled = false;
 
     [System.Serializable]
     public class QAOption
@@ -65,8 +73,29 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     void OnEnable()
     {
+        // 每次啟用時（初次或回程）只洗牌一次該段的選項
+        if (randomSeed >= 0) Random.InitState(randomSeed);
+
         if (!returningWithFood)
+        {
+            if (!mainOptionsShuffled)
+            {
+                ShuffleOptionsInEachStage(stages);
+                mainOptionsShuffled = true;
+            }
+            // 初段回到起點時才重置 currentStage
             currentStage = 0;
+        }
+        else
+        {
+            if (!returnOptionsShuffled)
+            {
+                ShuffleOptionsInEachStage(returnDialogueStages);
+                returnOptionsShuffled = true;
+            }
+            // 回程開始從 0
+            currentStage = 0;
+        }
 
         ShowCurrentStage();
     }
@@ -78,9 +107,17 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // ✅ 每題開始時重設旗標！
+        firstAttemptPending = true; // ✅ 每題開始時重設
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
+        if (currentList == null || currentList.Count == 0)
+        {
+            // 沒資料直接結束
+            if (!returningWithFood) FinishInteraction();
+            else ShowFinalThanks();
+            return;
+        }
+
         if (currentStage >= currentList.Count)
         {
             if (!returningWithFood) FinishInteraction();
@@ -89,8 +126,19 @@ public class SLD_SingleCustomer : MonoBehaviour
         }
 
         Stage stage = currentList[currentStage];
-        statementText.text = stage.question;
+        if (stage == null)
+        {
+            // 防呆：若 stage 為 null，跳下一題
+            currentStage++;
+            ShowCurrentStage();
+            return;
+        }
 
+        // 題幹
+        if (statementText != null)
+            statementText.text = stage.question ?? string.Empty;
+
+        // 題幹音檔
         if (statementAudioButton != null)
         {
             bool hasQAudio = (stage.questionAudio != null);
@@ -105,55 +153,79 @@ public class SLD_SingleCustomer : MonoBehaviour
                     audioSource.PlayOneShot(stage.questionAudio);
                 });
             }
+            else
+            {
+                // 沒音檔也可選擇隱藏
+                // statementAudioButton.gameObject.SetActive(false);
+            }
         }
+
+        // 選項 UI
+        int optionCount = (stage.options != null) ? stage.options.Count : 0;
 
         for (int i = 0; i < optionButtons.Count; i++)
         {
-            bool show = (i < stage.options.Count);
-            optionButtons[i].gameObject.SetActive(show);
-            if (i < optionAudioButtons.Count) optionAudioButtons[i].gameObject.SetActive(false);
+            bool show = (i < optionCount);
+            var btn = optionButtons[i];
+            if (btn != null) btn.gameObject.SetActive(show);
+
+            if (i < optionAudioButtons.Count && optionAudioButtons[i] != null)
+                optionAudioButtons[i].gameObject.SetActive(false);
+
             if (!show) continue;
 
             var opt = stage.options[i];
-            var textComp = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>(true);
-            var imageComp = optionButtons[i].GetComponentInChildren<Image>(true);
+            // 綁文字/圖片
+            var textComp = btn.GetComponentInChildren<TextMeshProUGUI>(true);
+            var imageComp = btn.GetComponentInChildren<Image>(true);
 
-            if (textComp != null) textComp.text = opt.text ?? "";
+            if (textComp != null) textComp.text = opt != null ? (opt.text ?? "") : "";
             if (imageComp != null)
             {
-                if (opt.image != null)
+                if (opt != null && opt.image != null)
                 {
                     imageComp.sprite = opt.image;
                     imageComp.enabled = true;
                 }
-                else imageComp.enabled = false;
+                else
+                {
+                    imageComp.enabled = false;
+                }
             }
 
-            optionButtons[i].onClick.RemoveAllListeners();
+            // 綁點擊事件
+            btn.onClick.RemoveAllListeners();
             int captured = i;
-            optionButtons[i].onClick.AddListener(() => StartCoroutine(OnOptionSelected(captured)));
+            btn.onClick.AddListener(() => StartCoroutine(OnOptionSelected(captured)));
 
+            // 選項音檔
             if (i < optionAudioButtons.Count)
             {
-                bool hasAudio = (opt.audio != null);
-                optionAudioButtons[i].gameObject.SetActive(hasAudio);
-                optionAudioButtons[i].interactable = hasAudio;
-
-                optionAudioButtons[i].onClick.RemoveAllListeners();
-                if (hasAudio)
+                var ab = optionAudioButtons[i];
+                if (ab != null)
                 {
-                    optionAudioButtons[i].onClick.AddListener(() =>
+                    bool hasAudio = (opt != null && opt.audio != null);
+                    ab.gameObject.SetActive(hasAudio);
+                    ab.interactable = hasAudio;
+                    ab.onClick.RemoveAllListeners();
+
+                    if (hasAudio)
                     {
-                        if (audioSource.isPlaying) audioSource.Stop();
-                        audioSource.PlayOneShot(opt.audio);
-                    });
+                        ab.onClick.AddListener(() =>
+                        {
+                            if (audioSource.isPlaying) audioSource.Stop();
+                            audioSource.PlayOneShot(opt.audio);
+                        });
+                    }
                 }
             }
         }
 
-        for (int i = stage.options.Count; i < optionAudioButtons.Count; i++)
+        // 多餘的音檔按鈕關閉
+        for (int i = optionCount; i < optionAudioButtons.Count; i++)
         {
-            optionAudioButtons[i].gameObject.SetActive(false);
+            if (optionAudioButtons[i] != null)
+                optionAudioButtons[i].gameObject.SetActive(false);
         }
     }
 
@@ -178,7 +250,8 @@ public class SLD_SingleCustomer : MonoBehaviour
         }
         else
         {
-            statementText.text = "Hmm... Try again!";
+            if (statementText != null)
+                statementText.text = "Hmm... Try again!";
             yield return new WaitForSeconds(wrongHintDelay);
             ShowCurrentStage();
         }
@@ -186,7 +259,8 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     void FinishInteraction()
     {
-        statementText.text = "Thank you!";
+        if (statementText != null)
+            statementText.text = "Thank you!";
         ToggleAllOptions(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
 
@@ -208,14 +282,15 @@ public class SLD_SingleCustomer : MonoBehaviour
     public void BeginFinalDialogue()
     {
         returningWithFood = true;
-        currentStage = 0;
+        // 讓回程對話的選項只洗牌一次（在下次 OnEnable 觸發）
         gameObject.SetActive(true);
         ShowCurrentStage();
     }
 
     void ShowFinalThanks()
     {
-        statementText.text = "Thank you!";
+        if (statementText != null)
+            statementText.text = "Thank you!";
         ToggleAllOptions(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
 
@@ -227,5 +302,40 @@ public class SLD_SingleCustomer : MonoBehaviour
     {
         foreach (var btn in optionButtons) if (btn) btn.gameObject.SetActive(show);
         foreach (var ab in optionAudioButtons) if (ab) ab.gameObject.SetActive(show);
+    }
+
+    // ======================= 核心：只洗選項、維持題目順序 =======================
+    private void ShuffleOptionsInEachStage(List<Stage> list)
+    {
+        if (list == null || list.Count == 0) return;
+
+        // 用於固定 seed 的情況：避免不同段改變全域亂數序列，可局部產生 index
+        for (int s = 0; s < list.Count; s++)
+        {
+            var stage = list[s];
+            if (stage == null || stage.options == null || stage.options.Count <= 1) continue;
+
+            // 記住原本正確選項（以參照判斷）
+            QAOption correctRef = stage.options[stage.correctIndex];
+
+            // Fisher–Yates 洗牌
+            for (int i = 0; i < stage.options.Count; i++)
+            {
+                int r = Random.Range(i, stage.options.Count);
+                var tmp = stage.options[i];
+                stage.options[i] = stage.options[r];
+                stage.options[r] = tmp;
+            }
+
+            // 更新 correctIndex
+            for (int j = 0; j < stage.options.Count; j++)
+            {
+                if (stage.options[j] == correctRef)
+                {
+                    stage.correctIndex = j;
+                    break;
+                }
+            }
+        }
     }
 }
