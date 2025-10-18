@@ -9904,6 +9904,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   correctDelay: 1
   wrongDelay: 1
+  randomSeed: -1
   stages:
   - question: 'Clerk:Hi,What would <color=#66CCFF><size=130%>You</size></color> like
       to <color=#FF6666><size=130%>Order</size></color>?  '
@@ -14607,6 +14608,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   correctDelay: 1
   wrongDelay: 1
+  randomSeed: -1
   stages:
   - question: 'Clerk:Hi,What would <color=#66CCFF><size=130%>You</size></color> like
       to <color=#FF6666><size=130%>Order</size></color>?  '
@@ -21871,6 +21873,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   correctDelay: 1
   wrongDelay: 1
+  randomSeed: -1
   stages:
   - question: 'Clerk:Hi,What would <color=#66CCFF><size=130%>You</size></color> like
       to <color=#FF6666><size=130%>Order</size></color>?  '
@@ -34534,6 +34537,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   wrongHintDelay: 1
   stageAdvanceDelay: 0.5
+  randomSeed: -1
   stages:
   - question: Emma:Oh, <color=#66CCFF><size=130%>I'm</size></color> hungry
     questionAudio: {fileID: 8300000, guid: d1e67263716e5174398efcb304283fd7, type: 3}
@@ -44793,6 +44797,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   wrongHintDelay: 1
   stageAdvanceDelay: 0.5
+  randomSeed: -1
   stages:
   - question: Mr.Wang:Oh, <color=#66CCFF><size=130%>I</size></color> need <color=#FF6666><size=130%>Help</size></color>
     questionAudio: {fileID: 8300000, guid: afe40e9df46ab7c43a2fb38f885c7c59, type: 3}
@@ -51772,6 +51777,7 @@ MonoBehaviour:
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 2101194925}
+  randomSeed: -1
   stages:
   - question: Oh, I'm hungry
     options:
@@ -59991,6 +59997,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   wrongHintDelay: 1
   stageAdvanceDelay: 0.5
+  randomSeed: -1
   stages:
   - question: 'Leo: <color=#66CCFF><size=130%>I</size></color> need <b><color=#FF6666><size=130%>Help</size></color></b>'
     questionAudio: {fileID: 8300000, guid: c11fa4edd88bf3045ae3d6720c00723d, type: 3}

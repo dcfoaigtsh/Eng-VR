@@ -11,6 +11,9 @@ public class STD_SingleCustomer : MonoBehaviour
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
 
+    [Header("Speech UI")]
+    public SpeechPopup speechPopup;   // ✅ 語音對話框（上句/下句/Speak）
+
     [Header("Flow")]
     public STD_Gameflow customerManager;
     public GameObject completeIcon;
@@ -28,7 +31,7 @@ public class STD_SingleCustomer : MonoBehaviour
     private bool returningWithFood = false;
     private bool firstAttemptPending = true;
 
-    // ✅ 避免重複洗牌
+    // 避免重複洗牌
     private bool optionsShuffled = false;
     private bool returnOptionsShuffled = false;
 
@@ -84,19 +87,15 @@ public class STD_SingleCustomer : MonoBehaviour
 
         if (currentList == null || currentList.Count == 0)
         {
-            if (!returningWithFood)
-                FinishInteraction();
-            else
-                ShowFinalThanks();
+            if (!returningWithFood) FinishInteraction();
+            else ShowFinalThanks();
             return;
         }
 
         if (currentStage >= currentList.Count)
         {
-            if (!returningWithFood)
-                FinishInteraction();
-            else
-                ShowFinalThanks();
+            if (!returningWithFood) FinishInteraction();
+            else ShowFinalThanks();
             return;
         }
 
@@ -142,7 +141,7 @@ public class STD_SingleCustomer : MonoBehaviour
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
-        // ✅ 第一次作答才記錄
+        // 第一次作答才記錄（保持你的統計機制）
         if (firstAttemptPending && customerManager != null)
         {
             bool isCorrectFirstTry = (index == stage.correctIndex);
@@ -150,18 +149,45 @@ public class STD_SingleCustomer : MonoBehaviour
             firstAttemptPending = false;
         }
 
-        if (index == stage.correctIndex)
-        {
-            currentStage++;
-            yield return new WaitForSeconds(0.5f);
-            ShowCurrentStage();
-        }
-        else
+        // ✅ 判定正確與否
+        bool choiceIsCorrect = (index == stage.correctIndex);
+        string targetSentence = stage.options[index].text ?? "";
+
+        // ❌ 錯誤選項：不開語音，直接提示
+        if (!choiceIsCorrect)
         {
             statementText.text = "Hmm... Try again!";
             yield return new WaitForSeconds(1f);
             ShowCurrentStage();
+            yield break;
         }
+
+        // ✅ 正確選項：開始語音流程
+        ToggleOptionButtons(false);
+
+        bool finished = false;
+        speechPopup.Show(targetSentence, (spokenFinal) =>
+        {
+            finished = true;
+        });
+
+        // 等待玩家完成錄音
+        while (!finished) yield return null;
+
+        // 等待顯示文字 3 秒
+        yield return new WaitForSeconds(3f);
+        speechPopup.Hide();
+
+        // 進入下一題
+        currentStage++;
+        ToggleOptionButtons(true);
+        yield return new WaitForSeconds(0.3f);
+        ShowCurrentStage();
+    }
+
+    void ToggleOptionButtons(bool interactable)
+    {
+        foreach (var b in optionButtons) if (b) b.interactable = interactable;
     }
 
     void FinishInteraction()
@@ -172,10 +198,8 @@ public class STD_SingleCustomer : MonoBehaviour
 
         if (drawer != null)
         {
-            if (employee1 != null)
-                drawer.ChangeDestination(employee1);
-            if (agentForThisRoute != null)
-                drawer.ChangeNavAgent(agentForThisRoute);
+            if (employee1 != null) drawer.ChangeDestination(employee1);
+            if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
         }
 
         StartCoroutine(DelayedSwitch());
@@ -207,7 +231,7 @@ public class STD_SingleCustomer : MonoBehaviour
             customerManager.ProceedToNextCustomer();
     }
 
-    // ===================== ✅ 核心：隨機打亂每題選項 =====================
+    // ===================== 洗牌 =====================
     private void ShuffleOptionsInEachStage(List<Stage> list)
     {
         if (list == null || list.Count == 0) return;
@@ -216,10 +240,8 @@ public class STD_SingleCustomer : MonoBehaviour
         {
             if (stage.options == null || stage.options.Count <= 1) continue;
 
-            // 記住原本正確選項
             QAOption correctOption = stage.options[stage.correctIndex];
 
-            // Fisher–Yates 洗牌
             for (int i = 0; i < stage.options.Count; i++)
             {
                 int r = Random.Range(i, stage.options.Count);
@@ -228,7 +250,6 @@ public class STD_SingleCustomer : MonoBehaviour
                 stage.options[r] = tmp;
             }
 
-            // 重新找回正確選項的新索引
             for (int j = 0; j < stage.options.Count; j++)
             {
                 if (stage.options[j] == correctOption)
