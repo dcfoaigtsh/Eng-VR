@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// 管理 ASD 模式下的問答流程
+// 管理 ASD 模式下的問答流程（含語音辨識）
 public class ASD_QAmanager : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
 
+    [Header("Speech")]
+    public SpeechPopup speechPopup;  // ✅ 語音面板（含 Speak / Done / userText）
+
+    [Header("Flow References")]
     public ASD_SingleCustomer singleCustomer;
 
     [Header("Path Management")]
@@ -17,8 +22,11 @@ public class ASD_QAmanager : MonoBehaviour
     public Transform nextCustomer;
     public UnityEngine.AI.NavMeshAgent agentForThisRoute;
 
-    // ✅ 新增：控制是否第一次作答
+    // 控制邏輯
     private bool firstAttemptPending = true;
+    private int currentStage = 0;
+    private int pendingSelectedIndex = -1;
+    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -37,16 +45,17 @@ public class ASD_QAmanager : MonoBehaviour
 
     public List<Stage> stages;
 
-    private int currentStage = 0;
-
     void Start()
     {
         ShowCurrentStage();
     }
 
+    // ======================================
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // ✅ 每題開始時重設 pending 狀態
+        firstAttemptPending = true;
+        pendingSelectedIndex = -1;
+        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -57,33 +66,36 @@ public class ASD_QAmanager : MonoBehaviour
         Stage stage = stages[currentStage];
         statementText.text = stage.question;
 
+        // 顯示選項（圖片＋文字）
         for (int i = 0; i < optionAdvancedButtons.Count; i++)
         {
             if (i < stage.options.Count)
             {
-                var button = optionAdvancedButtons[i];
-                button.gameObject.SetActive(true);
+                var btn = optionAdvancedButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.interactable = true;
 
-                var textComp = button.GetComponentInChildren<TextMeshProUGUI>();
-                var imageComps = button.GetComponentsInChildren<Image>();
+                var textComp = btn.GetComponentInChildren<TextMeshProUGUI>();
+                var imageComps = btn.GetComponentsInChildren<Image>();
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
                 if (textComp != null)
-                    textComp.text = stage.options[i].text;
+                    textComp.text = stage.options[i].text ?? "";
 
-                if (stage.options[i].image != null && imageComp != null)
+                if (imageComp != null)
                 {
-                    imageComp.sprite = stage.options[i].image;
-                    imageComp.enabled = true;
-                }
-                else if (imageComp != null)
-                {
-                    imageComp.enabled = false;
+                    if (stage.options[i].image != null)
+                    {
+                        imageComp.sprite = stage.options[i].image;
+                        imageComp.enabled = true;
+                    }
+                    else
+                        imageComp.enabled = false;
                 }
 
-                button.onClick.RemoveAllListeners();
+                btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
             {
@@ -92,32 +104,70 @@ public class ASD_QAmanager : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
+    // ======================================
+    void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
+        pendingSelectedIndex = index;
 
-        // ✅ 第一次作答才回報到 ASD_Gameflow
-        if (firstAttemptPending && singleCustomer != null && singleCustomer.customerManager != null)
-        {
-            bool isCorrectFirstTry = (index == stage.correctIndex);
-            singleCustomer.customerManager.RegisterFirstAttempt(isCorrectFirstTry);
-            firstAttemptPending = false;
-        }
+        // 鎖住選項避免連點
+        ToggleOptionButtons(false);
 
-        if (index == stage.correctIndex)
+        string sentenceToSpeak = stage.options[index].text ?? "";
+
+        // ✅ 顯示語音面板，讓玩家說出答案
+        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
         {
-            currentStage++;
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
-        }
-        else
+            lastRecognizedText = recognized ?? "";
+
+            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+
+            // ✅ 第一次作答才統計
+            if (firstAttemptPending && singleCustomer != null && singleCustomer.customerManager != null)
+            {
+                singleCustomer.customerManager.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            if (isCorrect)
+            {
+                // 答對：不顯示提示，直接下一題
+                StartCoroutine(NextQuestion());
+            }
+            else
+            {
+                // 答錯：顯示提示並重試
+                statementText.text = "Hmm... Try again!";
+                StartCoroutine(RetryAfterDelay());
+            }
+        });
+    }
+
+    // ======================================
+    IEnumerator NextQuestion()
+    {
+        yield return new WaitForSeconds(1f);
+        currentStage++;
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    IEnumerator RetryAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    void ToggleOptionButtons(bool interactable)
+    {
+        foreach (var b in optionAdvancedButtons)
         {
-            statementText.text = "Hmm... Try again";
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
+            if (b) b.interactable = interactable;
         }
     }
 
+    // ======================================
     void FinishQAFlow()
     {
         statementText.text = "You're welcome!";

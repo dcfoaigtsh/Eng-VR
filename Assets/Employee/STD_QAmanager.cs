@@ -139,12 +139,11 @@ public class STD_QAmanager : MonoBehaviour
 
             if (isCorrect)
             {
-                statementText.text = "Clerk: Great job!";
                 StartCoroutine(NextQuestion());
             }
             else
             {
-                statementText.text = "Clerk: Hmm... Try again!";
+                statementText.text = "Hmm... Try again!";
                 StartCoroutine(RetryAfterDelay());
             }
         });

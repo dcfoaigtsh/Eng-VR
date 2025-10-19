@@ -7,9 +7,15 @@ using UnityEngine.AI;
 
 public class ASD_SingleCustomer : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
     public GameObject completeIcon;
+
+    [Header("Speech")]
+    public SpeechPopup speechPopup;  // ✅ 語音面板（內含 Speak / Done / userText）
+
+    [Header("Flow References")]
     public ASD_Gameflow customerManager;
     public GameObject qaManager;
 
@@ -20,7 +26,9 @@ public class ASD_SingleCustomer : MonoBehaviour
 
     private int currentStage = 0;
     private bool returningWithFood = false;
-    private bool firstAttemptPending = true; // ✅ 新增：控制第一次作答
+    private bool firstAttemptPending = true; // ✅ 控制每題第一次作答
+    private int pendingSelectedIndex = -1;   // ✅ 暫存玩家選的選項索引
+    private string lastRecognizedText = "";  // ✅ 暫存辨識結果
 
     [System.Serializable]
     public class QAOption
@@ -37,6 +45,7 @@ public class ASD_SingleCustomer : MonoBehaviour
         public int correctIndex;
     }
 
+    [Header("Dialogue Data")]
     public List<Stage> stages;               // 點餐前對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
@@ -46,52 +55,52 @@ public class ASD_SingleCustomer : MonoBehaviour
         ShowCurrentStage();
     }
 
+    // ======================================
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // ✅ 每題開始前重設為等待第一次作答
+        firstAttemptPending = true;
+        pendingSelectedIndex = -1;
+        lastRecognizedText = "";
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
+        // ✅ 若無更多題目
         if (currentStage >= currentList.Count)
         {
             if (!returningWithFood)
-            {
                 FinishInteraction();
-            }
             else
-            {
                 ShowFinalThanks();
-            }
             return;
         }
 
         Stage stage = currentList[currentStage];
         statementText.text = stage.question;
 
+        // 顯示選項（圖片 + 文字）
         for (int i = 0; i < optionButtons.Count; i++)
         {
             if (i < stage.options.Count)
             {
-                optionButtons[i].gameObject.SetActive(true);
+                var btn = optionButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.interactable = true;
 
-                var textComp = optionButtons[i].GetComponentInChildren<TextMeshProUGUI>();
-                var imageComp = optionButtons[i].GetComponentInChildren<Image>();
+                var textComp = btn.GetComponentInChildren<TextMeshProUGUI>();
+                var imageComp = btn.GetComponentInChildren<Image>();
 
-                textComp.text = stage.options[i].text;
+                textComp.text = stage.options[i].text ?? "";
 
                 if (stage.options[i].image != null)
                 {
                     imageComp.sprite = stage.options[i].image;
                     imageComp.enabled = true;
                 }
-                else
-                {
-                    imageComp.enabled = false;
-                }
+                else imageComp.enabled = false;
 
-                optionButtons[i].onClick.RemoveAllListeners();
+                btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                optionButtons[i].onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
             {
@@ -100,45 +109,82 @@ public class ASD_SingleCustomer : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
+    // ======================================
+    void OnOptionClicked(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
-        // ✅ 第一次作答才統計
-        if (firstAttemptPending && customerManager != null)
-        {
-            bool isCorrectFirstTry = (index == stage.correctIndex);
-            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
-            firstAttemptPending = false;
-        }
+        pendingSelectedIndex = index;
 
-        if (index == stage.correctIndex)
+        // 關閉選項避免重複操作
+        ToggleOptionButtons(false);
+
+        string sentenceToSpeak = stage.options[index].text ?? "";
+
+        // ✅ 開啟語音面板，顯示要念的句子
+        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
         {
-            currentStage++;
-            yield return new WaitForSeconds(0.5f);
-            ShowCurrentStage();
-        }
-        else
+            lastRecognizedText = recognized ?? "";
+
+            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+
+            // ✅ 第一次作答才統計
+            if (firstAttemptPending && customerManager != null)
+            {
+                customerManager.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            if (isCorrect)
+            {
+                // ✅ 答對：不顯示提示，直接下一題
+                StartCoroutine(NextQuestion());
+            }
+            else
+            {
+                // ❌ 答錯才提示
+                statementText.text = "Hmm... Try again!";
+                StartCoroutine(RetryAfterDelay());
+            }
+        });
+    }
+
+    // ======================================
+    IEnumerator NextQuestion()
+    {
+        yield return new WaitForSeconds(1f);
+        currentStage++;
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    IEnumerator RetryAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    // ======================================
+    void ToggleOptionButtons(bool interactable)
+    {
+        foreach (var b in optionButtons)
         {
-            statementText.text = "Hmm... Try again!";
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
+            if (b) b.interactable = interactable;
         }
     }
 
+    // ======================================
     void FinishInteraction()
     {
         statementText.text = "Thank you!";
-        foreach (var btn in optionButtons)
-            btn.gameObject.SetActive(false);
+        foreach (var btn in optionButtons) btn.gameObject.SetActive(false);
 
         if (drawer != null)
         {
-            if (employee1 != null)
-                drawer.ChangeDestination(employee1);
-            if (agentForThisRoute != null)
-                drawer.ChangeNavAgent(agentForThisRoute);
+            if (employee1 != null) drawer.ChangeDestination(employee1);
+            if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
         }
 
         StartCoroutine(DelayedSwitch());
