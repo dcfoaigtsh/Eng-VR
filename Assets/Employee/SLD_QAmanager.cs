@@ -12,6 +12,9 @@ public class SLD_QAmanager : MonoBehaviour
     public List<Button> optionAdvancedButtons;
     public List<Button> optionAudioButtons;
 
+    [Header("Speech")]
+    public SpeechPopup speechPopup;  // ✅ 語音練習面板（Speak / Done / userText）
+
     [Header("Flow References")]
     public SLD_SingleCustomer singleCustomer;
     public SLD_Gameflow gameflow;
@@ -29,6 +32,12 @@ public class SLD_QAmanager : MonoBehaviour
     [Header("Randomization")]
     [Tooltip("若 >= 0，使用固定亂數種子，讓每次啟動的選項順序一致。")]
     public int randomSeed = -1;
+
+    private int currentStage = 0;
+    private bool firstAttemptPending = true;
+    private int pendingSelectedIndex = -1;
+    private string lastRecognizedText = "";
+    private bool optionsShuffled = false;
 
     [System.Serializable]
     public class QAOption
@@ -48,11 +57,6 @@ public class SLD_QAmanager : MonoBehaviour
     }
 
     public List<Stage> stages;
-    private int currentStage = 0;
-    private bool firstAttemptPending = true;
-
-    // ✅ 防止重複洗牌
-    private bool optionsShuffled = false;
 
     void Awake()
     {
@@ -67,7 +71,6 @@ public class SLD_QAmanager : MonoBehaviour
 
     void Start()
     {
-        // ✅ 僅在開始時洗牌所有題目的選項（題目順序不動）
         if (!optionsShuffled)
         {
             if (randomSeed >= 0) Random.InitState(randomSeed);
@@ -78,9 +81,12 @@ public class SLD_QAmanager : MonoBehaviour
         ShowCurrentStage();
     }
 
+    // ====================== 顯示題目 ======================
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
+        pendingSelectedIndex = -1;
+        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -91,14 +97,14 @@ public class SLD_QAmanager : MonoBehaviour
         Stage stage = stages[currentStage];
         statementText.text = stage.question;
 
-        // === 題目音檔 ===
+        // === 題目語音 ===
         if (statementAudioButton != null)
         {
-            bool hasQAudio = (stage.questionAudio != null);
-            statementAudioButton.gameObject.SetActive(hasQAudio);
+            bool hasAudio = (stage.questionAudio != null);
+            statementAudioButton.gameObject.SetActive(hasAudio);
             statementAudioButton.onClick.RemoveAllListeners();
 
-            if (hasQAudio)
+            if (hasAudio)
             {
                 statementAudioButton.onClick.AddListener(() =>
                 {
@@ -113,20 +119,22 @@ public class SLD_QAmanager : MonoBehaviour
         {
             if (i < stage.options.Count)
             {
-                var button = optionAdvancedButtons[i];
-                button.gameObject.SetActive(true);
+                var btn = optionAdvancedButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.interactable = true;
 
-                var textComp = button.GetComponentInChildren<TextMeshProUGUI>(true);
-                var imageComps = button.GetComponentsInChildren<Image>(true);
+                var textComp = btn.GetComponentInChildren<TextMeshProUGUI>(true);
+                var imageComps = btn.GetComponentsInChildren<Image>(true);
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
-                if (textComp != null) textComp.text = stage.options[i].text ?? "";
+                var opt = stage.options[i];
+                if (textComp != null) textComp.text = opt.text ?? "";
 
                 if (imageComp != null)
                 {
-                    if (stage.options[i].image != null)
+                    if (opt.image != null)
                     {
-                        imageComp.sprite = stage.options[i].image;
+                        imageComp.sprite = opt.image;
                         imageComp.enabled = true;
                         textComp.alignment = TextAlignmentOptions.Top;
                     }
@@ -137,25 +145,27 @@ public class SLD_QAmanager : MonoBehaviour
                     }
                 }
 
-                button.onClick.RemoveAllListeners();
+                // 綁定選項點擊
+                btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
 
-                // === 若選項有音檔，顯示小喇叭 ===
+                // === 選項語音喇叭 ===
                 if (i < optionAudioButtons.Count)
                 {
-                    var audioBtn = optionAudioButtons[i];
-                    if (audioBtn != null)
+                    var ab = optionAudioButtons[i];
+                    if (ab != null)
                     {
-                        bool hasAudio = (stage.options[i].audio != null);
-                        audioBtn.gameObject.SetActive(hasAudio);
-                        audioBtn.onClick.RemoveAllListeners();
-                        if (hasAudio)
+                        bool hasOptAudio = (opt.audio != null);
+                        ab.gameObject.SetActive(hasOptAudio);
+                        ab.onClick.RemoveAllListeners();
+
+                        if (hasOptAudio)
                         {
-                            audioBtn.onClick.AddListener(() =>
+                            ab.onClick.AddListener(() =>
                             {
                                 if (audioSource.isPlaying) audioSource.Stop();
-                                audioSource.PlayOneShot(stage.options[i].audio);
+                                audioSource.PlayOneShot(opt.audio);
                             });
                         }
                     }
@@ -170,32 +180,63 @@ public class SLD_QAmanager : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
+    // ====================== 點擊選項 ======================
+    void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
+        pendingSelectedIndex = index;
 
-        // ✅ 第一次作答才記錄
-        if (firstAttemptPending && gameflow != null)
-        {
-            bool isCorrectFirstTry = (index == stage.correctIndex);
-            gameflow.RegisterFirstAttempt(isCorrectFirstTry);
-            firstAttemptPending = false;
-        }
+        ToggleOptionButtons(false);
+        string sentenceToSpeak = stage.options[index].text ?? "";
 
-        if (index == stage.correctIndex)
+        // ✅ 顯示語音面板，等使用者說完後再判斷
+        speechPopup.ShowSentence(sentenceToSpeak, (recognizedText) =>
         {
-            currentStage++;
-            yield return new WaitForSeconds(correctDelay);
-            ShowCurrentStage();
-        }
-        else
-        {
-            statementText.text = "Clerk: Hmm... Try again";
-            yield return new WaitForSeconds(wrongDelay);
-            ShowCurrentStage();
-        }
+            lastRecognizedText = recognizedText ?? "";
+            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+
+            ToggleOptionButtons(true);
+
+            // ✅ 第一次作答才紀錄
+            if (firstAttemptPending && gameflow != null)
+            {
+                gameflow.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            // ✅ 判斷正確與否
+            if (isCorrect)
+            {
+                StartCoroutine(NextQuestion());
+            }
+            else
+            {
+                statementText.text = "Clerk: Hmm... Try again!";
+                StartCoroutine(RetryAfterDelay());
+            }
+        });
     }
 
+    IEnumerator NextQuestion()
+    {
+        yield return new WaitForSeconds(correctDelay);
+        currentStage++;
+        ShowCurrentStage();
+    }
+
+    IEnumerator RetryAfterDelay()
+    {
+        yield return new WaitForSeconds(wrongDelay);
+        ShowCurrentStage();
+    }
+
+    void ToggleOptionButtons(bool interactable)
+    {
+        foreach (var b in optionAdvancedButtons)
+            if (b) b.interactable = interactable;
+    }
+
+    // ====================== 結束階段 ======================
     void FinishQAFlow()
     {
         statementText.text = "Clerk: You're welcome!";
@@ -225,7 +266,7 @@ public class SLD_QAmanager : MonoBehaviour
         }
     }
 
-    // ====================== 核心：隨機打亂選項 ======================
+    // ====================== 選項洗牌 ======================
     private void ShuffleOptionsInEachStage()
     {
         if (stages == null || stages.Count == 0) return;
@@ -244,7 +285,6 @@ public class SLD_QAmanager : MonoBehaviour
                 stage.options[r] = temp;
             }
 
-            // 找回正確答案的新位置
             for (int j = 0; j < stage.options.Count; j++)
             {
                 if (stage.options[j] == correctOption)

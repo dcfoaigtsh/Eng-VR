@@ -6,15 +6,26 @@ using TMPro;
 
 public class ID_QAmanager : MonoBehaviour
 {
+    [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
 
+    [Header("Speech")]
+    public SpeechPopup speechPopup;  // ✅ 語音面板（含 Speak / Done / userText）
+
+    [Header("Flow References")]
     public ID_SingleCustomer singleCustomer;
 
     [Header("Path Management")]
     public DestinationLineDrawer drawer;
     public Transform nextCustomer;
     public UnityEngine.AI.NavMeshAgent agentForThisRoute;
+
+    // 控制狀態
+    private int currentStage = 0;
+    private bool firstAttemptPending = true;
+    private int pendingSelectedIndex = -1;
+    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -33,17 +44,17 @@ public class ID_QAmanager : MonoBehaviour
 
     public List<Stage> stages;
 
-    private int currentStage = 0;
-    private bool firstAttemptPending = true; // ✅ 控制每題是否記錄第一次作答
-
     void Start()
     {
         ShowCurrentStage();
     }
 
+    // ================================
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // ✅ 顯示新題目時重設
+        firstAttemptPending = true;
+        pendingSelectedIndex = -1;
+        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -58,29 +69,31 @@ public class ID_QAmanager : MonoBehaviour
         {
             if (i < stage.options.Count)
             {
-                var button = optionAdvancedButtons[i];
-                button.gameObject.SetActive(true);
+                var btn = optionAdvancedButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.interactable = true;
 
-                var textComp = button.GetComponentInChildren<TextMeshProUGUI>();
-                var imageComps = button.GetComponentsInChildren<Image>();
+                var textComp = btn.GetComponentInChildren<TextMeshProUGUI>();
+                var imageComps = btn.GetComponentsInChildren<Image>();
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
                 if (textComp != null)
-                    textComp.text = stage.options[i].text;
+                    textComp.text = stage.options[i].text ?? "";
 
-                if (stage.options[i].image != null && imageComp != null)
+                if (imageComp != null)
                 {
-                    imageComp.sprite = stage.options[i].image;
-                    imageComp.enabled = true;
-                }
-                else if (imageComp != null)
-                {
-                    imageComp.enabled = false;
+                    if (stage.options[i].image != null)
+                    {
+                        imageComp.sprite = stage.options[i].image;
+                        imageComp.enabled = true;
+                    }
+                    else
+                        imageComp.enabled = false;
                 }
 
-                button.onClick.RemoveAllListeners();
+                btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
             {
@@ -89,40 +102,65 @@ public class ID_QAmanager : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
+    // ================================
+    void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
+        pendingSelectedIndex = index;
 
-        // ✅ 第一次作答才記錄
-        if (firstAttemptPending)
+        ToggleOptionButtons(false);
+
+        string sentenceToSpeak = stage.options[index].text ?? "";
+
+        // ✅ 顯示語音面板，等待玩家說話後按 Done 才判斷
+        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
         {
-            bool isCorrect = (index == stage.correctIndex);
-            FindObjectOfType<ID_Gameflow>()?.RegisterFirstAttempt(isCorrect);
-            firstAttemptPending = false;
-        }
+            lastRecognizedText = recognized ?? "";
+            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
 
-        if (index == stage.correctIndex)
-        {
-            currentStage++;
-            yield return new WaitForSeconds(1f);
-
-            if (currentStage >= stages.Count)
+            // ✅ 第一次作答才紀錄
+            if (firstAttemptPending)
             {
-                FinishQAFlow();
+                FindObjectOfType<ID_Gameflow>()?.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            if (isCorrect)
+            {
+                // 答對：不顯示提示，直接進下一題
+                StartCoroutine(NextQuestion());
             }
             else
             {
-                ShowCurrentStage();
+                // 答錯：顯示提示後重試
+                statementText.text = "Hmm... Try again!";
+                StartCoroutine(RetryAfterDelay());
             }
-        }
-        else
-        {
-            statementText.text = "Hmm... Try again";
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
-        }
+        });
     }
 
+    IEnumerator NextQuestion()
+    {
+        yield return new WaitForSeconds(1f);
+        currentStage++;
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    IEnumerator RetryAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+
+    void ToggleOptionButtons(bool interactable)
+    {
+        foreach (var b in optionAdvancedButtons)
+            if (b) b.interactable = interactable;
+    }
+
+    // ================================
     void FinishQAFlow()
     {
         statementText.text = "You're welcome!";
