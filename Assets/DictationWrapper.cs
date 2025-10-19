@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Windows.Speech;
 using System;
-using System.Collections;
 
 public class DictationWrapper : MonoBehaviour
 {
@@ -13,49 +12,50 @@ public class DictationWrapper : MonoBehaviour
     public Action<string> OnStatus;  // 顯示狀態/錯誤
 
     private bool running = false;
-    private Coroutine autoStopCoroutine; // 自動超時用
 
-    public void StartOnce()
+    // 🔹 開始語音辨識（由 SpeechPopup 呼叫）
+    public void StartListening(Action<string> onFinalResult)
     {
 #if UNITY_STANDALONE_WIN || UNITY_WSA
         if (running) return;
+
         try
         {
-            // 使用較寬鬆信心等級，讓短句也能快速辨識
-            recognizer = new DictationRecognizer(ConfidenceLevel.Low);
+            recognizer = new DictationRecognizer(ConfidenceLevel.High);
 
-            // 🔹 縮短開口與停頓等待時間（秒）
-            recognizer.InitialSilenceTimeoutSeconds = 2f;  // 開場靜音2秒就停止
-            recognizer.AutoSilenceTimeoutSeconds = 1.0f;   // 停頓1秒就結束
+            // 🔸 延長等待時間，讓使用者可以慢慢說
+            recognizer.InitialSilenceTimeoutSeconds = 5f;  // 開場最多等 5 秒才放棄
+            recognizer.AutoSilenceTimeoutSeconds = 3f;    // 停頓 3 秒才結束
 
-            // 🔹 綁定事件
+            // 🔸 綁定事件
+            OnFinal = onFinalResult;
+
             recognizer.DictationHypothesis += (txt) =>
             {
                 OnPartial?.Invoke(txt); // 即時顯示
             };
+
             recognizer.DictationResult += (txt, conf) =>
             {
                 OnPartial?.Invoke(txt);
                 OnFinal?.Invoke(txt);   // 最終結果
             };
+
             recognizer.DictationComplete += (cause) =>
             {
                 OnStatus?.Invoke($"DictationComplete: {cause}");
-                StopRecognition();
+                running = false;
             };
+
             recognizer.DictationError += (err, hr) =>
             {
                 OnStatus?.Invoke($"DictationError: {err} (0x{hr:X8})");
-                StopRecognition();
+                running = false;
             };
 
             recognizer.Start();
             running = true;
-            OnStatus?.Invoke("🎙 Listening...");
-
-            // 🔹 啟動自動超時機制（例如 5 秒後強制停止）
-            if (autoStopCoroutine != null) StopCoroutine(autoStopCoroutine);
-            autoStopCoroutine = StartCoroutine(AutoStopAfterSeconds(5f));
+            OnStatus?.Invoke("Listening...");
         }
         catch (System.Exception ex)
         {
@@ -66,7 +66,8 @@ public class DictationWrapper : MonoBehaviour
 #endif
     }
 
-    public void StopRecognition()
+    // 🔹 停止辨識（按 Done 時呼叫）
+    public void StopListening()
     {
 #if UNITY_STANDALONE_WIN || UNITY_WSA
         if (recognizer != null)
@@ -78,29 +79,7 @@ public class DictationWrapper : MonoBehaviour
         }
 #endif
         running = false;
-        if (autoStopCoroutine != null)
-        {
-            StopCoroutine(autoStopCoroutine);
-            autoStopCoroutine = null;
-        }
     }
 
-    void OnDestroy() => StopRecognition();
-
-    // 🔹 若超過 limit 秒仍未結束，強制停止
-    private IEnumerator AutoStopAfterSeconds(float limit)
-    {
-        float timer = 0f;
-        while (running && timer < limit)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
-
-        if (running)
-        {
-            OnStatus?.Invoke($"⏱ 超時 {limit} 秒，自動結束辨識。");
-            StopRecognition();
-        }
-    }
+    void OnDestroy() => StopListening();
 }

@@ -136,55 +136,58 @@ public class STD_SingleCustomer : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
-    {
-        List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
-        Stage stage = currentList[currentStage];
-
-        // 第一次作答才記錄（保持你的統計機制）
-        if (firstAttemptPending && customerManager != null)
+        IEnumerator OnOptionSelected(int index)
         {
-            bool isCorrectFirstTry = (index == stage.correctIndex);
-            customerManager.RegisterFirstAttempt(isCorrectFirstTry);
-            firstAttemptPending = false;
-        }
+            List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
+            Stage stage = currentList[currentStage];
 
-        // ✅ 判定正確與否
-        bool choiceIsCorrect = (index == stage.correctIndex);
-        string targetSentence = stage.options[index].text ?? "";
+            // 暫時關閉按鈕防止連點
+            ToggleOptionButtons(false);
 
-        // ❌ 錯誤選項：不開語音，直接提示
-        if (!choiceIsCorrect)
-        {
-            statementText.text = "Hmm... Try again!";
-            yield return new WaitForSeconds(1f);
+            // 🔹 顯示語音練習介面（傳入選項句子）
+            string targetSentence = stage.options[index].text ?? "";
+
+            bool donePressed = false;
+            string recognizedText = "";
+
+            // 語音練習：玩家按 Done 後才繼續
+            speechPopup.ShowSentence(targetSentence, (recognized) =>
+            {
+                recognizedText = recognized;
+                donePressed = true;
+            });
+
+            // 等玩家按 Done
+            while (!donePressed)
+                yield return null;
+
+            // 🧠 玩家按下 Done → 現在才判斷正確與否
+            bool isCorrect = (index == stage.correctIndex);
+
+            // 第一次作答才記錄
+            if (firstAttemptPending && customerManager != null)
+            {
+                customerManager.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            if (!isCorrect)
+            {
+                statementText.text = "Hmm... Try again!";
+                yield return new WaitForSeconds(1.2f);
+                ToggleOptionButtons(true);
+                ShowCurrentStage();
+                yield break;
+            }
+
+            // ✅ 答對 → 關閉語音視窗，進入下一題
+            speechPopup.ClosePanel();  // 關閉語音練習面板
+            yield return new WaitForSeconds(0.3f);
+
+            currentStage++;
+            ToggleOptionButtons(true);
             ShowCurrentStage();
-            yield break;
         }
-
-        // ✅ 正確選項：開始語音流程
-        ToggleOptionButtons(false);
-
-        bool finished = false;
-        speechPopup.Show(targetSentence, (spokenFinal) =>
-        {
-            finished = true;
-        });
-
-        // 等待玩家完成錄音
-        while (!finished) yield return null;
-
-        // 等待顯示文字 3 秒
-        yield return new WaitForSeconds(3f);
-        speechPopup.Hide();
-
-        // 進入下一題
-        currentStage++;
-        ToggleOptionButtons(true);
-        yield return new WaitForSeconds(0.3f);
-        ShowCurrentStage();
-    }
-
     void ToggleOptionButtons(bool interactable)
     {
         foreach (var b in optionButtons) if (b) b.interactable = interactable;
@@ -240,16 +243,29 @@ public class STD_SingleCustomer : MonoBehaviour
         {
             if (stage.options == null || stage.options.Count <= 1) continue;
 
+            // 記住原本正確答案
             QAOption correctOption = stage.options[stage.correctIndex];
 
-            for (int i = 0; i < stage.options.Count; i++)
+            // 🔹 用 Fisher–Yates 洗牌
+            for (int i = stage.options.Count - 1; i > 0; i--)
             {
-                int r = Random.Range(i, stage.options.Count);
-                QAOption tmp = stage.options[i];
+                int r = UnityEngine.Random.Range(0, i + 1);
+                var tmp = stage.options[i];
                 stage.options[i] = stage.options[r];
                 stage.options[r] = tmp;
             }
 
+            // 🔹 再加入一次隨機偏移（增加變化性）
+            int offset = UnityEngine.Random.Range(0, stage.options.Count);
+            if (offset > 0)
+            {
+                var rotated = new List<QAOption>();
+                rotated.AddRange(stage.options.GetRange(offset, stage.options.Count - offset));
+                rotated.AddRange(stage.options.GetRange(0, offset));
+                stage.options = rotated;
+            }
+
+            // 🔹 重新定位正確答案索引
             for (int j = 0; j < stage.options.Count; j++)
             {
                 if (stage.options[j] == correctOption)

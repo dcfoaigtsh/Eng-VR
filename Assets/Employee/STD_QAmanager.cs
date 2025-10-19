@@ -10,6 +10,9 @@ public class STD_QAmanager : MonoBehaviour
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
 
+    [Header("Speech")]
+    public SpeechPopup speechPopup;   // ✅ 跟顧客一樣用的語音面板（內含 Speak / Done）
+
     [Header("Flow References")]
     public STD_SingleCustomer singleCustomer;
     public STD_Gameflow gameflow;
@@ -23,8 +26,13 @@ public class STD_QAmanager : MonoBehaviour
     [Tooltip("若 >= 0，使用固定亂數種子，讓每次啟動的選項順序一致。")]
     public int randomSeed = -1;
 
-    // ✅ 本題是否尚未回報「第一次作答」
     private bool firstAttemptPending = true;
+    private int currentStage = 0;
+    private bool optionsShuffled = false;
+
+    // 暫存本題被點擊的選項索引與最後辨識文字（若你想記錄可用）
+    private int pendingSelectedIndex = -1;
+    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -42,27 +50,23 @@ public class STD_QAmanager : MonoBehaviour
     }
 
     public List<Stage> stages;
-    private int currentStage = 0;
-
-    // ✅ 防止重複洗牌
-    private bool optionsShuffled = false;
 
     void Start()
     {
-        // ✅ 僅在開始時洗牌所有題目的選項（題目順序不動）
         if (!optionsShuffled)
         {
             if (randomSeed >= 0) Random.InitState(randomSeed);
             ShuffleOptionsInEachStage();
             optionsShuffled = true;
         }
-
         ShowCurrentStage();
     }
 
     void ShowCurrentStage()
     {
-        firstAttemptPending = true; // 每題重新開放第一次作答
+        firstAttemptPending = true;
+        pendingSelectedIndex = -1;
+        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -70,39 +74,35 @@ public class STD_QAmanager : MonoBehaviour
             return;
         }
 
-        Stage stage = stages[currentStage];
-        statementText.text = stage.question;
+        var stage = stages[currentStage];
+        statementText.text = "Clerk: " + stage.question;
 
         for (int i = 0; i < optionAdvancedButtons.Count; i++)
         {
             if (i < stage.options.Count)
             {
-                var button = optionAdvancedButtons[i];
-                button.gameObject.SetActive(true);
+                var btn = optionAdvancedButtons[i];
+                btn.gameObject.SetActive(true);
+                btn.interactable = true;
 
-                var textComp = button.GetComponentInChildren<TextMeshProUGUI>();
-                var imageComps = button.GetComponentsInChildren<Image>();
+                var textComp = btn.GetComponentInChildren<TextMeshProUGUI>();
+                var imageComps = btn.GetComponentsInChildren<Image>();
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
-                if (textComp != null)
-                    textComp.text = stage.options[i].text ?? "";
-
-                if (imageComp != null)
+                if (textComp) textComp.text = stage.options[i].text ?? "";
+                if (imageComp)
                 {
                     if (stage.options[i].image != null)
                     {
                         imageComp.sprite = stage.options[i].image;
                         imageComp.enabled = true;
                     }
-                    else
-                    {
-                        imageComp.enabled = false;
-                    }
+                    else imageComp.enabled = false;
                 }
 
-                button.onClick.RemoveAllListeners();
-                int capturedIndex = i;
-                button.onClick.AddListener(() => StartCoroutine(OnOptionSelected(capturedIndex)));
+                btn.onClick.RemoveAllListeners();
+                int captured = i;
+                btn.onClick.AddListener(() => OnOptionClicked(captured));
             }
             else
             {
@@ -111,100 +111,103 @@ public class STD_QAmanager : MonoBehaviour
         }
     }
 
-    IEnumerator OnOptionSelected(int index)
+    void OnOptionClicked(int index)
     {
-        Stage stage = stages[currentStage];
+        var stage = stages[currentStage];
+        pendingSelectedIndex = index;
 
-        // ✅ 第一次作答才回報 Gameflow
-        if (firstAttemptPending && gameflow != null)
+        // 點了選項後：開啟語音面板，顯示要念的句子（就用該選項文字）
+        string sentenceToSpeak = stage.options[index].text ?? "";
+
+        // 鎖住選項，避免語音期間亂點
+        SetOptionsInteractable(false);
+
+        // 顧客同款：ShowSentence(句子, Done回呼)
+        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
         {
-            bool isCorrectFirstTry = (index == stage.correctIndex);
-            gameflow.RegisterFirstAttempt(isCorrectFirstTry);
-            firstAttemptPending = false; // 鎖定：只記錄一次
-        }
+            lastRecognizedText = recognized ?? "";
 
-        if (index == stage.correctIndex)
-        {
-            currentStage++;
+            // ✅ 玩家按下 Done，此時才判斷正確與否
+            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
 
-            if (currentStage >= stages.Count)
+            // 第一次作答統計
+            if (firstAttemptPending && gameflow != null)
             {
-                yield return new WaitForSeconds(1f);
-                FinishQAFlow();
+                gameflow.RegisterFirstAttempt(isCorrect);
+                firstAttemptPending = false;
+            }
+
+            if (isCorrect)
+            {
+                statementText.text = "Clerk: Great job!";
+                StartCoroutine(NextQuestion());
             }
             else
             {
-                yield return new WaitForSeconds(1f);
-                ShowCurrentStage();
+                statementText.text = "Clerk: Hmm... Try again!";
+                StartCoroutine(RetryAfterDelay());
             }
-        }
-        else
-        {
-            statementText.text = "Clerk: Hmm... Try again";
-            yield return new WaitForSeconds(1f);
-            ShowCurrentStage();
-        }
+        });
+    }
+
+    IEnumerator NextQuestion()
+    {
+        yield return new WaitForSeconds(1.2f);
+        currentStage++;
+        SetOptionsInteractable(true);
+        ShowCurrentStage();
+    }
+
+    IEnumerator RetryAfterDelay()
+    {
+        yield return new WaitForSeconds(1.2f);
+        SetOptionsInteractable(true);
+        ShowCurrentStage();
     }
 
     void FinishQAFlow()
     {
         statementText.text = "Clerk: You're welcome!";
-        foreach (var btn in optionAdvancedButtons)
-            btn.gameObject.SetActive(false);
-
+        foreach (var b in optionAdvancedButtons) b.gameObject.SetActive(false);
         StartCoroutine(SwitchToFinalDialogue());
     }
 
     IEnumerator SwitchToFinalDialogue()
     {
         yield return new WaitForSeconds(1f);
-
         if (drawer != null)
         {
-            if (nextCustomer != null)
-                drawer.ChangeDestination(nextCustomer);
-            if (agentForThisRoute != null)
-                drawer.ChangeNavAgent(agentForThisRoute);
+            if (nextCustomer != null) drawer.ChangeDestination(nextCustomer);
+            if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
         }
-
         gameObject.SetActive(false);
-
-        if (gameflow != null)
-        {
-            Debug.Log("呼叫 Gameflow 切換到交餐流程！");
-            gameflow.NextCustomer();
-        }
+        if (gameflow != null) gameflow.NextCustomer();
     }
 
-    // ====================== 核心：隨機打亂選項 ======================
-    private void ShuffleOptionsInEachStage()
+    void SetOptionsInteractable(bool on)
+    {
+        foreach (var b in optionAdvancedButtons) if (b) b.interactable = on;
+    }
+
+    // ===== 洗牌選項（保留正確索引同步） =====
+    void ShuffleOptionsInEachStage()
     {
         if (stages == null || stages.Count == 0) return;
-
-        foreach (Stage stage in stages)
+        foreach (var stage in stages)
         {
             if (stage.options == null || stage.options.Count <= 1) continue;
 
-            // 保存原本的正確選項
-            QAOption correctOption = stage.options[stage.correctIndex];
-
-            // Fisher–Yates 洗牌演算法
+            var correct = stage.options[stage.correctIndex];
             for (int i = 0; i < stage.options.Count; i++)
             {
                 int r = Random.Range(i, stage.options.Count);
-                QAOption temp = stage.options[i];
+                var tmp = stage.options[i];
                 stage.options[i] = stage.options[r];
-                stage.options[r] = temp;
+                stage.options[r] = tmp;
             }
-
-            // 找回正確選項的新索引
             for (int j = 0; j < stage.options.Count; j++)
             {
-                if (stage.options[j] == correctOption)
-                {
-                    stage.correctIndex = j;
-                    break;
-                }
+                if (stage.options[j] == correct) { stage.correctIndex = j; break; }
             }
         }
     }
