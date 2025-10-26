@@ -75,7 +75,7 @@ public class STD_QAmanager : MonoBehaviour
         }
 
         var stage = stages[currentStage];
-        statementText.text = "Clerk: " + stage.question;
+        statementText.text = stage.question;
 
         for (int i = 0; i < optionAdvancedButtons.Count; i++)
         {
