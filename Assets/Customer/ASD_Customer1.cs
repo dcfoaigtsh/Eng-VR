@@ -12,9 +12,6 @@ public class ASD_SingleCustomer : MonoBehaviour
     public List<Button> optionButtons;
     public GameObject completeIcon;
 
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 語音面板（內含 Speak / Done / userText）
-
     [Header("Flow References")]
     public ASD_Gameflow customerManager;
     public GameObject qaManager;
@@ -27,8 +24,6 @@ public class ASD_SingleCustomer : MonoBehaviour
     private int currentStage = 0;
     private bool returningWithFood = false;
     private bool firstAttemptPending = true; // ✅ 控制每題第一次作答
-    private int pendingSelectedIndex = -1;   // ✅ 暫存玩家選的選項索引
-    private string lastRecognizedText = "";  // ✅ 暫存辨識結果
 
     [System.Serializable]
     public class QAOption
@@ -46,7 +41,7 @@ public class ASD_SingleCustomer : MonoBehaviour
     }
 
     [Header("Dialogue Data")]
-    public List<Stage> stages;               // 點餐前對話
+    public List<Stage> stages;               // 點餐前對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
     void OnEnable()
@@ -59,8 +54,6 @@ public class ASD_SingleCustomer : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
@@ -100,6 +93,7 @@ public class ASD_SingleCustomer : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊後直接判斷
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
@@ -109,45 +103,36 @@ public class ASD_SingleCustomer : MonoBehaviour
         }
     }
 
-    // ======================================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
 
-        pendingSelectedIndex = index;
-
         // 關閉選項避免重複操作
         ToggleOptionButtons(false);
+        bool isCorrect = (index == stage.correctIndex);
 
-        string sentenceToSpeak = stage.options[index].text ?? "";
-
-        // ✅ 開啟語音面板，顯示要念的句子
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        // ✅ 第一次作答才統計
+        if (firstAttemptPending && customerManager != null)
         {
-            lastRecognizedText = recognized ?? "";
+            customerManager.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
-
-            // ✅ 第一次作答才統計
-            if (firstAttemptPending && customerManager != null)
-            {
-                customerManager.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                // ✅ 答對：不顯示提示，直接下一題
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                // ❌ 答錯才提示
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            // ✅ 答對：不顯示提示，直接下一題
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            // ❌ 答錯才提示
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
+        
+        // ⚠️ 原本的 speechPopup.ShowSentence 呼叫已移除
     }
 
     // ======================================
@@ -195,7 +180,7 @@ public class ASD_SingleCustomer : MonoBehaviour
         yield return new WaitForSeconds(1f);
         gameObject.SetActive(false);
         if (qaManager != null)
-            qaManager.SetActive(true);
+            qaManager.SetActive(true); // 轉交控制權給 qaManager
     }
 
     // ✅ 店員點餐結束後，從 Gameflow 呼叫這個

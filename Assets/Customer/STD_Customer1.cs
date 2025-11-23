@@ -11,8 +11,7 @@ public class STD_SingleCustomer : MonoBehaviour
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
 
-    [Header("Speech UI")]
-    public SpeechPopup speechPopup;   // ✅ 語音對話框（上句/下句/Speak）
+    // [Header("Speech UI")]
 
     [Header("Flow")]
     public STD_Gameflow customerManager;
@@ -51,12 +50,14 @@ public class STD_SingleCustomer : MonoBehaviour
     }
 
     [Header("Dialogue Data")]
-    public List<Stage> stages;               // 初次點餐對話
+    public List<Stage> stages; // 初次點餐對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
     void OnEnable()
     {
         if (randomSeed >= 0) Random.InitState(randomSeed);
+
+        // ⚠️ 移除 speechPopup.ClosePanel(); 介面清理邏輯
 
         if (!returningWithFood)
         {
@@ -136,58 +137,42 @@ public class STD_SingleCustomer : MonoBehaviour
         }
     }
 
-        IEnumerator OnOptionSelected(int index)
+    // 此協程現在只處理選項點擊、判斷對錯和流程推進
+    IEnumerator OnOptionSelected(int index)
+    {
+        List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
+        Stage stage = currentList[currentStage];
+
+        // 暫時關閉按鈕防止連點
+        ToggleOptionButtons(false);
+        
+        // 直接判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
+
+        // 第一次作答才記錄
+        if (firstAttemptPending && customerManager != null)
         {
-            List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
-            Stage stage = currentList[currentStage];
-
-            // 暫時關閉按鈕防止連點
-            ToggleOptionButtons(false);
-
-            // 🔹 顯示語音練習介面（傳入選項句子）
-            string targetSentence = stage.options[index].text ?? "";
-
-            bool donePressed = false;
-            string recognizedText = "";
-
-            // 語音練習：玩家按 Done 後才繼續
-            speechPopup.ShowSentence(targetSentence, (recognized) =>
-            {
-                recognizedText = recognized;
-                donePressed = true;
-            });
-
-            // 等玩家按 Done
-            while (!donePressed)
-                yield return null;
-
-            // 🧠 玩家按下 Done → 現在才判斷正確與否
-            bool isCorrect = (index == stage.correctIndex);
-
-            // 第一次作答才記錄
-            if (firstAttemptPending && customerManager != null)
-            {
-                customerManager.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (!isCorrect)
-            {
-                statementText.text = "Hmm... Try again!";
-                yield return new WaitForSeconds(1.2f);
-                ToggleOptionButtons(true);
-                ShowCurrentStage();
-                yield break;
-            }
-
-            // ✅ 答對 → 關閉語音視窗，進入下一題
-            speechPopup.ClosePanel();  // 關閉語音練習面板
-            yield return new WaitForSeconds(0.3f);
-
-            currentStage++;
-            ToggleOptionButtons(true);
-            ShowCurrentStage();
+            customerManager.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
         }
+
+        if (!isCorrect)
+        {
+            // ❌ 答錯，顯示 Try again!
+            statementText.text = "Hmm... Try again!";
+            yield return new WaitForSeconds(1.2f);
+            ToggleOptionButtons(true);
+            ShowCurrentStage(); // 重新顯示本階段問題
+            yield break;
+        }
+
+        // ✅ 答對 → 進入下一題
+        
+        currentStage++;
+        ToggleOptionButtons(true);
+        ShowCurrentStage();
+    }
+    
     void ToggleOptionButtons(bool interactable)
     {
         foreach (var b in optionButtons) if (b) b.interactable = interactable;

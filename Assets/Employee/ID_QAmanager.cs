@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI;
 
+// 管理 ID 模式下的問答流程（已移除語音辨識）
 public class ID_QAmanager : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
-
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 語音面板（含 Speak / Done / userText）
 
     [Header("Flow References")]
     public ID_SingleCustomer singleCustomer;
@@ -24,8 +23,6 @@ public class ID_QAmanager : MonoBehaviour
     // 控制狀態
     private int currentStage = 0;
     private bool firstAttemptPending = true;
-    private int pendingSelectedIndex = -1;
-    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -53,8 +50,6 @@ public class ID_QAmanager : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -93,6 +88,7 @@ public class ID_QAmanager : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊後直接執行判斷邏輯
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
@@ -102,41 +98,36 @@ public class ID_QAmanager : MonoBehaviour
         }
     }
 
-    // ================================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
-        pendingSelectedIndex = index;
 
         ToggleOptionButtons(false);
 
-        string sentenceToSpeak = stage.options[index].text ?? "";
+        // 立即判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
 
-        // ✅ 顯示語音面板，等待玩家說話後按 Done 才判斷
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        // ✅ 第一次作答才紀錄
+        if (firstAttemptPending)
         {
-            lastRecognizedText = recognized ?? "";
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+            // 使用 FindObjectOfType 確保找到 Gameflow，如果未在 Inspector 中直接連結
+            FindObjectOfType<ID_Gameflow>()?.RegisterFirstAttempt(isCorrect); 
+            firstAttemptPending = false;
+        }
 
-            // ✅ 第一次作答才紀錄
-            if (firstAttemptPending)
-            {
-                FindObjectOfType<ID_Gameflow>()?.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                // 答對：不顯示提示，直接進下一題
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                // 答錯：顯示提示後重試
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            // 答對：不顯示提示，直接進下一題
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            // 答錯：顯示提示後重試
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
+        
     }
 
     IEnumerator NextQuestion()

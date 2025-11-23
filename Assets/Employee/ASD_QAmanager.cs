@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI;
 
-// 管理 ASD 模式下的問答流程（含語音辨識）
+// 管理 ASD 模式下的問答流程（已移除語音辨識）
 public class ASD_QAmanager : MonoBehaviour
 {
     [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
-
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 語音面板（含 Speak / Done / userText）
 
     [Header("Flow References")]
     public ASD_SingleCustomer singleCustomer;
@@ -25,8 +23,6 @@ public class ASD_QAmanager : MonoBehaviour
     // 控制邏輯
     private bool firstAttemptPending = true;
     private int currentStage = 0;
-    private int pendingSelectedIndex = -1;
-    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -54,8 +50,7 @@ public class ASD_QAmanager : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
+
 
         if (currentStage >= stages.Count)
         {
@@ -95,6 +90,7 @@ public class ASD_QAmanager : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊後直接執行判斷邏輯
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
@@ -104,43 +100,37 @@ public class ASD_QAmanager : MonoBehaviour
         }
     }
 
-    // ======================================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
-        pendingSelectedIndex = index;
-
+        
         // 鎖住選項避免連點
         ToggleOptionButtons(false);
 
-        string sentenceToSpeak = stage.options[index].text ?? "";
+        // 立即判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
 
-        // ✅ 顯示語音面板，讓玩家說出答案
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        // ✅ 第一次作答才統計
+        if (firstAttemptPending && singleCustomer != null && singleCustomer.customerManager != null)
         {
-            lastRecognizedText = recognized ?? "";
+            singleCustomer.customerManager.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
-
-            // ✅ 第一次作答才統計
-            if (firstAttemptPending && singleCustomer != null && singleCustomer.customerManager != null)
-            {
-                singleCustomer.customerManager.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                // 答對：不顯示提示，直接下一題
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                // 答錯：顯示提示並重試
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            // 答對：不顯示提示，直接下一題
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            // 答錯：顯示提示並重試
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
+        
+        // ⚠️ 原本的 speechPopup.ShowSentence 呼叫已移除
     }
 
     // ======================================

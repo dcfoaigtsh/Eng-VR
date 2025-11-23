@@ -8,12 +8,9 @@ using UnityEngine.AI;
 public class ID_SingleCustomer : MonoBehaviour
 {
     [Header("UI")]
-    public TextMeshProUGUI statementText;   
+    public TextMeshProUGUI statementText;   
     public List<Button> optionButtons;
     public GameObject completeIcon;
-
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 加入語音面板（含 Speak / Done / userText）
 
     [Header("Flow References")]
     public ID_Gameflow customerManager;
@@ -27,9 +24,8 @@ public class ID_SingleCustomer : MonoBehaviour
 
     private int currentStage = 0;
     private bool returningWithFood = false;
-    private bool firstAttemptPending = true;  // ✅ 控制第一次作答
-    private int pendingSelectedIndex = -1;    // ✅ 暫存當前選項
-    private string lastRecognizedText = "";   // ✅ 暫存辨識文字
+    private bool firstAttemptPending = true;  // ✅ 控制第一次作答
+
 
     [System.Serializable]
     public class QAOption
@@ -47,7 +43,7 @@ public class ID_SingleCustomer : MonoBehaviour
     }
 
     [Header("Dialogue Data")]
-    public List<Stage> stages;               // 點餐前對話
+    public List<Stage> stages;               // 點餐前對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
     void OnEnable()
@@ -60,8 +56,6 @@ public class ID_SingleCustomer : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
 
@@ -104,6 +98,7 @@ public class ID_SingleCustomer : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊後直接執行判斷邏輯
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
             }
             else
@@ -113,43 +108,37 @@ public class ID_SingleCustomer : MonoBehaviour
         }
     }
 
-    // ==========================================================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
-        pendingSelectedIndex = index;
-
+        
         // 鎖住按鈕避免多次點擊
         ToggleOptionButtons(false);
 
-        string sentenceToSpeak = stage.options[index].text ?? "";
+        // 立即判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
 
-        // ✅ 顯示語音面板並等待玩家說話
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        
+        // ✅ 第一次作答統計
+        if (firstAttemptPending && customerManager != null)
         {
-            lastRecognizedText = recognized ?? "";
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            // ✅ 第一次作答統計
-            if (firstAttemptPending && customerManager != null)
-            {
-                customerManager.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                // 答對 → 不顯示提示，直接下一題
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                // 答錯 → 顯示提示
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            // 答對 → 不顯示提示，直接下一題
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            // 答錯 → 顯示提示
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
     }
 
     IEnumerator NextQuestion()

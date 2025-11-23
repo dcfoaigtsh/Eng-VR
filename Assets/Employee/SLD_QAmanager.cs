@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI;
 
 public class SLD_QAmanager : MonoBehaviour
 {
@@ -11,9 +12,6 @@ public class SLD_QAmanager : MonoBehaviour
     public Button statementAudioButton;
     public List<Button> optionAdvancedButtons;
     public List<Button> optionAudioButtons;
-
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 語音練習面板（Speak / Done / userText）
 
     [Header("Flow References")]
     public SLD_SingleCustomer singleCustomer;
@@ -35,8 +33,6 @@ public class SLD_QAmanager : MonoBehaviour
 
     private int currentStage = 0;
     private bool firstAttemptPending = true;
-    private int pendingSelectedIndex = -1;
-    private string lastRecognizedText = "";
     private bool optionsShuffled = false;
 
     [System.Serializable]
@@ -44,14 +40,14 @@ public class SLD_QAmanager : MonoBehaviour
     {
         public string text;
         public Sprite image;
-        public AudioClip audio;
+        public AudioClip audio; // 👈 保留音檔
     }
 
     [System.Serializable]
     public class Stage
     {
         public string question;
-        public AudioClip questionAudio;
+        public AudioClip questionAudio; // 👈 保留音檔
         public List<QAOption> options;
         public int correctIndex;
     }
@@ -85,8 +81,8 @@ public class SLD_QAmanager : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
+        // pendingSelectedIndex = -1; ⚠️ 已刪除
+        // lastRecognizedText = ""; ⚠️ 已刪除
 
         if (currentStage >= stages.Count)
         {
@@ -97,7 +93,7 @@ public class SLD_QAmanager : MonoBehaviour
         Stage stage = stages[currentStage];
         statementText.text = stage.question;
 
-        // === 題目語音 ===
+        // === 題目語音 (保留) ===
         if (statementAudioButton != null)
         {
             bool hasAudio = (stage.questionAudio != null);
@@ -148,9 +144,10 @@ public class SLD_QAmanager : MonoBehaviour
                 // 綁定選項點擊
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊後直接判斷
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
 
-                // === 選項語音喇叭 ===
+                // === 選項語音喇叭 (保留) ===
                 if (i < optionAudioButtons.Count)
                 {
                     var ab = optionAudioButtons[i];
@@ -180,53 +177,47 @@ public class SLD_QAmanager : MonoBehaviour
         }
     }
 
-    // ====================== 點擊選項 ======================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         Stage stage = stages[currentStage];
-        pendingSelectedIndex = index;
-
+        
         ToggleOptionButtons(false);
-        string sentenceToSpeak = stage.options[index].text ?? "";
 
-        // ✅ 顯示語音面板，等使用者說完後再判斷
-        speechPopup.ShowSentence(sentenceToSpeak, (recognizedText) =>
+        // 立即判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
+
+        // ✅ 第一次作答才紀錄
+        if (firstAttemptPending && gameflow != null)
         {
-            lastRecognizedText = recognizedText ?? "";
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+            gameflow.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            ToggleOptionButtons(true);
-
-            // ✅ 第一次作答才紀錄
-            if (firstAttemptPending && gameflow != null)
-            {
-                gameflow.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            // ✅ 判斷正確與否
-            if (isCorrect)
-            {
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                statementText.text = "Clerk: Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        // ✅ 判斷正確與否
+        if (isCorrect)
+        {
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            statementText.text = "Clerk: Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
     }
 
     IEnumerator NextQuestion()
     {
         yield return new WaitForSeconds(correctDelay);
         currentStage++;
+        ToggleOptionButtons(true);
         ShowCurrentStage();
     }
 
     IEnumerator RetryAfterDelay()
     {
         yield return new WaitForSeconds(wrongDelay);
+        ToggleOptionButtons(true);
         ShowCurrentStage();
     }
 

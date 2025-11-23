@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.AI; // 雖然此腳本內沒有直接使用 NavMeshAgent，但保留 namespace
 
 public class STD_QAmanager : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class STD_QAmanager : MonoBehaviour
     public TextMeshProUGUI statementText;
     public List<Button> optionAdvancedButtons;
 
-    [Header("Speech")]
-    public SpeechPopup speechPopup;   // ✅ 跟顧客一樣用的語音面板（內含 Speak / Done）
+    // [Header("Speech")] ⚠️ 已刪除
+    // public SpeechPopup speechPopup;   // ⚠️ 已刪除
 
     [Header("Flow References")]
     public STD_SingleCustomer singleCustomer;
@@ -29,10 +30,6 @@ public class STD_QAmanager : MonoBehaviour
     private bool firstAttemptPending = true;
     private int currentStage = 0;
     private bool optionsShuffled = false;
-
-    // 暫存本題被點擊的選項索引與最後辨識文字（若你想記錄可用）
-    private int pendingSelectedIndex = -1;
-    private string lastRecognizedText = "";
 
     [System.Serializable]
     public class QAOption
@@ -65,8 +62,6 @@ public class STD_QAmanager : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
 
         if (currentStage >= stages.Count)
         {
@@ -86,6 +81,7 @@ public class STD_QAmanager : MonoBehaviour
                 btn.interactable = true;
 
                 var textComp = btn.GetComponentInChildren<TextMeshProUGUI>();
+                // 這行邏輯用於抓取 Image，通常 index 1 是圖標
                 var imageComps = btn.GetComponentsInChildren<Image>();
                 var imageComp = imageComps.Length > 1 ? imageComps[1] : null;
 
@@ -102,6 +98,7 @@ public class STD_QAmanager : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int captured = i;
+                // 點擊後直接執行判斷邏輯
                 btn.onClick.AddListener(() => OnOptionClicked(captured));
             }
             else
@@ -111,46 +108,38 @@ public class STD_QAmanager : MonoBehaviour
         }
     }
 
+    // 🏆 主要修改區域：移除語音面板顯示和回調等待 🏆
     void OnOptionClicked(int index)
     {
         var stage = stages[currentStage];
-        pendingSelectedIndex = index;
 
-        // 點了選項後：開啟語音面板，顯示要念的句子（就用該選項文字）
-        string sentenceToSpeak = stage.options[index].text ?? "";
-
-        // 鎖住選項，避免語音期間亂點
+        // 鎖住選項，避免連點
         SetOptionsInteractable(false);
 
-        // 顧客同款：ShowSentence(句子, Done回呼)
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        // 立即判斷正確與否
+        bool isCorrect = (index == stage.correctIndex);
+
+        // 第一次作答統計
+        if (firstAttemptPending && gameflow != null)
         {
-            lastRecognizedText = recognized ?? "";
+            gameflow.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            // ✅ 玩家按下 Done，此時才判斷正確與否
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
-
-            // 第一次作答統計
-            if (firstAttemptPending && gameflow != null)
-            {
-                gameflow.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
     }
 
     IEnumerator NextQuestion()
     {
+        // 答對後等待 1.2 秒
         yield return new WaitForSeconds(1.2f);
         currentStage++;
         SetOptionsInteractable(true);
@@ -159,9 +148,10 @@ public class STD_QAmanager : MonoBehaviour
 
     IEnumerator RetryAfterDelay()
     {
+        // 答錯後等待 1.2 秒
         yield return new WaitForSeconds(1.2f);
         SetOptionsInteractable(true);
-        ShowCurrentStage();
+        ShowCurrentStage(); // 重新顯示本階段問題
     }
 
     void FinishQAFlow()
@@ -197,6 +187,7 @@ public class STD_QAmanager : MonoBehaviour
             if (stage.options == null || stage.options.Count <= 1) continue;
 
             var correct = stage.options[stage.correctIndex];
+            // 採用 Fisher–Yates 洗牌
             for (int i = 0; i < stage.options.Count; i++)
             {
                 int r = Random.Range(i, stage.options.Count);
@@ -204,6 +195,7 @@ public class STD_QAmanager : MonoBehaviour
                 stage.options[i] = stage.options[r];
                 stage.options[r] = tmp;
             }
+            // 重新定位正確答案索引
             for (int j = 0; j < stage.options.Count; j++)
             {
                 if (stage.options[j] == correct) { stage.correctIndex = j; break; }

@@ -13,9 +13,6 @@ public class SLD_SingleCustomer : MonoBehaviour
     public List<Button> optionButtons;
     public List<Button> optionAudioButtons;
 
-    [Header("Speech")]
-    public SpeechPopup speechPopup;  // ✅ 加入語音面板（Speak / Done）
-
     [Header("Flow")]
     public SLD_Gameflow customerManager;
     public GameObject completeIcon;
@@ -37,8 +34,6 @@ public class SLD_SingleCustomer : MonoBehaviour
     private int currentStage = 0;
     private bool returningWithFood = false;
     private bool firstAttemptPending = true;
-    private int pendingSelectedIndex = -1;
-    private string lastRecognizedText = "";
 
     private bool mainOptionsShuffled = false;
     private bool returnOptionsShuffled = false;
@@ -48,14 +43,14 @@ public class SLD_SingleCustomer : MonoBehaviour
     {
         public string text;
         public Sprite image;
-        public AudioClip audio;
+        public AudioClip audio; // 👈 保留音檔
     }
 
     [System.Serializable]
     public class Stage
     {
         public string question;
-        public AudioClip questionAudio;
+        public AudioClip questionAudio; // 👈 保留音檔
         public List<QAOption> options;
         public int correctIndex;
     }
@@ -110,8 +105,8 @@ public class SLD_SingleCustomer : MonoBehaviour
     void ShowCurrentStage()
     {
         firstAttemptPending = true;
-        pendingSelectedIndex = -1;
-        lastRecognizedText = "";
+        // pendingSelectedIndex = -1; ⚠️ 已刪除
+        // lastRecognizedText = ""; ⚠️ 已刪除
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         if (currentList == null || currentList.Count == 0)
@@ -149,7 +144,7 @@ public class SLD_SingleCustomer : MonoBehaviour
         if (statementText != null)
             statementText.text = stage.question ?? "";
 
-        // 題幹音檔播放
+        // 題幹音檔播放 (保留)
         if (statementAudioButton != null)
         {
             bool hasQAudio = (stage.questionAudio != null);
@@ -194,9 +189,10 @@ public class SLD_SingleCustomer : MonoBehaviour
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
+                // 點擊選項後直接判斷
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
 
-                // 單獨播放選項語音（防呆）
+                // 單獨播放選項語音 (保留)
                 if (i < optionAudioButtons.Count && optionAudioButtons[i] != null)
                 {
                     var audioBtn = optionAudioButtons[i];
@@ -224,45 +220,39 @@ public class SLD_SingleCustomer : MonoBehaviour
         }
     }
 
-    // ======================== 點擊選項 ========================
+    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
     void OnOptionClicked(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
-        pendingSelectedIndex = index;
-
+        
         ToggleOptionButtons(false);
-        string sentenceToSpeak = stage.options[index].text ?? "";
 
-        // ✅ 顯示語音面板 → 玩家說話後按 Done 才判斷
-        speechPopup.ShowSentence(sentenceToSpeak, (recognized) =>
+        // 立即判斷是否正確
+        bool isCorrect = (index == stage.correctIndex);
+
+        // ✅ 第一次作答才統計
+        if (firstAttemptPending && customerManager != null)
         {
-            lastRecognizedText = recognized ?? "";
-            bool isCorrect = (pendingSelectedIndex == stage.correctIndex);
+            customerManager.RegisterFirstAttempt(isCorrect);
+            firstAttemptPending = false;
+        }
 
-            ToggleOptionButtons(true);
-
-            // ✅ 第一次作答才統計
-            if (firstAttemptPending && customerManager != null)
-            {
-                customerManager.RegisterFirstAttempt(isCorrect);
-                firstAttemptPending = false;
-            }
-
-            if (isCorrect)
-            {
-                StartCoroutine(NextQuestion());
-            }
-            else
-            {
-                statementText.text = "Hmm... Try again!";
-                StartCoroutine(RetryAfterDelay());
-            }
-        });
+        if (isCorrect)
+        {
+            StartCoroutine(NextQuestion());
+        }
+        else
+        {
+            statementText.text = "Hmm... Try again!";
+            StartCoroutine(RetryAfterDelay());
+        }
     }
 
     IEnumerator NextQuestion()
     {
+        // 先顯示選項，再等待延遲時間
+        ToggleOptionButtons(true);
         yield return new WaitForSeconds(stageAdvanceDelay);
         currentStage++;
         ShowCurrentStage();
@@ -270,7 +260,9 @@ public class SLD_SingleCustomer : MonoBehaviour
 
     IEnumerator RetryAfterDelay()
     {
+        // 答錯後等待延遲時間
         yield return new WaitForSeconds(wrongHintDelay);
+        ToggleOptionButtons(true);
         ShowCurrentStage();
     }
 
