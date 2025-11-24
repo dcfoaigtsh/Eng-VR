@@ -61,6 +61,12 @@ public class STD_QAmanager : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyStaffInteractionStarted();
+        }
+
         firstAttemptPending = true;
 
         if (currentStage >= stages.Count)
@@ -158,6 +164,13 @@ public class STD_QAmanager : MonoBehaviour
     {
         statementText.text = "Clerk: You're welcome!";
         foreach (var b in optionAdvancedButtons) b.gameObject.SetActive(false);
+
+        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReturningToCustomer();
+        }
+
         StartCoroutine(SwitchToFinalDialogue());
     }
 

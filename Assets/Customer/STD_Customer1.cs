@@ -82,6 +82,12 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
+        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyCustomerInteractionStarted();
+        }
+        
         firstAttemptPending = true;
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
@@ -188,6 +194,12 @@ public class STD_SingleCustomer : MonoBehaviour
         {
             if (employee1 != null) drawer.ChangeDestination(employee1);
             if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
+        }
+
+        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyMovingToStaff();
         }
 
         StartCoroutine(DelayedSwitch());

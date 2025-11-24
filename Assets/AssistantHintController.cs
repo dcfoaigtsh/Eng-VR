@@ -33,25 +33,28 @@ public class AssistantHintController : MonoBehaviour
     // 遊戲元件參考
     private STD_Gameflow gameflow;
     private STD_SingleCustomer[] allCustomers;
-    private STD_QAmanager qaManager;
+    private STD_QAmanager[] allEmployees;
     private STD_GameDescription gameDescription;
+    private STD_GameOverUI gameOverUI;
 
     // HTTP 客戶端
     private HttpClient client;
     private bool isWaitingResponse = false;
 
-    // 玩家狀態
-    private PlayerState currentPlayerState;
-    private string currentDialogueText = "";
-    private string currentOrder = "";
-    private float accuracy = 0f;
-    private LearningMode learningMode = LearningMode.Standard;
-    private string gameDescriptionText = "";
-    private int currentDescriptionPage = 0;
+    // 玩家相關狀態
+    private LearningMode learningMode = LearningMode.Standard;    // 學習模式
+    private PlayerState currentPlayerState;                       // 目前玩家狀態
+    private float accuracy = 0f;                                  // 答對率
+    private int currentDialoguePage = 0;                          // 目前對話頁面
+    private string currentDialogueText = "";                      // 目前對話文字
+    private string currentOrder = "";                             // 目前訂單內容
+
+    // 上次選擇的問題選項
     private string lastSelectedOption = "";
 
     void Awake()
     {
+        // 初始化 HTTP 客戶端
         if (!string.IsNullOrEmpty(openAIKey))
         {
             client = new HttpClient();
@@ -61,102 +64,58 @@ public class AssistantHintController : MonoBehaviour
 
     void Start()
     {
-        FindGameComponents();
+        // 訂閱遊戲流程的狀態變更事件
+        gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.OnPlayerStateChanged += newState => currentPlayerState = newState;
+        }
         
         // 綁定按鈕事件
         X_Button.onClick.AddListener(HideHintPanel);
         OkButton.onClick.AddListener(OnOkButtonClicked);
         AgainButton.onClick.AddListener(OnAgainButtonClicked);
-        
         Q1Button.onClick.AddListener(() => OnQuestionButtonClicked(1));
         Q2Button.onClick.AddListener(() => OnQuestionButtonClicked(2));
         Q3Button.onClick.AddListener(() => OnQuestionButtonClicked(3));
         Q4Button.onClick.AddListener(() => OnQuestionButtonClicked(4));
         
-        SetupAssistantImage();
-        
+        // 初始隱藏提示面板
         if (AssistantHintPanel != null)
             AssistantHintPanel.SetActive(false);
         
+        // 啟動定時檢查協程
         StartCoroutine(PeriodicCheck());
     }
 
+    // 定時檢查協程
     IEnumerator PeriodicCheck()
     {
         while (true)
         {
-            yield return new WaitForSeconds(60f); // 每分鐘檢查一次
+            // 每分鐘檢查一次
+            yield return new WaitForSeconds(60f);
             
+            // 如果面板未開啟，則自動顯示提示面板
             if (AssistantHintPanel != null && !AssistantHintPanel.activeInHierarchy)
             {
-                UpdatePlayerStateFromExternal();
-                // 如果玩家卡在閱讀說明狀態，自動提供幫助
-                if (currentPlayerState == PlayerState.ReadingDescription)
-                {
-                    if (showDebugInfo)
-                        Debug.Log("🕒 定時檢查：玩家在閱讀說明，顯示提示面板");
-                    ShowHintPanel();
-                }
+                if (showDebugInfo)
+                    Debug.Log("定時檢查：每一分鐘顯示提示面板");
+                ShowHintPanel();
             }
         }
     }
 
-    void SetupAssistantImage()
-    {
-        if (AssistantImage != null)
-        {
-            Button imageButton = AssistantImage.GetComponent<Button>();
-            if (imageButton == null)
-            {
-                imageButton = AssistantImage.gameObject.AddComponent<Button>();
-                imageButton.transition = Selectable.Transition.None;
-            }
-            imageButton.onClick.AddListener(OnAssistantImageClicked);
-            return;
-        }
-        
-        GameObject imageObj = GameObject.Find("AssistantImage");
-        if (imageObj != null)
-        {
-            Button imageButton = imageObj.GetComponent<Button>();
-            if (imageButton == null)
-            {
-                imageButton = imageObj.AddComponent<Button>();
-                imageButton.transition = Selectable.Transition.None;
-            }
-            imageButton.onClick.AddListener(OnAssistantImageClicked);
-            AssistantImage = imageButton;
-        }
-    }
-
-    void FindGameComponents()
-    {
-        gameflow = FindObjectOfType<STD_Gameflow>();
-        allCustomers = FindObjectsOfType<STD_SingleCustomer>();
-        qaManager = FindObjectOfType<STD_QAmanager>();
-        gameDescription = FindObjectOfType<STD_GameDescription>();
-        
-        if (gameflow != null)
-        {
-            gameflow.OnPlayerStateChanged += OnPlayerStateChanged;
-        }
-    }
-
-    void OnPlayerStateChanged(PlayerState newState)
-    {
-        currentPlayerState = newState;
-        if (showDebugInfo)
-            Debug.Log($"🔄 收到狀態更新: {newState}");
-    }
-
-    void Update()
-    {
-        UpdatePlayerStateFromExternal();
-        CheckGameDescriptionText();
-    }
-
+    // 從外部元件更新玩家狀態和相關資訊
     void UpdatePlayerStateFromExternal()
     {
+        // 從模式管理器獲取學習模式
+        if (ModeManager.Instance != null)
+        {
+            learningMode = ModeManager.Instance.currentMode;
+        }
+
+        // 從遊戲流程獲取玩家狀態和答對率
         if (gameflow != null)
         {
             currentPlayerState = gameflow.currentPlayerState;
@@ -164,43 +123,61 @@ public class AssistantHintController : MonoBehaviour
         }
         
         // 從活躍顧客獲取對話和訂單資訊
+        allCustomers = FindObjectsOfType<STD_SingleCustomer>();
         STD_SingleCustomer activeCustomer = GetActiveCustomer();
-        if (activeCustomer != null && activeCustomer.statementText != null)
+        if (currentPlayerState == PlayerState.TalkingToCustomer && activeCustomer != null && activeCustomer.statementText != null)
         {
             currentDialogueText = activeCustomer.statementText.text;
-            currentOrder = ExtractOrderFromQuestion(currentDialogueText);
+            string GetOrder()
+            {
+                if (string.IsNullOrEmpty(currentDialogueText)) return "未知訂單";
+                var question = currentDialogueText.ToLower();
+                if (question.Contains("burger") || question.Contains("漢堡")) return "漢堡";
+                if (question.Contains("coffee") || question.Contains("咖啡")) return "咖啡";
+                if (question.Contains("pizza") || question.Contains("披薩")) return "披薩";
+                if (question.Contains("sandwich") || question.Contains("三明治")) return "三明治";
+                if (question.Contains("fries") || question.Contains("薯條")) return "薯條";
+                if (question.Contains("cola") || question.Contains("可樂")) return "可樂";
+                if (question.Contains("ice cream") || question.Contains("冰淇淋")) return "冰淇淋";
+                if (question.Contains("salad") || question.Contains("沙拉")) return "沙拉";
+                return "訂單處理中";
+            }
+            currentOrder = GetOrder();
         }
         
         // 從 QA 管理器獲取對話
-        if (qaManager != null && qaManager.gameObject.activeInHierarchy && qaManager.statementText != null)
+        allEmployees = FindObjectsOfType<STD_QAmanager>();
+        STD_QAmanager activeQAManager = GetActiveQAManager();
+        // 檢測有沒有有效的 QA 管理器
+        if (currentPlayerState == PlayerState.OrderingAtStaff && activeQAManager != null && activeQAManager.statementText != null)
         {
-            currentDialogueText = qaManager.statementText.text;
+            currentDialogueText = activeQAManager.statementText.text;
         }
-        
-        if (ModeManager.Instance != null)
-        {
-            learningMode = ModeManager.Instance.currentMode;
-        }
-    }
 
-    void CheckGameDescriptionText()
-    {
+        // 從遊戲說明獲取文字
         gameDescription = FindObjectOfType<STD_GameDescription>();
         if (currentPlayerState == PlayerState.ReadingDescription && gameDescription != null)
         {
-            gameDescriptionText = "";
-            currentDescriptionPage = gameDescription.currentInfo;
+            currentDialoguePage = gameDescription.currentInfo;
             if (gameDescription.InfoContent != null)
             {
-                gameDescriptionText = gameDescription.InfoContent.text;
+                currentDialogueText = gameDescription.InfoContent.text;
             }
-            if (currentDescriptionPage == 2 || currentDescriptionPage == 3)
+            if (currentDialoguePage == 2 || currentDialoguePage == 3)
             {
-                gameDescriptionText = "當前是圖像說明頁面，展示遊戲操作指引";
+                currentDialogueText = "當前是圖像說明頁面，展示遊戲操作指引";
             }
+        }
+
+        // 從遊戲結束畫面獲取資訊
+        gameOverUI = FindObjectOfType<STD_GameOverUI>();
+        if (currentPlayerState == PlayerState.Completed && gameOverUI != null && gameOverUI.messageText != null)
+        {
+            currentDialogueText = gameOverUI.messageText.text;
         }
     }
 
+    // 獲取當前活躍的顧客
     STD_SingleCustomer GetActiveCustomer()
     {
         if (allCustomers != null)
@@ -216,64 +193,41 @@ public class AssistantHintController : MonoBehaviour
         return null;
     }
 
-    string ExtractOrderFromQuestion(string question)
+    // 獲取當前活躍的 QA 管理器
+    STD_QAmanager GetActiveQAManager()
     {
-        if (string.IsNullOrEmpty(question)) return "未知訂單";
-        
-        question = question.ToLower();
-        
-        if (question.Contains("burger") || question.Contains("漢堡")) return "漢堡";
-        if (question.Contains("coffee") || question.Contains("咖啡")) return "咖啡";
-        if (question.Contains("pizza") || question.Contains("披薩")) return "披薩";
-        if (question.Contains("sandwich") || question.Contains("三明治")) return "三明治";
-        if (question.Contains("fries") || question.Contains("薯條")) return "薯條";
-        if (question.Contains("cola") || question.Contains("可樂")) return "可樂";
-        if (question.Contains("ice cream") || question.Contains("冰淇淋")) return "冰淇淋";
-        if (question.Contains("salad") || question.Contains("沙拉")) return "沙拉";
-        
-        return "訂單處理中";
+        if (allEmployees != null)
+        {
+            foreach (var manager in allEmployees)
+            {
+                if (manager != null && manager.gameObject.activeInHierarchy)
+                {
+                    return manager;
+                }
+            }
+        }
+        return null;
     }
 
-    public void OnAssistantImageClicked()
-    {
-        ShowHintPanel();
-    }
-
+    // 顯示提示面板
     public void ShowHintPanel()
     {
+        UpdatePlayerStateFromExternal();
         if (AssistantHintPanel != null)
         {
             AssistantHintPanel.SetActive(true);
             SwitchToQuestionPanel();
-            
-            // 根據當前狀態顯示不同的問候語
-            Text.text = GetGreetingByState();
         }
     }
 
-    string GetGreetingByState()
+    // 隱藏提示面板
+    public void HideHintPanel()
     {
-        switch (currentPlayerState)
-        {
-            case PlayerState.ReadingDescription:
-                return $"正在閱讀遊戲說明（第{currentDescriptionPage + 1}頁）？需要什麼幫助？";
-            case PlayerState.MovingToCustomer:
-                return "正在前往顧客的路上？需要指引嗎？";
-            case PlayerState.TalkingToCustomer:
-                return "正在與顧客對話？遇到什麼問題？";
-            case PlayerState.MovingToStaff:
-                return "正在前往員工點餐？需要幫助嗎？";
-            case PlayerState.OrderingAtStaff:
-                return "正在與員工點餐？有什麼困難？";
-            case PlayerState.ReturningToCustomer:
-                return "正在返回顧客交餐？需要協助嗎？";
-            case PlayerState.Completed:
-                return "任務已完成！還有其他問題嗎？";
-            default:
-                return "需要幫忙嗎？請選擇一個問題：";
-        }
+        if (AssistantHintPanel != null)
+            AssistantHintPanel.SetActive(false);
     }
 
+    // 切換到問題選擇面板
     void SwitchToQuestionPanel()
     {
         if (QuestionPanel != null) QuestionPanel.SetActive(true);
@@ -281,12 +235,44 @@ public class AssistantHintController : MonoBehaviour
         UpdateQuestionButtons();
     }
 
+    // 切換到輸出面板
     void SwitchToOutputPanel()
     {
         if (QuestionPanel != null) QuestionPanel.SetActive(false);
         if (OutputPanel != null) OutputPanel.SetActive(true);
     }
 
+    // 設置按鈕是否可互動
+    void SetButtonsInteractable(bool interactable)
+    {
+        OkButton.interactable = interactable;
+        AgainButton.interactable = interactable;
+        Q1Button.interactable = interactable;
+        Q2Button.interactable = interactable;
+        Q3Button.interactable = interactable;
+        Q4Button.interactable = interactable;
+    }
+
+    // 確定按鈕點擊事件
+    void OnOkButtonClicked()
+    {
+        SwitchToQuestionPanel();
+        HideHintPanel();
+    }
+
+    // 重新解釋按鈕點擊事件
+    void OnAgainButtonClicked()
+    {
+        if (!string.IsNullOrEmpty(lastSelectedOption))
+        {
+            string prompt = GeneratePrompt(lastSelectedOption) + " 請用更詳細、更直白的方式重新解釋。";
+            StartCoroutine(SendToOpenAI(prompt));
+            Text.text = "重新解釋中...";
+            SetButtonsInteractable(false);
+        }
+    }
+
+    // 更新問題按鈕的顯示狀態
     void UpdateQuestionButtons()
     {
         // 選項1: 不知道下一步 - 始終顯示
@@ -302,11 +288,12 @@ public class AssistantHintController : MonoBehaviour
         }
         
         // 選項3: 看不懂英文 - 在有對話內容時顯示（包括遊戲說明）
-        bool hasTextContent = !string.IsNullOrEmpty(currentDialogueText) || !string.IsNullOrEmpty(gameDescriptionText);
+        bool hasTextContent = !string.IsNullOrEmpty(currentDialogueText);
         bool canShowTranslation = hasTextContent && 
                                  (currentPlayerState == PlayerState.ReadingDescription ||
                                   currentPlayerState == PlayerState.TalkingToCustomer ||
-                                  currentPlayerState == PlayerState.OrderingAtStaff);
+                                  currentPlayerState == PlayerState.OrderingAtStaff ||
+                                  currentPlayerState == PlayerState.Completed);
         Q3Button.gameObject.SetActive(canShowTranslation);
         if (canShowTranslation)
         {
@@ -324,6 +311,7 @@ public class AssistantHintController : MonoBehaviour
         }
     }
 
+    // 處理問題按鈕點擊事件
     void OnQuestionButtonClicked(int questionNumber)
     {
         switch (questionNumber)
@@ -338,7 +326,7 @@ public class AssistantHintController : MonoBehaviour
         
         if (showDebugInfo)
         {
-            Debug.Log(prompt);
+            Debug.Log($"選擇問題 {questionNumber}，生成提示語:\n{prompt}");
         }
         
         StartCoroutine(SendToOpenAI(prompt));
@@ -347,38 +335,24 @@ public class AssistantHintController : MonoBehaviour
         SetButtonsInteractable(false);
     }
 
+    // 生成發送給 OpenAI 的提示語
     string GeneratePrompt(string option)
     {
         string prompt = $"【遊戲情境】快餐店英文學習模擬 - {learningMode}模式\n";
         prompt += $"【玩家狀態】{currentPlayerState}\n";
         prompt += $"【答對率】{accuracy:F1}%\n";
         
-        // 根據狀態提供不同的文字內容
-        if (currentPlayerState == PlayerState.ReadingDescription)
-        {
-            prompt += $"【當前頁面】第{currentDescriptionPage + 1}頁\n";
-            if (!string.IsNullOrEmpty(gameDescriptionText))
-            {
-                prompt += $"【遊戲說明】{gameDescriptionText}\n";
-            }
-            else
-            {
-                prompt += $"【遊戲說明】圖像說明頁面\n";
-            }
-        }
-        else if (!string.IsNullOrEmpty(currentDialogueText))
+        if (!string.IsNullOrEmpty(currentDialogueText))
         {
             prompt += $"【當前對話】{currentDialogueText}\n";
         }
-        
+
         if (!string.IsNullOrEmpty(currentOrder))
         {
             prompt += $"【顧客訂單】{currentOrder}\n";
         }
         
         prompt += $"\n【玩家問題】";
-        
-        Debug.Log($"選擇的問題選項: {option}");
         switch (option)
         {
             case "next_step":
@@ -395,7 +369,7 @@ public class AssistantHintController : MonoBehaviour
                 break;
         }
         
-        prompt += "\n\n請用中文回答，簡潔明瞭，最多50字。";
+        prompt += "\n\n請用中文回答，不要使用Emoji，用句簡潔明瞭，最多50字。";
         return prompt;
     }
 
@@ -404,24 +378,24 @@ public class AssistantHintController : MonoBehaviour
         switch (currentPlayerState)
         {
             case PlayerState.ReadingDescription:
-                if (currentDescriptionPage < 4) // 如果不是最後一頁
+                if (currentDialoguePage < 4) // 如果不是最後一頁
                 {
-                    return "玩家不知道看完當前說明頁面後該做什麼。請指引玩家『點擊 Next 按鈕繼續閱讀下一頁說明』。";
+                    return "玩家不知道看完當前說明頁面後該做什麼。請建議：『點擊 Next 按鈕繼續閱讀下一頁說明』。";
                 }
                 else // 最後一頁
                 {
-                    return "玩家不知道看完遊戲說明後該做什麼。請指引玩家『點擊 Close 按鈕關閉說明，然後跟著地上的箭頭走，前往顧客那裡』。";
+                    return "玩家不知道看完遊戲說明後該做什麼。請建議：『點擊 X 按鈕關閉說明，然後跟著地上的箭頭走，前往顧客那裡』。";
                 }
             case PlayerState.MovingToCustomer:
-                return "玩家正在走向顧客但不知道該做什麼。請指引玩家『點擊顧客頭上的驚嘆號開始對話』。";
+                return "玩家正在走向顧客但不知道該做什麼。請建議：『點擊顧客頭上的驚嘆號開始對話』。";
             case PlayerState.TalkingToCustomer:
-                return "玩家正在與顧客對話但不知道下一步。請指引玩家『仔細聽顧客的需求，記住訂單內容，然後跟著箭頭走向員工點餐』。";
+                return "玩家正在與顧客對話但不知道下一步。請建議：『仔細聽顧客的需求，理解對話內容，然後選擇恰當的選項』。";
             case PlayerState.MovingToStaff:
-                return "玩家正在走向員工但不知道該做什麼。請指引玩家『跟著箭頭走到員工面前，點擊員工開始點餐』。";
+                return "玩家正在走向員工但不知道該做什麼。請建議：『跟著箭頭走到員工面前，點擊員工開始點餐』。";
             case PlayerState.OrderingAtStaff:
-                return "玩家正在與員工點餐但不知道該做什麼。請指引玩家『選擇正確的餐點選項來完成點餐』。";
+                return "玩家正在與員工點餐但不知道該做什麼。請建議：『選擇正確的餐點選項來完成點餐』。";
             case PlayerState.ReturningToCustomer:
-                return "玩家正在返回顧客但不知道該做什麼。請指引玩家『跟著箭頭走回顧客那裡交餐』。";
+                return "玩家正在返回顧客但不知道該做什麼。請建議：『跟著箭頭走回顧客那裡交餐』。";
             default:
                 return "玩家不知道下一步該做什麼。請根據當前狀態提供具體指引。";
         }
@@ -434,16 +408,14 @@ public class AssistantHintController : MonoBehaviour
 
     string GetTranslationGuidance()
     {
-        // 優先使用遊戲說明文字，如果沒有則使用對話文字
-        string textToTranslate = currentPlayerState == PlayerState.ReadingDescription ? 
-                                gameDescriptionText : currentDialogueText;
-        if (!string.IsNullOrEmpty(textToTranslate))
+        string textToTranslate = currentDialogueText;
+        if (currentPlayerState == PlayerState.ReadingDescription && (currentDialoguePage == 2 || currentDialoguePage == 3))
         {
-            return $"玩家看不懂英文內容。請將這句話翻譯成中文並簡單解釋：『{textToTranslate}』";
+            return "玩家看不懂圖像說明頁面。請建議：『：『這是圖像說明頁面，展示遊戲操作指引。請仔細觀察圖片內容以了解如何進行遊戲。』";
         }
-        else if (currentPlayerState == PlayerState.ReadingDescription && (currentDescriptionPage == 2 || currentDescriptionPage == 3))
+        else if (!string.IsNullOrEmpty(textToTranslate))
         {
-            return "玩家看不懂圖像說明頁面。請用中文描述圖像中展示的遊戲操作指引。";
+            return $"玩家看不懂英文內容。請將這句話翻譯成中文：『{textToTranslate}』";
         }
         return "玩家看不懂當前內容。請用中文解釋當前情境。";
     }
@@ -453,6 +425,7 @@ public class AssistantHintController : MonoBehaviour
         return "玩家忘記客人點什麼了。請建議：『請跟著地上的箭頭往回走，再問一次顧客他點的餐是什麼。』";
     }
 
+    // 發送請求到 OpenAI 並處理回應
     IEnumerator SendToOpenAI(string prompt)
     {
         if (isWaitingResponse || client == null) yield break;
@@ -475,7 +448,7 @@ public class AssistantHintController : MonoBehaviour
         SetButtonsInteractable(true);
     }
 
-    // 其他方法保持不變...
+    // 非同步發送訊息到 OpenAI
     async Task<string> SendMessageToOpenAIAsync(string prompt)
     {
         try
@@ -507,43 +480,8 @@ public class AssistantHintController : MonoBehaviour
         }
     }
 
-    void SetButtonsInteractable(bool interactable)
-    {
-        OkButton.interactable = interactable;
-        AgainButton.interactable = interactable;
-        Q1Button.interactable = interactable;
-        Q2Button.interactable = interactable;
-        Q3Button.interactable = interactable;
-        Q4Button.interactable = interactable;
-    }
-
-    void OnOkButtonClicked()
-    {
-        SwitchToQuestionPanel();
-        HideHintPanel();
-    }
-
-    void OnAgainButtonClicked()
-    {
-        if (!string.IsNullOrEmpty(lastSelectedOption))
-        {
-            string prompt = GeneratePrompt(lastSelectedOption) + " 請用更詳細、更直白的方式重新解釋。";
-            StartCoroutine(SendToOpenAI(prompt));
-            Text.text = "重新解釋中...";
-            SetButtonsInteractable(false);
-        }
-    }
-
-    public void HideHintPanel()
-    {
-        if (AssistantHintPanel != null)
-            AssistantHintPanel.SetActive(false);
-    }
-
     void OnDestroy()
     {
         client?.Dispose();
-        if (gameflow != null)
-            gameflow.OnPlayerStateChanged -= OnPlayerStateChanged;
     }
 }

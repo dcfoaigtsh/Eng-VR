@@ -58,6 +58,12 @@ public class STD_GameDescription : MonoBehaviour
 
     void SetupPageContent()
     {
+        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReadingDescription();
+        }
+
         // 先關閉所有圖像頁，避免殘留
         if (VisualPage != null) VisualPage.SetActive(false);
         if (VisualPage2 != null) VisualPage2.SetActive(false);

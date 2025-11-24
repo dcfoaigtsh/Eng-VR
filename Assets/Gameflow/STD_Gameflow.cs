@@ -21,11 +21,9 @@ public class STD_Gameflow : MonoBehaviour
     [Header("結束畫面 UI")]
     public STD_GameOverUI gameOverUI;
 
-    [Header("遊戲說明元件")]
-    public STD_GameDescription gameDescription; // 遊戲說明元件參考
-
     [Header("玩家狀態")]
     public PlayerState currentPlayerState = PlayerState.ReadingDescription;
+    public PlayerState previousPlayerState = PlayerState.ReadingDescription;
 
     private int currentCustomerIndex = 0;
     private bool waitingForDelivery = false;
@@ -57,15 +55,15 @@ public class STD_Gameflow : MonoBehaviour
     {
         if (currentPlayerState != newState)
         {
+            previousPlayerState = currentPlayerState;
             currentPlayerState = newState;
             OnPlayerStateChanged?.Invoke(newState);
-            Debug.Log($"🎮 玩家狀態變更: {newState}");
+            Debug.Log($"玩家狀態變更: {newState}");
         }
     }
 
     void Start()
     {
-        // 初始狀態為閱讀遊戲說明
         SetPlayerState(PlayerState.ReadingDescription);
         
         if (customerList != null && customerList.Count > 0)
@@ -75,48 +73,6 @@ public class STD_Gameflow : MonoBehaviour
         else
         {
             Debug.LogWarning("⚠ 顧客清單為空！");
-        }
-
-        // 尋找遊戲說明元件
-        if (gameDescription == null)
-        {
-            gameDescription = FindObjectOfType<STD_GameDescription>();
-        }
-    }
-
-    void Update()
-    {
-        // 每幀檢查遊戲說明狀態
-        CheckGameDescriptionState();
-    }
-
-    void CheckGameDescriptionState()
-    {
-        if (gameDescription != null && gameDescription.InfomationBoard != null)
-        {
-            bool isDescriptionOpen = gameDescription.InfomationBoard.activeInHierarchy;
-            int currentPage = gameDescription.currentInfo;
-
-            if (isDescriptionOpen)
-            {
-                // 遊戲說明打開
-                SetPlayerState(PlayerState.ReadingDescription);
-            }
-            else
-            {
-                if (currentPlayerState == PlayerState.ReadingDescription)
-                {
-                    SetPlayerState(PlayerState.MovingToCustomer);
-                }
-            }
-        }
-        else
-        {
-            // 如果沒有遊戲說明元件，直接設為 MovingToCustomer
-            if (currentPlayerState == PlayerState.ReadingDescription)
-            {
-                SetPlayerState(PlayerState.MovingToCustomer);
-            }
         }
     }
 
@@ -130,9 +86,7 @@ public class STD_Gameflow : MonoBehaviour
         Debug.Log($"🧍 顧客 {index + 1} 出現！");
         waitingForDelivery = false;
         
-        // 顧客出現時，如果不在閱讀說明狀態，設為 MovingToCustomer
-        if (currentPlayerState != PlayerState.ReadingDescription)
-        {
+        if(currentPlayerState != PlayerState.TalkingToCustomer) {
             SetPlayerState(PlayerState.MovingToCustomer);
         }
     }
@@ -196,33 +150,38 @@ public class STD_Gameflow : MonoBehaviour
     }
 
     // 公共方法供其他腳本呼叫來更新狀態
+    public void NotifyReadingDescription()
+    {
+        SetPlayerState(PlayerState.ReadingDescription);
+    }
+
     public void NotifyCustomerInteractionStarted()
     {
         SetPlayerState(PlayerState.TalkingToCustomer);
-        Debug.Log("顧客互動開始，狀態設為 TalkingToCustomer");
     }
 
     public void NotifyStaffInteractionStarted()
     {
         SetPlayerState(PlayerState.OrderingAtStaff);
-        Debug.Log("員工互動開始，狀態設為 OrderingAtStaff");
     }
 
     public void NotifyMovingToStaff()
     {
         SetPlayerState(PlayerState.MovingToStaff);
-        Debug.Log("移動到員工，狀態設為 MovingToStaff");
     }
 
     public void NotifyMovingToCustomer()
     {
         SetPlayerState(PlayerState.MovingToCustomer);
-        Debug.Log("移動到顧客，狀態設為 MovingToCustomer");
     }
 
     public void NotifyReturningToCustomer()
     {
         SetPlayerState(PlayerState.ReturningToCustomer);
-        Debug.Log("返回顧客，狀態設為 ReturningToCustomer");
+    }
+
+    public void NotifyRestorePreviousState()
+    {
+        SetPlayerState(previousPlayerState);
     }
 }

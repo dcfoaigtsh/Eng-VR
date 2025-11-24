@@ -3582,8 +3582,8 @@ MonoBehaviour:
   - {fileID: 1366404232}
   - {fileID: 1594368323}
   gameOverUI: {fileID: 1568885688}
-  gameDescription: {fileID: 0}
   currentPlayerState: 0
+  previousPlayerState: 0
   totalQuestions: 0
   correctFirstTry: 0
 --- !u!4 &119774791
@@ -6462,6 +6462,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &185425954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9166,15 +9178,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2756134650820208770, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9310,15 +9322,15 @@ PrefabInstance:
       objectReference: {fileID: 1231192953}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5997411733407932380, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9334,11 +9346,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9346,7 +9358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6892379527718228456, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9406,15 +9418,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 100
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8928913540568361017, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -16452,6 +16464,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &512384723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19289,6 +19313,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 675481410540530321, guid: c9d1b073abad30040a989cbc7e3a1f20, type: 3}
   m_PrefabInstance: {fileID: 636019570}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &641049971
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459292718799946611, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Name
+      value: CornerAssistant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
 --- !u!1001 &643762279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21664,6 +21785,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -26097,6 +26230,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &882106909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28105,6 +28250,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyRestorePreviousState
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -31469,10 +31626,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1236490402}
+      addedObject: {fileID: 951046415}
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 951046415}
+      addedObject: {fileID: 1236490402}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
@@ -34026,6 +34183,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -42164,6 +42333,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1398998537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46845,6 +47026,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -54936,6 +55129,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: STD_Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -65870,3 +66075,4 @@ SceneRoots:
   - {fileID: 1568885689}
   - {fileID: 328868412}
   - {fileID: 1574861524}
+  - {fileID: 641049971}
