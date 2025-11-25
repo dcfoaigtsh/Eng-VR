@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI; // 雖然此腳本內沒有直接使用 NavMeshAgent，但保留 namespace
 
-public class STD_QAmanager : MonoBehaviour
+public class STD_QAmanager : QAmanager
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public List<Button> optionAdvancedButtons;
 
     // [Header("Speech")] ⚠️ 已刪除
@@ -61,7 +60,7 @@ public class STD_QAmanager : MonoBehaviour
 
     void ShowCurrentStage()
     {
-        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.NotifyStaffInteractionStarted();
@@ -165,7 +164,7 @@ public class STD_QAmanager : MonoBehaviour
         statementText.text = "Clerk: You're welcome!";
         foreach (var b in optionAdvancedButtons) b.gameObject.SetActive(false);
 
-        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.NotifyReturningToCustomer();

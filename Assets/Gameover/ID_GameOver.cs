@@ -3,10 +3,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ID_GameOverUI : MonoBehaviour
+public class ID_GameOverUI : GameOverUI
 {
     public GameObject gameOverPanel;         // 整個面板 (GameObject)
-    public TextMeshProUGUI messageText;      // 顯示結束訊息的 TMP
     public Button closeButton;               // X 按鈕
     public Button reviewButton;              // 新增的「Review Vocabulary」按鈕
 

@@ -4,17 +4,15 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ID_GameDescription : MonoBehaviour
+public class ID_GameDescription : GameDescription
 {
     public GameObject InfomationBoard;
-    public TextMeshProUGUI InfoContent;
     public Button NextButton, PreviousButton;
     public GameObject VisualPage;     // 第三頁圖像
     public GameObject VisualPage2;    // 第四頁圖像
     public GameObject CustomerPanel;    // ✅ 最後按 OK 時開啟的朋友面板（例如顧客）
 
     public List<ID_Info> Infos = new List<ID_Info>();
-    public int currentInfo;
 
     void Awake()
     {
@@ -57,6 +55,11 @@ public class ID_GameDescription : MonoBehaviour
             {
                 // 最後一頁，按下 OK：關閉說明，開啟朋友面板
                 InfomationBoard.SetActive(false);
+                Gameflow gameflow = FindObjectOfType<Gameflow>();
+                if (gameflow != null)
+                {
+                    gameflow.NotifyRestorePreviousState();
+                }
                 if (CustomerPanel != null)
                     CustomerPanel.SetActive(true);
             }
@@ -73,6 +76,12 @@ public class ID_GameDescription : MonoBehaviour
 
     void SetupPageContent()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReadingDescription();
+        }
+        
         // 先關閉所有圖像頁，避免殘留
         if (VisualPage != null) VisualPage.SetActive(false);
         if (VisualPage2 != null) VisualPage2.SetActive(false);

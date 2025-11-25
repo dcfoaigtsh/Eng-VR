@@ -4,16 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ASD_GameDescription : MonoBehaviour
+public class ASD_GameDescription : GameDescription
 {
     public GameObject InfomationBoard;
-    public TextMeshProUGUI InfoContent;
     public Button CloseButton, NextButton, PreviousButton;
     public GameObject VisualPage; // 新增的圖像說明頁
     public GameObject VisualPage2; // 新增的圖像說明頁
 
-    public List<ASD_Info> Infos = new List<ASD_Info>();  
-    public int currentInfo;
+    public List<ASD_Info> Infos = new List<ASD_Info>();
 
     void Awake()
     {
@@ -58,6 +56,12 @@ public class ASD_GameDescription : MonoBehaviour
 
     void SetupPageContent()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReadingDescription();
+        }
+        
         // 先關閉所有圖像頁，避免殘留
         if (VisualPage != null) VisualPage.SetActive(false);
         if (VisualPage2 != null) VisualPage2.SetActive(false);

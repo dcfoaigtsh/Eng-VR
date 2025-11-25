@@ -3459,6 +3459,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bee08e2a43eaa488264229f82deb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerState: 0
+  previousPlayerState: 0
   customerList:
   - {fileID: 755819271}
   - {fileID: 1074777239}
@@ -6797,6 +6799,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12176,6 +12190,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1540423510756240529, guid: 9a5b90eb25cae70498a6396e4660dce3, type: 3}
   m_PrefabInstance: {fileID: 371360728}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &372107102
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459292718799946611, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Name
+      value: CornerAssistant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
 --- !u!1001 &373134168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17858,6 +17969,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -25070,15 +25193,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8f5f3e3c89c6f498baf5cec480bb2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfomationBoard: {fileID: 899852237}
   InfoContent: {fileID: 163639623}
+  currentInfo: 0
+  InfomationBoard: {fileID: 899852237}
   CloseButton: {fileID: 965013212}
   NextButton: {fileID: 1642919316}
   PreviousButton: {fileID: 1749871759}
   VisualPage: {fileID: 955814259}
   VisualPage2: {fileID: 563283460}
   Infos: []
-  currentInfo: 0
 --- !u!1 &762787584
 GameObject:
   m_ObjectHideFlags: 0
@@ -28409,6 +28532,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &882106909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30628,6 +30763,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyRestorePreviousState
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -45377,6 +45524,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1398998537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50226,6 +50385,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1559909568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50454,8 +50625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3e2c8c60e43b942b984fdf73d41040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 913035290}
   messageText: {fileID: 1306821087}
+  gameOverPanel: {fileID: 913035290}
   closeButton: {fileID: 98619597}
   reviewButton: {fileID: 1778485834}
 --- !u!1001 &1569268650
@@ -58223,6 +58394,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -70740,3 +70923,4 @@ SceneRoots:
   - {fileID: 1568885689}
   - {fileID: 328868412}
   - {fileID: 1574861524}
+  - {fileID: 372107102}

@@ -4,16 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class STD_GameDescription : MonoBehaviour
+public class STD_GameDescription : GameDescription
 {
     public GameObject InfomationBoard;
-    public TextMeshProUGUI InfoContent;
     public Button CloseButton, NextButton, PreviousButton;
     public GameObject VisualPage; // 新增的圖像說明頁
     public GameObject VisualPage2; // 新增的圖像說明頁
 
-    public List<STD_Info> Infos = new List<STD_Info>();  
-    public int currentInfo;
+    public List<STD_Info> Infos = new List<STD_Info>();
 
     void Awake()
     {
@@ -58,7 +56,7 @@ public class STD_GameDescription : MonoBehaviour
 
     void SetupPageContent()
     {
-        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.NotifyReadingDescription();

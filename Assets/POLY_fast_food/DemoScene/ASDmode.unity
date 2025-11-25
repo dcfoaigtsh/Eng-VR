@@ -3145,6 +3145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8d635d64f315eb4f874c2e24b209793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerState: 0
+  previousPlayerState: 0
   customerList:
   - {fileID: 755819271}
   gameOverUI: {fileID: 1568885688}
@@ -7430,6 +7432,103 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4219442488034454270, guid: 38b513d80a3bf6c4c872f0844e6d274b, type: 3}
   m_PrefabInstance: {fileID: 281258975}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &281805038
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 123078475526356044, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2459292718799946611, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: m_Name
+      value: CornerAssistant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
 --- !u!1001 &282415325
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13763,6 +13862,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyStaffInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &512384723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19016,15 +19127,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28b30d4de4e90e441b0018dc3286a63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfomationBoard: {fileID: 899852237}
   InfoContent: {fileID: 163639623}
+  currentInfo: 0
+  InfomationBoard: {fileID: 899852237}
   CloseButton: {fileID: 965013212}
   NextButton: {fileID: 1642919316}
   PreviousButton: {fileID: 1749871759}
   VisualPage: {fileID: 955814259}
   VisualPage2: {fileID: 2116548870}
   Infos: []
-  currentInfo: 0
 --- !u!4 &762458762
 Transform:
   m_ObjectHideFlags: 0
@@ -21993,6 +22104,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyCustomerInteractionStarted
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &882106909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23894,6 +24017,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyRestorePreviousState
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -40309,8 +40444,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f057054177f875943ad4f7e72cbb432a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 913035290}
   messageText: {fileID: 1306821087}
+  gameOverPanel: {fileID: 913035290}
   closeButton: {fileID: 98619597}
   reviewButton: {fileID: 1880971053}
 --- !u!4 &1568885689
@@ -57748,3 +57883,4 @@ SceneRoots:
   - {fileID: 1568885689}
   - {fileID: 328868412}
   - {fileID: 1574861524}
+  - {fileID: 281805038}

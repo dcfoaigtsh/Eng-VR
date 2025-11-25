@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ASD_Gameflow : MonoBehaviour
+public class ASD_Gameflow : Gameflow
 {
     [Header("只使用第1位顧客")]
     public List<GameObject> customerList;  // 拖入顧客物件（只使用 index 0）
@@ -17,6 +17,8 @@ public class ASD_Gameflow : MonoBehaviour
 
     void Start()
     {
+        SetPlayerState(PlayerState.ReadingDescription);
+        
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
@@ -51,6 +53,10 @@ public class ASD_Gameflow : MonoBehaviour
         }
 
         Debug.Log("顧客 1 出現！");
+        
+        if(currentPlayerState != PlayerState.TalkingToCustomer) {
+            SetPlayerState(PlayerState.MovingToCustomer);
+        }
     }
 
     // 提供給 QA Manager 呼叫：完成點餐後執行
@@ -70,6 +76,7 @@ public class ASD_Gameflow : MonoBehaviour
 
     public void ShowGameOverManually()
     {
+        SetPlayerState(PlayerState.Completed);
         // ✅ 結算統計資料寫入 PlayerPrefs
         float accuracyPercent = GetAccuracyPercent();
         float timeSpent = Time.timeSinceLevelLoad;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SLD_Gameflow : MonoBehaviour
+public class SLD_Gameflow : Gameflow
 {
     [Header("所有顧客物件（依序）")]
     public List<GameObject> customerList;
@@ -23,6 +23,8 @@ public class SLD_Gameflow : MonoBehaviour
 
     void Start()
     {
+        SetPlayerState(PlayerState.ReadingDescription);
+        
         startTime = Time.time; // ✅ 開始計時
 
         if (customerList != null && customerList.Count > 0)
@@ -44,6 +46,10 @@ public class SLD_Gameflow : MonoBehaviour
 
         Debug.Log($"🧍 顧客 {index + 1} 出現！");
         waitingForDelivery = false;
+        
+        if(currentPlayerState != PlayerState.TalkingToCustomer) {
+            SetPlayerState(PlayerState.MovingToCustomer);
+        }
     }
 
     // ✅ 給 QA Manager 回報每題結果（僅第一次作答）
@@ -91,6 +97,7 @@ public class SLD_Gameflow : MonoBehaviour
         else
         {
             Debug.Log("所有顧客互動完畢！");
+            SetPlayerState(PlayerState.Completed);
             ShowGameOverManually();
         }
     }

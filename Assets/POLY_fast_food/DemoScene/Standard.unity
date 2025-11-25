@@ -3576,14 +3576,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9a8a6bd352326a4481259f9eb4da8d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerState: 0
+  previousPlayerState: 0
   customerList:
   - {fileID: 755819271}
   - {fileID: 1074777239}
   - {fileID: 1366404232}
   - {fileID: 1594368323}
   gameOverUI: {fileID: 1568885688}
-  currentPlayerState: 0
-  previousPlayerState: 0
   totalQuestions: 0
   correctFirstTry: 0
 --- !u!4 &119774791
@@ -23296,15 +23296,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbf2dc1d792dffa4a9437df3b2aae4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfomationBoard: {fileID: 899852237}
   InfoContent: {fileID: 163639623}
+  currentInfo: 0
+  InfomationBoard: {fileID: 899852237}
   CloseButton: {fileID: 965013212}
   NextButton: {fileID: 1642919316}
   PreviousButton: {fileID: 1749871759}
   VisualPage: {fileID: 955814259}
   VisualPage2: {fileID: 563283460}
   Infos: []
-  currentInfo: 0
 --- !u!4 &762458762
 Transform:
   m_ObjectHideFlags: 0
@@ -40839,10 +40839,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1578236240}
+      addedObject: {fileID: 21853704}
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 21853704}
+      addedObject: {fileID: 1578236240}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
@@ -47250,8 +47250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e055dcec4ed61ee478416d0ad17f34f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverPanel: {fileID: 913035290}
   messageText: {fileID: 1306821087}
+  gameOverPanel: {fileID: 913035290}
   closeButton: {fileID: 98619597}
   reviewButton: {fileID: 1778485834}
 --- !u!4 &1568885689
@@ -48320,10 +48320,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1489621245}
+      addedObject: {fileID: 1625901094}
     - targetCorrespondingSourceObject: {fileID: 2646463556235032546, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1625901094}
+      addedObject: {fileID: 1489621245}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3454806519707053400, guid: 57c79ae54844bc9409eda2708169abce, type: 3}
       insertIndex: -1

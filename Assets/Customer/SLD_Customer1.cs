@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-public class SLD_SingleCustomer : MonoBehaviour
+public class SLD_SingleCustomer : SingleCustomer
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public Button statementAudioButton;
     public List<Button> optionButtons;
     public List<Button> optionAudioButtons;
@@ -104,6 +103,12 @@ public class SLD_SingleCustomer : MonoBehaviour
     // ======================== 顯示題目 ========================
     void ShowCurrentStage()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyCustomerInteractionStarted();
+        }
+
         firstAttemptPending = true;
         // pendingSelectedIndex = -1; ⚠️ 已刪除
         // lastRecognizedText = ""; ⚠️ 已刪除
@@ -283,6 +288,12 @@ public class SLD_SingleCustomer : MonoBehaviour
         {
             if (employee1 != null) drawer.ChangeDestination(employee1);
             if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
+        }
+
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyMovingToStaff();
         }
 
         StartCoroutine(DelayedSwitch());

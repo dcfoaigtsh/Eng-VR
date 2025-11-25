@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-public class ASD_SingleCustomer : MonoBehaviour
+public class ASD_SingleCustomer : SingleCustomer
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public List<Button> optionButtons;
     public GameObject completeIcon;
 
@@ -53,6 +52,12 @@ public class ASD_SingleCustomer : MonoBehaviour
     // ======================================
     void ShowCurrentStage()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyCustomerInteractionStarted();
+        }
+        
         firstAttemptPending = true;
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
@@ -170,6 +175,12 @@ public class ASD_SingleCustomer : MonoBehaviour
         {
             if (employee1 != null) drawer.ChangeDestination(employee1);
             if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
+        }
+
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyMovingToStaff();
         }
 
         StartCoroutine(DelayedSwitch());

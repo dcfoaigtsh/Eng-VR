@@ -31,11 +31,11 @@ public class AssistantHintController : MonoBehaviour
     public bool showDebugInfo = true;
 
     // 遊戲元件參考
-    private STD_Gameflow gameflow;
-    private STD_SingleCustomer[] allCustomers;
-    private STD_QAmanager[] allEmployees;
-    private STD_GameDescription gameDescription;
-    private STD_GameOverUI gameOverUI;
+    private Gameflow gameflow;
+    private SingleCustomer[] allCustomers;
+    private QAmanager[] allQAmanagers;
+    private GameDescription gameDescription;
+    private GameOverUI gameOverUI;
 
     // HTTP 客戶端
     private HttpClient client;
@@ -44,7 +44,6 @@ public class AssistantHintController : MonoBehaviour
     // 玩家相關狀態
     private LearningMode learningMode = LearningMode.Standard;    // 學習模式
     private PlayerState currentPlayerState;                       // 目前玩家狀態
-    private float accuracy = 0f;                                  // 答對率
     private int currentDialoguePage = 0;                          // 目前對話頁面
     private string currentDialogueText = "";                      // 目前對話文字
     private string currentOrder = "";                             // 目前訂單內容
@@ -65,7 +64,7 @@ public class AssistantHintController : MonoBehaviour
     void Start()
     {
         // 訂閱遊戲流程的狀態變更事件
-        gameflow = FindObjectOfType<STD_Gameflow>();
+        gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.OnPlayerStateChanged += newState => currentPlayerState = newState;
@@ -114,17 +113,10 @@ public class AssistantHintController : MonoBehaviour
         {
             learningMode = ModeManager.Instance.currentMode;
         }
-
-        // 從遊戲流程獲取玩家狀態和答對率
-        if (gameflow != null)
-        {
-            currentPlayerState = gameflow.currentPlayerState;
-            accuracy = gameflow.GetAccuracyPercent();
-        }
         
         // 從活躍顧客獲取對話和訂單資訊
-        allCustomers = FindObjectsOfType<STD_SingleCustomer>();
-        STD_SingleCustomer activeCustomer = GetActiveCustomer();
+        allCustomers = FindObjectsOfType<SingleCustomer>();
+        SingleCustomer activeCustomer = GetActiveCustomer();
         if (currentPlayerState == PlayerState.TalkingToCustomer && activeCustomer != null && activeCustomer.statementText != null)
         {
             currentDialogueText = activeCustomer.statementText.text;
@@ -146,8 +138,8 @@ public class AssistantHintController : MonoBehaviour
         }
         
         // 從 QA 管理器獲取對話
-        allEmployees = FindObjectsOfType<STD_QAmanager>();
-        STD_QAmanager activeQAManager = GetActiveQAManager();
+        allQAmanagers = FindObjectsOfType<QAmanager>();
+        QAmanager activeQAManager = GetActiveQAManager();
         // 檢測有沒有有效的 QA 管理器
         if (currentPlayerState == PlayerState.OrderingAtStaff && activeQAManager != null && activeQAManager.statementText != null)
         {
@@ -155,7 +147,7 @@ public class AssistantHintController : MonoBehaviour
         }
 
         // 從遊戲說明獲取文字
-        gameDescription = FindObjectOfType<STD_GameDescription>();
+        gameDescription = FindObjectOfType<GameDescription>();
         if (currentPlayerState == PlayerState.ReadingDescription && gameDescription != null)
         {
             currentDialoguePage = gameDescription.currentInfo;
@@ -170,7 +162,7 @@ public class AssistantHintController : MonoBehaviour
         }
 
         // 從遊戲結束畫面獲取資訊
-        gameOverUI = FindObjectOfType<STD_GameOverUI>();
+        gameOverUI = FindObjectOfType<GameOverUI>();
         if (currentPlayerState == PlayerState.Completed && gameOverUI != null && gameOverUI.messageText != null)
         {
             currentDialogueText = gameOverUI.messageText.text;
@@ -178,7 +170,7 @@ public class AssistantHintController : MonoBehaviour
     }
 
     // 獲取當前活躍的顧客
-    STD_SingleCustomer GetActiveCustomer()
+    SingleCustomer GetActiveCustomer()
     {
         if (allCustomers != null)
         {
@@ -194,11 +186,11 @@ public class AssistantHintController : MonoBehaviour
     }
 
     // 獲取當前活躍的 QA 管理器
-    STD_QAmanager GetActiveQAManager()
+    QAmanager GetActiveQAManager()
     {
-        if (allEmployees != null)
+        if (allQAmanagers != null)
         {
-            foreach (var manager in allEmployees)
+            foreach (var manager in allQAmanagers)
             {
                 if (manager != null && manager.gameObject.activeInHierarchy)
                 {
@@ -279,8 +271,8 @@ public class AssistantHintController : MonoBehaviour
         Q1Button.GetComponentInChildren<TextMeshProUGUI>().text = "我不知道再來要做什麼？";
         Q1Button.gameObject.SetActive(true);
         
-        // 選項2: 一直答錯 - 只有在點餐階段且答錯時顯示
-        bool canShowWrongOption = (currentPlayerState == PlayerState.OrderingAtStaff) && (accuracy < 100f);
+        // 選項2: 一直答錯 - 只有在點餐階段
+        bool canShowWrongOption = (currentPlayerState == PlayerState.OrderingAtStaff);
         Q2Button.gameObject.SetActive(canShowWrongOption);
         if (canShowWrongOption)
         {
@@ -340,7 +332,6 @@ public class AssistantHintController : MonoBehaviour
     {
         string prompt = $"【遊戲情境】快餐店英文學習模擬 - {learningMode}模式\n";
         prompt += $"【玩家狀態】{currentPlayerState}\n";
-        prompt += $"【答對率】{accuracy:F1}%\n";
         
         if (!string.IsNullOrEmpty(currentDialogueText))
         {

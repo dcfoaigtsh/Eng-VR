@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-public class STD_SingleCustomer : MonoBehaviour
+public class STD_SingleCustomer : SingleCustomer
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public List<Button> optionButtons;
 
     // [Header("Speech UI")]
@@ -82,7 +81,7 @@ public class STD_SingleCustomer : MonoBehaviour
 
     void ShowCurrentStage()
     {
-        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.NotifyCustomerInteractionStarted();
@@ -196,7 +195,7 @@ public class STD_SingleCustomer : MonoBehaviour
             if (agentForThisRoute != null) drawer.ChangeNavAgent(agentForThisRoute);
         }
 
-        STD_Gameflow gameflow = FindObjectOfType<STD_Gameflow>();
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
             gameflow.NotifyMovingToStaff();

@@ -5,10 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-public class SLD_QAmanager : MonoBehaviour
+public class SLD_QAmanager : QAmanager
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public Button statementAudioButton;
     public List<Button> optionAdvancedButtons;
     public List<Button> optionAudioButtons;
@@ -80,6 +79,12 @@ public class SLD_QAmanager : MonoBehaviour
     // ====================== 顯示題目 ======================
     void ShowCurrentStage()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyStaffInteractionStarted();
+        }
+
         firstAttemptPending = true;
         // pendingSelectedIndex = -1; ⚠️ 已刪除
         // lastRecognizedText = ""; ⚠️ 已刪除
@@ -234,6 +239,12 @@ public class SLD_QAmanager : MonoBehaviour
         foreach (var btn in optionAdvancedButtons) btn.gameObject.SetActive(false);
         foreach (var ab in optionAudioButtons) if (ab) ab.gameObject.SetActive(false);
         if (statementAudioButton) statementAudioButton.gameObject.SetActive(false);
+
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReturningToCustomer();
+        }
 
         StartCoroutine(SwitchToFinalDialogue());
     }

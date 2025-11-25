@@ -6,10 +6,9 @@ using TMPro;
 using UnityEngine.AI;
 
 // 管理 ASD 模式下的問答流程（已移除語音辨識）
-public class ASD_QAmanager : MonoBehaviour
+public class ASD_QAmanager : QAmanager
 {
-    [Header("UI")]
-    public TextMeshProUGUI statementText;
+    // [Header("UI")]
     public List<Button> optionAdvancedButtons;
 
     [Header("Flow References")]
@@ -49,6 +48,12 @@ public class ASD_QAmanager : MonoBehaviour
     // ======================================
     void ShowCurrentStage()
     {
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyStaffInteractionStarted();
+        }
+        
         firstAttemptPending = true;
 
 
@@ -163,6 +168,12 @@ public class ASD_QAmanager : MonoBehaviour
         statementText.text = "You're welcome!";
         foreach (var btn in optionAdvancedButtons)
             btn.gameObject.SetActive(false);
+
+        Gameflow gameflow = FindObjectOfType<Gameflow>();
+        if (gameflow != null)
+        {
+            gameflow.NotifyReturningToCustomer();
+        }
 
         StartCoroutine(SwitchToFinalDialogue());
     }
