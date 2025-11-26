@@ -23,8 +23,6 @@ public class SLD_Gameflow : Gameflow
 
     void Start()
     {
-        SetPlayerState(PlayerState.ReadingDescription);
-        
         startTime = Time.time; // ✅ 開始計時
 
         if (customerList != null && customerList.Count > 0)
@@ -41,15 +39,12 @@ public class SLD_Gameflow : Gameflow
     {
         for (int i = 0; i < customerList.Count; i++)
         {
+            if (i == index) NotifyMovingToCustomer();
             customerList[i].SetActive(i == index);
         }
 
         Debug.Log($"🧍 顧客 {index + 1} 出現！");
         waitingForDelivery = false;
-        
-        if(currentPlayerState != PlayerState.TalkingToCustomer) {
-            SetPlayerState(PlayerState.MovingToCustomer);
-        }
     }
 
     // ✅ 給 QA Manager 回報每題結果（僅第一次作答）
@@ -97,13 +92,13 @@ public class SLD_Gameflow : Gameflow
         else
         {
             Debug.Log("所有顧客互動完畢！");
-            SetPlayerState(PlayerState.Completed);
             ShowGameOverManually();
         }
     }
 
     public void ShowGameOverManually()
     {
+        NotifyCompleted();
         // ✅ 統計資料
         float accuracyPercent = GetAccuracyPercent();
         float timeSpent = Time.timeSinceLevelLoad;

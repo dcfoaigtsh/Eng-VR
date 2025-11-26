@@ -20,8 +20,6 @@ public class ID_Gameflow : Gameflow
 
     void Start()
     {
-        SetPlayerState(PlayerState.ReadingDescription);
-        
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
@@ -37,14 +35,11 @@ public class ID_Gameflow : Gameflow
     {
         for (int i = 0; i < customerList.Count; i++)
         {
+            if (i == index) NotifyMovingToCustomer();
             customerList[i].SetActive(i == index);
         }
 
         Debug.Log("顧客 1 出現！");
-        
-        if(currentPlayerState != PlayerState.TalkingToCustomer) {
-            SetPlayerState(PlayerState.MovingToCustomer);
-        }
     }
 
     // ✅ 提供 QA manager 呼叫：回報第一次作答結果
@@ -85,7 +80,7 @@ public class ID_Gameflow : Gameflow
 
     public void ShowGameOverManually()
     {
-        SetPlayerState(PlayerState.Completed);
+        NotifyCompleted();
         // ✅ 寫入 PlayerPrefs
         float accuracyPercent = GetAccuracyPercent();
         float timeSpent = Time.timeSinceLevelLoad;

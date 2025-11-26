@@ -34,8 +34,6 @@ public class STD_Gameflow : Gameflow
 
     void Start()
     {
-        SetPlayerState(PlayerState.ReadingDescription);
-        
         if (customerList != null && customerList.Count > 0)
         {
             ActivateCustomer(0);
@@ -50,15 +48,12 @@ public class STD_Gameflow : Gameflow
     {
         for (int i = 0; i < customerList.Count; i++)
         {
+            if (i == index) NotifyMovingToCustomer();
             customerList[i].SetActive(i == index);
         }
 
         Debug.Log($"🧍 顧客 {index + 1} 出現！");
         waitingForDelivery = false;
-        
-        if(currentPlayerState != PlayerState.TalkingToCustomer) {
-            SetPlayerState(PlayerState.MovingToCustomer);
-        }
     }
 
     public void NextCustomer()
@@ -97,13 +92,13 @@ public class STD_Gameflow : Gameflow
         else
         {
             Debug.Log("所有顧客互動完畢！");
-            SetPlayerState(PlayerState.Completed);
             ShowGameOverManually();
         }
     }
 
     public void ShowGameOverManually()
     {
+        NotifyCompleted();
         // ✅ 統計資料
         float accuracyPercent = GetAccuracyPercent();
         float timeSpent = Time.timeSinceLevelLoad;

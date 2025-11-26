@@ -63,7 +63,10 @@ public class STD_QAmanager : QAmanager
         Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
-            gameflow.NotifyStaffInteractionStarted();
+            if (statementText.gameObject.activeInHierarchy)
+            {
+                gameflow.NotifyStaffInteractionStarted();
+            }
         }
 
         firstAttemptPending = true;

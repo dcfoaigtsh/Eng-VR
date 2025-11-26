@@ -55,7 +55,10 @@ public class ASD_SingleCustomer : SingleCustomer
         Gameflow gameflow = FindObjectOfType<Gameflow>();
         if (gameflow != null)
         {
-            gameflow.NotifyCustomerInteractionStarted();
+            if (statementText.gameObject.activeInHierarchy)
+            {
+                gameflow.NotifyCustomerInteractionStarted();
+            }
         }
         
         firstAttemptPending = true;
