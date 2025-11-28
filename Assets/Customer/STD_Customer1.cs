@@ -10,8 +10,6 @@ public class STD_SingleCustomer : SingleCustomer
     // [Header("UI")]
     public List<Button> optionButtons;
 
-    // [Header("Speech UI")]
-
     [Header("Flow")]
     public STD_Gameflow customerManager;
     public GameObject completeIcon;
@@ -24,6 +22,15 @@ public class STD_SingleCustomer : SingleCustomer
     [Header("Randomization")]
     [Tooltip("若 >= 0，使用固定亂數種子以重現相同洗牌結果。")]
     public int randomSeed = -1;
+
+    [Header("Order Review UI")]
+    [Tooltip("小的『Review menu』按鈕 GameObject")]
+    public GameObject reviewMenuButton;    // 指向 Canvas/Reviewmenu
+    [Tooltip("大的透明面板（menupanel） GameObject")]
+    public GameObject reviewPanel;         // 指向 Canvas/menupanel
+    [Header("Main Dialogue UI (顧客對話的大面板)")]
+    public GameObject mainDialoguePanel;
+
 
     private int currentStage = 0;
     private bool returningWithFood = false;
@@ -49,14 +56,16 @@ public class STD_SingleCustomer : SingleCustomer
     }
 
     [Header("Dialogue Data")]
-    public List<Stage> stages; // 初次點餐對話
+    public List<Stage> stages;               // 初次點餐對話
     public List<Stage> returnDialogueStages; // 回來交餐對話
 
     void OnEnable()
     {
-        if (randomSeed >= 0) Random.InitState(randomSeed);
+        // 剛啟用顧客時：Review UI 一律關閉（圖片1 狀態）
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(false);
+        if (reviewPanel != null) reviewPanel.SetActive(false);
 
-        // ⚠️ 移除 speechPopup.ClosePanel(); 介面清理邏輯
+        if (randomSeed >= 0) Random.InitState(randomSeed);
 
         if (!returningWithFood)
         {
@@ -89,7 +98,7 @@ public class STD_SingleCustomer : SingleCustomer
                 gameflow.NotifyCustomerInteractionStarted();
             }
         }
-        
+
         firstAttemptPending = true;
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
@@ -145,7 +154,7 @@ public class STD_SingleCustomer : SingleCustomer
         }
     }
 
-    // 此協程現在只處理選項點擊、判斷對錯和流程推進
+    // 只處理選項點擊、判斷對錯和流程推進
     IEnumerator OnOptionSelected(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
@@ -153,8 +162,7 @@ public class STD_SingleCustomer : SingleCustomer
 
         // 暫時關閉按鈕防止連點
         ToggleOptionButtons(false);
-        
-        // 直接判斷是否正確
+
         bool isCorrect = (index == stage.correctIndex);
 
         // 第一次作答才記錄
@@ -166,7 +174,7 @@ public class STD_SingleCustomer : SingleCustomer
 
         if (!isCorrect)
         {
-            // ❌ 答錯，顯示 Try again!
+            // 答錯，顯示 Try again!
             statementText.text = "Hmm... Try again!";
             yield return new WaitForSeconds(1.2f);
             ToggleOptionButtons(true);
@@ -174,20 +182,21 @@ public class STD_SingleCustomer : SingleCustomer
             yield break;
         }
 
-        // ✅ 答對 → 進入下一題
-        
+        // 答對 → 進入下一題
         currentStage++;
         ToggleOptionButtons(true);
         ShowCurrentStage();
     }
-    
+
     void ToggleOptionButtons(bool interactable)
     {
-        foreach (var b in optionButtons) if (b) b.interactable = interactable;
+        foreach (var b in optionButtons)
+            if (b) b.interactable = interactable;
     }
 
     void FinishInteraction()
     {
+        // 初次向顧客索取餐點流程結束，準備去找員工點餐
         statementText.text = "Thank you!";
         foreach (var btn in optionButtons)
             btn.gameObject.SetActive(false);
@@ -204,20 +213,33 @@ public class STD_SingleCustomer : SingleCustomer
             gameflow.NotifyMovingToStaff();
         }
 
+        // ✅ 從現在開始到回來交餐之前，可以回顧訂單
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(true);
+
         StartCoroutine(DelayedSwitch());
     }
 
     IEnumerator DelayedSwitch()
     {
+        // 以前會把整個顧客關掉，現在只做一些緩衝，如果要可以在這裡多加效果
         yield return new WaitForSeconds(1f);
-        gameObject.SetActive(false);
+        if (mainDialoguePanel != null)
+            mainDialoguePanel.SetActive(false);
     }
 
     public void BeginFinalDialogue()
     {
+        // 回來交餐
         returningWithFood = true;
         currentStage = 0;
+
+        // 回來交餐後就不需要 Review menu 了
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(false);
+        if (reviewPanel != null) reviewPanel.SetActive(false);
+
         gameObject.SetActive(true);
+        if (mainDialoguePanel != null)
+            mainDialoguePanel.SetActive(true);
         ShowCurrentStage();
     }
 
@@ -233,6 +255,22 @@ public class STD_SingleCustomer : SingleCustomer
             customerManager.ProceedToNextCustomer();
     }
 
+    // ============ Review menu 開關（給 UI Button 用） ============
+
+    // 點「Review menu」按鈕時呼叫
+    public void OpenReviewPanel()
+    {
+        if (reviewPanel != null)
+            reviewPanel.SetActive(true);
+    }
+
+    // 點大面板上的 X 按鈕時呼叫
+    public void CloseReviewPanel()
+    {
+        if (reviewPanel != null)
+            reviewPanel.SetActive(false);
+    }
+
     // ===================== 洗牌 =====================
     private void ShuffleOptionsInEachStage(List<Stage> list)
     {
@@ -245,7 +283,7 @@ public class STD_SingleCustomer : SingleCustomer
             // 記住原本正確答案
             QAOption correctOption = stage.options[stage.correctIndex];
 
-            // 🔹 用 Fisher–Yates 洗牌
+            // Fisher–Yates 洗牌
             for (int i = stage.options.Count - 1; i > 0; i--)
             {
                 int r = UnityEngine.Random.Range(0, i + 1);
@@ -254,7 +292,7 @@ public class STD_SingleCustomer : SingleCustomer
                 stage.options[r] = tmp;
             }
 
-            // 🔹 再加入一次隨機偏移（增加變化性）
+            // 再加入一次隨機偏移
             int offset = UnityEngine.Random.Range(0, stage.options.Count);
             if (offset > 0)
             {
@@ -264,7 +302,7 @@ public class STD_SingleCustomer : SingleCustomer
                 stage.options = rotated;
             }
 
-            // 🔹 重新定位正確答案索引
+            // 重新定位正確答案索引
             for (int j = 0; j < stage.options.Count; j++)
             {
                 if (stage.options[j] == correctOption)

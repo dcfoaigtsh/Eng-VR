@@ -30,6 +30,16 @@ public class SLD_SingleCustomer : SingleCustomer
     [Tooltip("若 >= 0，使用固定 seed 讓洗牌可重現；-1 則使用預設隨機。")]
     public int randomSeed = -1;
 
+    [Header("Order Review UI")]
+    [Tooltip("顧客頭上的『Review menu』按鈕")]
+    public GameObject reviewMenuButton;   // 小按鈕
+    [Tooltip("顧客的回顧菜單面板（顯示 I want a ...）")]
+    public GameObject reviewPanel;        // menu panel
+
+    [Header("Main Dialogue UI (顧客對話主面板)")]
+    [Tooltip("顧客對話的大白板 Panel（問句 + 選項那塊）")]
+    public GameObject mainDialoguePanel;  // 主對話 Panel
+
     private int currentStage = 0;
     private bool returningWithFood = false;
     private bool firstAttemptPending = true;
@@ -42,14 +52,14 @@ public class SLD_SingleCustomer : SingleCustomer
     {
         public string text;
         public Sprite image;
-        public AudioClip audio; // 👈 保留音檔
+        public AudioClip audio;
     }
 
     [System.Serializable]
     public class Stage
     {
         public string question;
-        public AudioClip questionAudio; // 👈 保留音檔
+        public AudioClip questionAudio;
         public List<QAOption> options;
         public int correctIndex;
     }
@@ -72,6 +82,12 @@ public class SLD_SingleCustomer : SingleCustomer
     void OnEnable()
     {
         if (randomSeed >= 0) Random.InitState(randomSeed);
+
+        // 初始時關掉 Review UI，打開主對話 Panel
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(false);
+        if (reviewPanel != null) reviewPanel.SetActive(false);
+        if (mainDialoguePanel != null) mainDialoguePanel.SetActive(true);
+        if (statementText != null) statementText.gameObject.SetActive(true);
 
         if (!returningWithFood)
         {
@@ -113,8 +129,6 @@ public class SLD_SingleCustomer : SingleCustomer
         }
 
         firstAttemptPending = true;
-        // pendingSelectedIndex = -1; ⚠️ 已刪除
-        // lastRecognizedText = ""; ⚠️ 已刪除
 
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         if (currentList == null || currentList.Count == 0)
@@ -134,7 +148,7 @@ public class SLD_SingleCustomer : SingleCustomer
 
         Stage stage = currentList[currentStage];
 
-        // 🧩 防呆：選項為空或索引錯誤
+        // 防呆
         if (stage.options == null || stage.options.Count == 0)
         {
             Debug.LogWarning($"[SLD_SingleCustomer] 第 {currentStage} 題沒有選項！");
@@ -152,7 +166,7 @@ public class SLD_SingleCustomer : SingleCustomer
         if (statementText != null)
             statementText.text = stage.question ?? "";
 
-        // 題幹音檔播放 (保留)
+        // 題幹音檔
         if (statementAudioButton != null)
         {
             bool hasQAudio = (stage.questionAudio != null);
@@ -169,7 +183,7 @@ public class SLD_SingleCustomer : SingleCustomer
             }
         }
 
-        // 顯示選項（含圖片 + 單獨語音）
+        // 顯示選項
         for (int i = 0; i < optionButtons.Count; i++)
         {
             if (i < stage.options.Count)
@@ -197,10 +211,9 @@ public class SLD_SingleCustomer : SingleCustomer
 
                 btn.onClick.RemoveAllListeners();
                 int capturedIndex = i;
-                // 點擊選項後直接判斷
                 btn.onClick.AddListener(() => OnOptionClicked(capturedIndex));
 
-                // 單獨播放選項語音 (保留)
+                // 選項語音按鈕
                 if (i < optionAudioButtons.Count && optionAudioButtons[i] != null)
                 {
                     var audioBtn = optionAudioButtons[i];
@@ -228,18 +241,17 @@ public class SLD_SingleCustomer : SingleCustomer
         }
     }
 
-    // 🏆 主要修改區域：移除語音面板呼叫和回調等待 🏆
+    // ======================== 選項點擊 ========================
     void OnOptionClicked(int index)
     {
         List<Stage> currentList = returningWithFood ? returnDialogueStages : stages;
         Stage stage = currentList[currentStage];
-        
+
         ToggleOptionButtons(false);
 
-        // 立即判斷是否正確
         bool isCorrect = (index == stage.correctIndex);
 
-        // ✅ 第一次作答才統計
+        // 第一次作答才紀錄
         if (firstAttemptPending && customerManager != null)
         {
             customerManager.RegisterFirstAttempt(isCorrect);
@@ -259,7 +271,6 @@ public class SLD_SingleCustomer : SingleCustomer
 
     IEnumerator NextQuestion()
     {
-        // 先顯示選項，再等待延遲時間
         ToggleOptionButtons(true);
         yield return new WaitForSeconds(stageAdvanceDelay);
         currentStage++;
@@ -268,7 +279,6 @@ public class SLD_SingleCustomer : SingleCustomer
 
     IEnumerator RetryAfterDelay()
     {
-        // 答錯後等待延遲時間
         yield return new WaitForSeconds(wrongHintDelay);
         ToggleOptionButtons(true);
         ShowCurrentStage();
@@ -280,7 +290,13 @@ public class SLD_SingleCustomer : SingleCustomer
             if (b) b.interactable = interactable;
     }
 
-    // ======================== 結束流程 ========================
+    void ToggleAllOptions(bool show)
+    {
+        foreach (var btn in optionButtons) if (btn) btn.gameObject.SetActive(show);
+        foreach (var ab in optionAudioButtons) if (ab) ab.gameObject.SetActive(show);
+    }
+
+    // ======================== 第一次點餐結束 ========================
     void FinishInteraction()
     {
         statementText.text = "Thank you!";
@@ -299,19 +315,37 @@ public class SLD_SingleCustomer : SingleCustomer
             gameflow.NotifyMovingToStaff();
         }
 
+        // ✅ 從這一刻開始到回來交餐前，提供回顧訂單的功能
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(true);
+
         StartCoroutine(DelayedSwitch());
     }
 
     IEnumerator DelayedSwitch()
     {
         yield return new WaitForSeconds(1f);
-        gameObject.SetActive(false);
+
+        // ❌ 不要關掉整個顧客，只收起對話 UI
+        if (statementText != null)
+            statementText.gameObject.SetActive(false);
+
+        if (mainDialoguePanel != null)
+            mainDialoguePanel.SetActive(false);
     }
 
+    // ======================== 回來交餐 ========================
     public void BeginFinalDialogue()
     {
         returningWithFood = true;
-        gameObject.SetActive(true);
+        currentStage = 0;
+
+        // 回來交餐時不需要再回顧 menu
+        if (reviewMenuButton != null) reviewMenuButton.SetActive(false);
+        if (reviewPanel != null) reviewPanel.SetActive(false);
+
+        if (mainDialoguePanel != null) mainDialoguePanel.SetActive(true);
+        if (statementText != null) statementText.gameObject.SetActive(true);
+
         ShowCurrentStage();
     }
 
@@ -325,10 +359,17 @@ public class SLD_SingleCustomer : SingleCustomer
         if (customerManager != null) customerManager.ProceedToNextCustomer();
     }
 
-    void ToggleAllOptions(bool show)
+    // ======================== Review menu 開關，給 UI 按鈕用 ========================
+    public void OpenReviewPanel()
     {
-        foreach (var btn in optionButtons) if (btn) btn.gameObject.SetActive(show);
-        foreach (var ab in optionAudioButtons) if (ab) ab.gameObject.SetActive(show);
+        if (reviewPanel != null)
+            reviewPanel.SetActive(true);
+    }
+
+    public void CloseReviewPanel()
+    {
+        if (reviewPanel != null)
+            reviewPanel.SetActive(false);
     }
 
     // ======================== 選項洗牌 ========================

@@ -8,8 +8,8 @@ public class STD_GameDescription : GameDescription
 {
     public GameObject InfomationBoard;
     public Button CloseButton, NextButton, PreviousButton;
-    public GameObject VisualPage; // 新增的圖像說明頁
-    public GameObject VisualPage2; // 新增的圖像說明頁
+    public GameObject VisualPage;   // 圖像說明頁 1
+    public GameObject VisualPage2;  // 圖像說明頁 2
 
     public List<STD_Info> Infos = new List<STD_Info>();
 
@@ -37,21 +37,30 @@ public class STD_GameDescription : GameDescription
 
         Infos.Add(new STD_Info()
         {
-            Content = "Once you finish taking orders, your task is completed.\nThen, review the words again. \n Good luck!"
+            Content = "Once you finish taking orders, your task is completed.\nThen, review the words again. \nGood luck!"
         });
     }
 
     void Start()
     {
-        currentInfo = 0;
-        InfomationBoard.SetActive(true);
-        SetupPageContent();
-
+        // 按鈕監聽只需要設一次
         NextButton.onClick.AddListener(() => TurnPage(1));
         PreviousButton.onClick.AddListener(() => TurnPage(-1));
         CloseButton.onClick.AddListener(() => InfomationBoard.SetActive(false));
+    }
 
-        UpdateButtonVisibility();
+    /// <summary>
+    /// 每次這個物件被 SetActive(true) 時呼叫
+    /// => 重新從第一頁開始
+    /// </summary>
+    void OnEnable()
+    {
+        currentInfo = 0;                   // ★ 重設頁數
+        if (InfomationBoard != null)
+            InfomationBoard.SetActive(true);
+
+        SetupPageContent();                // 顯示第 0 頁
+        UpdateButtonVisibility();          // 更新上一頁/下一頁/關閉按鈕狀態
     }
 
     void SetupPageContent()
@@ -66,6 +75,7 @@ public class STD_GameDescription : GameDescription
         if (VisualPage != null) VisualPage.SetActive(false);
         if (VisualPage2 != null) VisualPage2.SetActive(false);
 
+        // 依 currentInfo 決定要顯示文字還是圖像頁
         if (currentInfo == 2 && VisualPage != null)
         {
             InfoContent.text = "";
@@ -81,10 +91,12 @@ public class STD_GameDescription : GameDescription
             InfoContent.text = Infos[currentInfo].Content;
         }
     }
+
     void TurnPage(int dir)
     {
         currentInfo += dir;
         currentInfo = Mathf.Clamp(currentInfo, 0, Infos.Count - 1);
+
         SetupPageContent();
         UpdateButtonVisibility();
     }

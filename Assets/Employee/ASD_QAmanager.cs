@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.AI;
 
-// 管理 ASD 模式下的問答流程（已移除語音辨識）
+// 管理 ASD 模式下的問答流程
 public class ASD_QAmanager : QAmanager
 {
     // [Header("UI")]
@@ -193,9 +193,15 @@ public class ASD_QAmanager : QAmanager
                 drawer.ChangeNavAgent(agentForThisRoute);
         }
 
+        // 關掉店員 QA 介面
         gameObject.SetActive(false);
 
-        if (singleCustomer != null)
+        // ✅ 交給 ASD_Gameflow 處理「回去交餐」+ 進度條第二階段
+        if (singleCustomer != null && singleCustomer.customerManager != null)
+        {   
             singleCustomer.BeginFinalDialogue();
+            singleCustomer.customerManager.NextCustomer();
+        }
     }
+
 }

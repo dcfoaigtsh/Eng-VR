@@ -8,11 +8,14 @@ public class ASD_GameDescription : GameDescription
 {
     public GameObject InfomationBoard;
     public Button CloseButton, NextButton, PreviousButton;
-    public GameObject VisualPage; // 新增的圖像說明頁
-    public GameObject VisualPage2; // 新增的圖像說明頁
+    public GameObject VisualPage;  // 圖像頁 1
+    public GameObject VisualPage2; // 圖像頁 2
 
     public List<ASD_Info> Infos = new List<ASD_Info>();
 
+    // ================================
+    // 初始化文字內容
+    // ================================
     void Awake()
     {
         Infos.Add(new ASD_Info()
@@ -22,50 +25,54 @@ public class ASD_GameDescription : GameDescription
 
         Infos.Add(new ASD_Info()
         {
-            Content = "How to play: \n1. Click the ! talk to your friend.\n2. Talk to the staff \n3. Return to your friend with food."
+            Content = "How to play: \n1. Click the ! to talk to your friend.\n2. Talk to the staff.\n3. Return to your friend with food."
         });
+
+        Infos.Add(new ASD_Info() { Content = "" }); // 圖像頁
+        Infos.Add(new ASD_Info() { Content = "" }); // 圖像頁
 
         Infos.Add(new ASD_Info()
         {
-            Content = "" // 圖像頁，不需文字
-        });
-
-        Infos.Add(new ASD_Info()
-        {
-            Content = "" // 圖像頁，不需文字
-        });
-
-        Infos.Add(new ASD_Info()
-        {
-            Content = "Once you finish taking orders, your task is completed.\nThen, review the words again. \n Good luck!"
+            Content = "Once you finish taking orders, your task is completed.\nThen, review the words again.\nGood luck!"
         });
     }
 
+    // ================================
+    // 初始化按鈕事件，只跑一次
+    // ================================
     void Start()
     {
-        currentInfo = 0;
-        InfomationBoard.SetActive(true);
-        SetupPageContent();
-
         NextButton.onClick.AddListener(() => TurnPage(1));
         PreviousButton.onClick.AddListener(() => TurnPage(-1));
         CloseButton.onClick.AddListener(() => InfomationBoard.SetActive(false));
+    }
 
+    // ================================
+    // ★ 重新打開時自動回到第一頁（最重要）
+    // ================================
+    void OnEnable()
+    {
+        currentInfo = 0; // 回到第一頁
+        InfomationBoard.SetActive(true);
+
+        SetupPageContent();
         UpdateButtonVisibility();
     }
 
+    // ================================
+    // 設定頁面內容
+    // ================================
     void SetupPageContent()
     {
+        // 通知 Gameflow 使用者正在閱讀說明
         Gameflow gameflow = FindObjectOfType<Gameflow>();
-        if (gameflow != null)
-        {
-            gameflow.NotifyReadingDescription();
-        }
-        
-        // 先關閉所有圖像頁，避免殘留
+        if (gameflow != null) gameflow.NotifyReadingDescription();
+
+        // 關閉所有圖像頁（避免殘留）
         if (VisualPage != null) VisualPage.SetActive(false);
         if (VisualPage2 != null) VisualPage2.SetActive(false);
 
+        // 依照頁面顯示文字或圖片
         if (currentInfo == 2 && VisualPage != null)
         {
             InfoContent.text = "";
@@ -81,14 +88,22 @@ public class ASD_GameDescription : GameDescription
             InfoContent.text = Infos[currentInfo].Content;
         }
     }
+
+    // ================================
+    // 換頁
+    // ================================
     void TurnPage(int dir)
     {
         currentInfo += dir;
         currentInfo = Mathf.Clamp(currentInfo, 0, Infos.Count - 1);
+
         SetupPageContent();
         UpdateButtonVisibility();
     }
 
+    // ================================
+    // 按鈕顯示邏輯
+    // ================================
     void UpdateButtonVisibility()
     {
         PreviousButton.gameObject.SetActive(currentInfo != 0);
