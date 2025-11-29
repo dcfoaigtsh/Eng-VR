@@ -5554,7 +5554,7 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5618,7 +5618,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 38.23707, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &163974527
@@ -9914,12 +9914,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 296302270}
-  statementAudioButton: {fileID: 1117728435}
   optionAdvancedButtons:
   - {fileID: 296302274}
   - {fileID: 296302273}
   - {fileID: 296302272}
   - {fileID: 296302271}
+  statementAudioButton: {fileID: 1117728435}
   optionAudioButtons:
   - {fileID: 1095487750}
   - {fileID: 2056938156}
@@ -12427,10 +12427,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: CornerAssistant
       objectReference: {fileID: 0}
-    - target: {fileID: 9109937143831707931, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
-      propertyPath: openAIKey
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14652,12 +14648,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 421767701}
-  statementAudioButton: {fileID: 1275575331}
   optionAdvancedButtons:
   - {fileID: 421767705}
   - {fileID: 421767704}
   - {fileID: 421767703}
   - {fileID: 421767702}
+  statementAudioButton: {fileID: 1275575331}
   optionAudioButtons:
   - {fileID: 297150197}
   - {fileID: 1621131707}
@@ -21929,12 +21925,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 656813597}
-  statementAudioButton: {fileID: 1323330051}
   optionAdvancedButtons:
   - {fileID: 656813601}
   - {fileID: 656813600}
   - {fileID: 656813599}
   - {fileID: 656813598}
+  statementAudioButton: {fileID: 1323330051}
   optionAudioButtons:
   - {fileID: 2044043464}
   - {fileID: 884447296}
@@ -31266,6 +31262,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 119774792}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyRestorePreviousState
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &965256552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34708,12 +34716,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 1236490407}
-  statementAudioButton: {fileID: 659970702}
   optionButtons:
   - {fileID: 1236490406}
   - {fileID: 1236490405}
   - {fileID: 1236490404}
   - {fileID: 1236490403}
+  statementAudioButton: {fileID: 659970702}
   optionAudioButtons:
   - {fileID: 502646526}
   - {fileID: 140664698}
@@ -42772,8 +42780,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
+  m_sharedMaterial: {fileID: -2854102420054902691, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -44858,12 +44866,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 1578236245}
-  statementAudioButton: {fileID: 479264571}
   optionButtons:
   - {fileID: 1578236244}
   - {fileID: 1578236243}
   - {fileID: 1578236242}
   - {fileID: 1578236241}
+  statementAudioButton: {fileID: 479264571}
   optionAudioButtons:
   - {fileID: 1896779669}
   - {fileID: 1786553514}
@@ -61411,12 +61419,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statementText: {fileID: 2130306078}
-  statementAudioButton: {fileID: 796398942}
   optionButtons:
   - {fileID: 2130306077}
   - {fileID: 2130306076}
   - {fileID: 2130306075}
   - {fileID: 2130306074}
+  statementAudioButton: {fileID: 796398942}
   optionAudioButtons:
   - {fileID: 170737104}
   - {fileID: 1997549164}

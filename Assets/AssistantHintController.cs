@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,11 +43,12 @@ public class AssistantHintController : MonoBehaviour
     private bool isWaitingResponse = false;
 
     // 玩家相關狀態
-    private LearningMode learningMode;          // 學習模式
-    private PlayerState currentPlayerState;     // 目前玩家狀態
-    private int currentDialoguePage = 0;        // 目前對話頁面
-    private string currentDialogueText = "";    // 目前對話文字
-    private string lastSelectedOption = "";     // 上次選擇的問題選項
+    private LearningMode learningMode;              // 學習模式
+    private PlayerState currentPlayerState;         // 目前玩家狀態
+    private TextMeshProUGUI currentDialogueTMP;     // 目前對話 TMP
+    private TextMeshProUGUI[] currentOptionsTMP;    // 目前選項 TMP
+    private int currentDialoguePage;                // 目前對話頁面
+    private string lastSelectedOption;              // 上次選擇的問題選項
 
     void Awake()
     {
@@ -71,9 +73,9 @@ public class AssistantHintController : MonoBehaviour
         X_Button.onClick.AddListener(HideHintPanel);
         OkButton.onClick.AddListener(OnOkButtonClicked);
         AgainButton.onClick.AddListener(OnAgainButtonClicked);
-        Q1Button.onClick.AddListener(() => OnQuestionButtonClicked(1));
-        Q2Button.onClick.AddListener(() => OnQuestionButtonClicked(2));
-        Q3Button.onClick.AddListener(() => OnQuestionButtonClicked(3));
+        Q1Button.onClick.AddListener(() => OnQuestionButtonClicked("next_step"));
+        Q2Button.onClick.AddListener(() => OnQuestionButtonClicked("not_understand"));
+        Q3Button.onClick.AddListener(() => OnQuestionButtonClicked("forgot_order"));
         
         // 初始隱藏提示面板
         if (AssistantHintPanel != null)
@@ -110,24 +112,26 @@ public class AssistantHintController : MonoBehaviour
             learningMode = ModeManager.Instance.currentMode;
         }
 
-        // 重置對話文字
-        currentDialogueText = "";
+        currentDialogueTMP = null;
+        currentOptionsTMP = null;
         currentDialoguePage = 0;
         
         // 從活躍顧客獲取對話和餐點資訊
         allCustomers = FindObjectsOfType<SingleCustomer>();
         SingleCustomer activeCustomer = allCustomers?.FirstOrDefault(c => c?.gameObject.activeInHierarchy == true);
-        if (currentPlayerState == PlayerState.TalkingToCustomer && activeCustomer?.statementText != null)
+        if (currentPlayerState == PlayerState.TalkingToCustomer && activeCustomer != null)
         {
-            currentDialogueText = activeCustomer.statementText.text;
+            currentDialogueTMP = activeCustomer.statementText;
+            currentOptionsTMP = activeCustomer.optionButtons?.Select(b => b.GetComponentInChildren<TextMeshProUGUI>()).ToArray();
         }
         
         // 從 QA 管理器獲取對話
         allQAmanagers = FindObjectsOfType<QAmanager>();
         QAmanager activeQAManager = allQAmanagers?.FirstOrDefault(q => q?.gameObject.activeInHierarchy == true);
-        if (currentPlayerState == PlayerState.OrderingAtStaff && activeQAManager?.statementText != null)
+        if (currentPlayerState == PlayerState.OrderingAtStaff && activeQAManager != null)
         {
-            currentDialogueText = activeQAManager.statementText.text;
+            currentDialogueTMP = activeQAManager.statementText;
+            currentOptionsTMP = activeQAManager.optionAdvancedButtons?.Select(b => b.GetComponentInChildren<TextMeshProUGUI>()).ToArray();
         }
 
         // 從遊戲說明獲取文字
@@ -135,21 +139,14 @@ public class AssistantHintController : MonoBehaviour
         if (currentPlayerState == PlayerState.ReadingDescription && gameDescription != null)
         {
             currentDialoguePage = gameDescription.currentInfo;
-            if (currentDialoguePage == 2 || currentDialoguePage == 3)
-            {
-                currentDialogueText = "圖像說明頁，展示遊戲操作指引";
-            }
-            else if (gameDescription.InfoContent != null)
-            {
-                currentDialogueText = gameDescription.InfoContent.text;
-            }
+            currentDialogueTMP = gameDescription.InfoContent;
         }
 
         // 從遊戲結束畫面獲取資訊
         gameOverUI = FindObjectOfType<GameOverUI>();
         if (currentPlayerState == PlayerState.Completed && gameOverUI?.messageText != null)
         {
-            currentDialogueText = gameOverUI.messageText.text;
+            currentDialogueTMP = gameOverUI.messageText;
         }
     }
 
@@ -223,7 +220,7 @@ public class AssistantHintController : MonoBehaviour
         Q1Button.gameObject.SetActive(true);
         
         // 選項2: 看不懂英文 - 在有對話內容時顯示
-        bool hasTextContent = !string.IsNullOrEmpty(currentDialogueText);
+        bool hasTextContent = currentDialogueTMP != null && !string.IsNullOrEmpty(currentDialogueTMP.text);
         bool canShowTranslation = hasTextContent && 
                                  (currentPlayerState == PlayerState.ReadingDescription ||
                                   currentPlayerState == PlayerState.TalkingToCustomer ||
@@ -246,19 +243,11 @@ public class AssistantHintController : MonoBehaviour
     }
 
     // 處理問題按鈕點擊事件
-    void OnQuestionButtonClicked(int questionNumber)
+    void OnQuestionButtonClicked(string option)
     {
-        switch (questionNumber)
-        {
-            case 1: lastSelectedOption = "next_step"; break;
-            case 2: lastSelectedOption = "not_understand"; break;
-            case 3: lastSelectedOption = "forgot_order"; break;
-        }
+        lastSelectedOption = option;
 
         string prompt = GeneratePrompt(lastSelectedOption);
-        
-        if (showDebugInfo) Debug.Log($"選擇問題 {lastSelectedOption}，生成提示語:\n{prompt}");
-        
         StartCoroutine(SendToOpenAI(prompt));
         SwitchToOutputPanel();
         Text.text = "AI助手思考中...";
@@ -268,6 +257,7 @@ public class AssistantHintController : MonoBehaviour
     // 生成發送給 OpenAI 的提示語
     string GeneratePrompt(string option)
     {
+
         string mode = learningMode switch
         {
             LearningMode.Standard => "STD 模式：一般生，語句正常，操作流程正常，可稍微簡短但仍清楚。",
@@ -287,7 +277,7 @@ public class AssistantHintController : MonoBehaviour
             _ => ""
         };
 
-        string prompt = $"你是《Restaurant Order》英文學習遊戲的 AI 助手。\n" +
+        string prompt = $"你是快餐店英文學習遊戲的AI助手。\n" +
                         "語氣友善但專注任務。\n" +
                         "用繁體中文回答。\n\n" +
                         "回答內容只依照【玩家問題】本身。\n" +
@@ -301,6 +291,8 @@ public class AssistantHintController : MonoBehaviour
                         $"【玩家狀態】：{state}\n" +
                         $"【玩家問題】：{question}\n\n" +
                         "請依規則作答。";
+
+        if (showDebugInfo) Debug.Log($"選擇問題 {lastSelectedOption}，生成提示語:\n{prompt}");
 
         return prompt;
     }
@@ -335,6 +327,8 @@ public class AssistantHintController : MonoBehaviour
                 return "玩家正在與員工點餐但不知道該做什麼。請建議：『想一想員工在說什麼，選一個句子回答員工，完成點餐』。";
             case PlayerState.ReturningToCustomer:
                 return "玩家正在返回顧客但不知道該做什麼。請建議：『跟著地上的箭頭，走回顧客前面，點擊顧客頭上的 ! 按鈕』。";
+            case PlayerState.Completed:
+                return "玩家完成遊戲但不知道該做什麼。請建議：『恭喜你已經完成遊戲，點擊 Review 按鈕複習單字』。";
             default:
                 return "玩家不知道下一步該做什麼。請根據當前狀態提供具體指引。";
         }
@@ -342,16 +336,32 @@ public class AssistantHintController : MonoBehaviour
 
     string GetTranslationGuidance()
     {
-        string textToTranslate = currentDialogueText;
-        if (currentPlayerState == PlayerState.ReadingDescription && (currentDialoguePage == 2 || currentDialoguePage == 3)) // 圖像說明頁面
+        string dialogueText = currentDialogueTMP != null ? currentDialogueTMP.text : "";
+        var optionsList = currentOptionsTMP != null
+            ? currentOptionsTMP.Where(t => t != null).Select(t => t.text).ToList()
+            : new List<string>();
+
+        var jsonObject = new JObject
         {
-            return "玩家看不懂圖像說明頁面。請建議：『這張圖片在說明遊戲的玩法。』";
-        }
-        else if (!string.IsNullOrEmpty(textToTranslate))
-        {
-            return $"玩家看不懂英文內容。請將這句話翻譯成中文：『{textToTranslate}』";
-        }
-        return "玩家看不懂當前內容。請解釋當前情境。";
+            ["statement"] = dialogueText,
+            ["options"] = new JArray(optionsList)
+        };
+
+        string jsonOneLine = jsonObject.ToString(Newtonsoft.Json.Formatting.None);
+
+        string prompt =
+            "你只能翻譯，不得修改任何格式。\n" +
+            "請翻譯以下 JSON 內 \"statement\" 與 \"options\" 的英文文字。\n" +
+            "以下規則必須完全遵守：\n" +
+            "1. 所有 Rich Text 標籤 (如 <b>、<i>、<color=#XXXXXX> 等) 必須完整保留，不可刪除、移動、修改或新增。\n" +
+            "2. 只能替換文字內容，翻譯後的標籤仍需套在對應詞語上。\n" +
+            "3. JSON 不能被改動：鍵名、層級、陣列、順序全部維持不變。\n" +
+            "4. 回覆內容禁止包含說明、註解、額外訊息。\n" +
+            "5. 回覆時必須輸出唯一一段 JSON。\n\n" +
+            "【翻譯目標】" + jsonOneLine + "\n" +
+            "【請直接給翻譯後的 JSON】";
+
+        return prompt;
     }
 
     string GetForgotOrderGuidance()
@@ -370,8 +380,7 @@ public class AssistantHintController : MonoBehaviour
 
         if (task.IsCompletedSuccessfully)
         {
-            string response = task.Result;
-            Text.text = $"AI助手:\n{response}";
+            UpdateUIFromAI(task.Result);
         }
         else
         {
@@ -389,14 +398,14 @@ public class AssistantHintController : MonoBehaviour
         {
             var json = new JObject
             {
-                ["model"] = "gpt-3.5-turbo",
+                ["model"] = "gpt-4o-mini",
                 ["messages"] = new JArray
                 {
                     new JObject { ["role"] = "system", ["content"] = "你是快餐店英文學習遊戲的AI助手。用友善、專注任務的語氣，繁體中文回答，保持簡潔，最多50字。" },
                     new JObject { ["role"] = "user", ["content"] = prompt }
                 },
                 ["temperature"] = 0.7,
-                ["max_tokens"] = 100
+                ["max_tokens"] = 300
             };
 
             var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
@@ -411,6 +420,48 @@ public class AssistantHintController : MonoBehaviour
         {
             Debug.LogError("OpenAI API 錯誤: " + e.Message);
             return "抱歉，發生錯誤，請稍後再試。";
+        }
+    }
+
+    // 根據 AI 回應更新 UI
+    void UpdateUIFromAI(string result)
+    {
+        const string TRANSLATION_MARK = "\u200B"; // 零寬空格作為翻譯標記
+        Debug.Log("AI 回應: " + result);
+
+        if (lastSelectedOption != "not_understand")
+        {
+            Text.text = $"AI助手:\n{result}";
+            return;
+        }
+
+        try
+        {
+            var json = JObject.Parse(result);
+
+            void UpdateText(ref TextMeshProUGUI tmp, string newText)
+            {
+                if (tmp == null) return;
+                string original = tmp.text;
+                int markIndex = original.IndexOf(TRANSLATION_MARK);
+                if (markIndex >= 0) original = original.Substring(0, markIndex);
+                tmp.text = $"{original}{TRANSLATION_MARK}\n{newText}";
+            }
+
+            UpdateText(ref currentDialogueTMP, json["statement"]?.ToString() ?? "");
+
+            if (currentOptionsTMP != null && json["options"] is JArray optionsArray)
+            {
+                for (int i = 0; i < currentOptionsTMP.Length && i < optionsArray.Count; i++)
+                    UpdateText(ref currentOptionsTMP[i], optionsArray[i].ToString());
+            }
+
+            Text.text = "AI助手: 已經翻譯成中文啦。";
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("解析翻譯 JSON 錯誤: " + e.Message);
+            Text.text = "AI助手: 抱歉，發生錯誤，請稍後再試。";
         }
     }
 

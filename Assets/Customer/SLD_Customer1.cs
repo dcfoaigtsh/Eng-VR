@@ -9,7 +9,7 @@ public class SLD_SingleCustomer : SingleCustomer
 {
     // [Header("UI")]
     public Button statementAudioButton;
-    public List<Button> optionButtons;
+    // public List<Button> optionButtons;
     public List<Button> optionAudioButtons;
 
     [Header("Flow")]

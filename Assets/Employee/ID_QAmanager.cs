@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class ID_QAmanager : QAmanager
 {
     // [Header("UI")]
-    public List<Button> optionAdvancedButtons;
+    // public List<Button> optionAdvancedButtons;
 
     [Header("Flow References")]
     public ID_SingleCustomer singleCustomer;

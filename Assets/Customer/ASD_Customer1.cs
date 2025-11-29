@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class ASD_SingleCustomer : SingleCustomer
 {
     // [Header("UI")]
-    public List<Button> optionButtons;
+    // public List<Button> optionButtons;
     public GameObject completeIcon;
 
     [Header("Flow References")]

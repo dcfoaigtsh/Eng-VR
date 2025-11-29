@@ -9,7 +9,7 @@ public class SLD_QAmanager : QAmanager
 {
     // [Header("UI")]
     public Button statementAudioButton;
-    public List<Button> optionAdvancedButtons;
+    // public List<Button> optionAdvancedButtons;
     public List<Button> optionAudioButtons;
 
     [Header("Flow References")]

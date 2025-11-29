@@ -8,7 +8,7 @@ using UnityEngine.AI; // 雖然此腳本內沒有直接使用 NavMeshAgent，但
 public class STD_QAmanager : QAmanager
 {
     // [Header("UI")]
-    public List<Button> optionAdvancedButtons;
+    // public List<Button> optionAdvancedButtons;
 
     // [Header("Speech")] ⚠️ 已刪除
     // public SpeechPopup speechPopup;   // ⚠️ 已刪除

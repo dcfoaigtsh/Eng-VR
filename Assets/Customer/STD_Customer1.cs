@@ -8,7 +8,7 @@ using UnityEngine.AI;
 public class STD_SingleCustomer : SingleCustomer
 {
     // [Header("UI")]
-    public List<Button> optionButtons;
+    // public List<Button> optionButtons;
 
     [Header("Flow")]
     public STD_Gameflow customerManager;
