@@ -8,4 +8,5 @@ public class SingleCustomer : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI statementText;
     public List<Button> optionButtons;
+    public TextMeshProUGUI reviewStatementText;
 }

@@ -60,8 +60,10 @@ public class ID_GameDescription : GameDescription
                 {
                     gameflow.NotifyRestorePreviousState();
                 }
-                if (CustomerPanel != null)
+                if (CustomerPanel != null) {
                     CustomerPanel.SetActive(true);
+                    gameflow.NotifyCustomerInteractionStarted();
+                }
             }
             else
             {

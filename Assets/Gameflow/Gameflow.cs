@@ -7,6 +7,7 @@ public enum PlayerState
     ReadingDescription,     // 正在閱讀遊戲說明
     MovingToCustomer,       // 正在走向顧客
     TalkingToCustomer,      // 正在與顧客對話
+    ReviewingOrder,         // 正在回顧訂單
     MovingToStaff,          // 正在走向員工
     OrderingAtStaff,        // 正在與員工點餐
     ReturningToCustomer,    // 正在返回顧客
@@ -38,6 +39,7 @@ public class Gameflow : MonoBehaviour
     public void NotifyReadingDescription() => SetPlayerState(PlayerState.ReadingDescription);
     public void NotifyCustomerInteractionStarted() => SetPlayerState(PlayerState.TalkingToCustomer);
     public void NotifyStaffInteractionStarted() => SetPlayerState(PlayerState.OrderingAtStaff);
+    public void NotifyReviewingOrder() => SetPlayerState(PlayerState.ReviewingOrder);
     public void NotifyMovingToStaff() => SetPlayerState(PlayerState.MovingToStaff);
     public void NotifyMovingToCustomer() => SetPlayerState(PlayerState.MovingToCustomer);
     public void NotifyReturningToCustomer() => SetPlayerState(PlayerState.ReturningToCustomer);

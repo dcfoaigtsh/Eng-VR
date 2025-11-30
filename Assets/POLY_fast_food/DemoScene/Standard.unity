@@ -4734,7 +4734,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: ' I want a hamburger and French fries.'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4798,7 +4798,7 @@ MonoBehaviour:
   m_margin: {x: -25.592125, y: 0, z: -18.267471, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &143412949
@@ -9187,6 +9187,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyReviewingOrder
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14435,6 +14447,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyReviewingOrder
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -20000,6 +20024,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyMovingToStaff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &629974869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20526,6 +20562,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyReviewingOrder
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -32532,7 +32580,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: I want a chicken burger with no pickles.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -32596,7 +32644,7 @@ MonoBehaviour:
   m_margin: {x: 23.956097, y: 0, z: 29.558617, w: 14.673014}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1042765371
@@ -33530,6 +33578,7 @@ MonoBehaviour:
   - {fileID: 1236490405}
   - {fileID: 1236490404}
   - {fileID: 1236490403}
+  reviewStatementText: {fileID: 1042765370}
   customerManager: {fileID: 119774790}
   completeIcon: {fileID: 1297932631}
   drawer: {fileID: 391013545}
@@ -38321,6 +38370,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyMovingToStaff
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1235884840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40199,6 +40260,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyMovingToStaff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -43300,6 +43373,7 @@ MonoBehaviour:
   - {fileID: 1578236243}
   - {fileID: 1578236242}
   - {fileID: 1578236241}
+  reviewStatementText: {fileID: 1874200139}
   customerManager: {fileID: 119774790}
   completeIcon: {fileID: 225283412}
   drawer: {fileID: 391013545}
@@ -50242,6 +50316,7 @@ MonoBehaviour:
   - {fileID: 1578236243}
   - {fileID: 1578236242}
   - {fileID: 1578236241}
+  reviewStatementText: {fileID: 0}
   customerManager: {fileID: 119774790}
   completeIcon: {fileID: 0}
   drawer: {fileID: 391013545}
@@ -50938,6 +51013,7 @@ MonoBehaviour:
   - {fileID: 1489621242}
   - {fileID: 1489621241}
   - {fileID: 1489621240}
+  reviewStatementText: {fileID: 1744036768}
   customerManager: {fileID: 119774790}
   completeIcon: {fileID: 157763540}
   drawer: {fileID: 391013545}
@@ -54275,6 +54351,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyReviewingOrder
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1711081737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55645,7 +55733,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: I want nuggets, fries, and iced coffee with no ice.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -55709,7 +55797,7 @@ MonoBehaviour:
   m_margin: {x: 23.360565, y: 0, z: 26.545628, w: 20.890368}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1744036769
@@ -59124,6 +59212,7 @@ MonoBehaviour:
   - {fileID: 2130306076}
   - {fileID: 2130306075}
   - {fileID: 2130306074}
+  reviewStatementText: {fileID: 143412948}
   customerManager: {fileID: 119774790}
   completeIcon: {fileID: 1247999242}
   drawer: {fileID: 391013545}
@@ -60204,7 +60293,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: I want a burger with lettuce and two slices of cheese.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -60268,7 +60357,7 @@ MonoBehaviour:
   m_margin: {x: 26.060143, y: 0, z: 30.311382, w: 10.42136}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1874200140
@@ -66127,6 +66216,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 119774790}
+        m_TargetAssemblyTypeName: Gameflow, Assembly-CSharp
+        m_MethodName: NotifyMovingToStaff
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

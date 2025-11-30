@@ -124,6 +124,10 @@ public class AssistantHintController : MonoBehaviour
             currentDialogueTMP = activeCustomer.statementText;
             currentOptionsTMP = activeCustomer.optionButtons?.Select(b => b.GetComponentInChildren<TextMeshProUGUI>()).ToArray();
         }
+        if (currentPlayerState == PlayerState.ReviewingOrder && activeCustomer != null)
+        {
+            currentDialogueTMP = activeCustomer.reviewStatementText;
+        }
         
         // 從 QA 管理器獲取對話
         allQAmanagers = FindObjectsOfType<QAmanager>();
@@ -224,6 +228,7 @@ public class AssistantHintController : MonoBehaviour
         bool canShowTranslation = hasTextContent && 
                                  (currentPlayerState == PlayerState.ReadingDescription ||
                                   currentPlayerState == PlayerState.TalkingToCustomer ||
+                                  currentPlayerState == PlayerState.ReviewingOrder ||
                                   currentPlayerState == PlayerState.OrderingAtStaff ||
                                   currentPlayerState == PlayerState.Completed);
         Q2Button.gameObject.SetActive(canShowTranslation);
@@ -321,6 +326,8 @@ public class AssistantHintController : MonoBehaviour
                 return "玩家正在走向顧客但不知道該做什麼。請建議：『跟著地上的箭頭，走到顧客前面，點擊顧客頭上的 ! 按鈕』。";
             case PlayerState.TalkingToCustomer:
                 return "玩家正在與顧客對話但不知道下一步。請建議：『想一想顧客在說什麼，選一個句子回答顧客，記住顧客的餐點』。";
+            case PlayerState.ReviewingOrder:
+                return "玩家正在回顧顧客點的餐點但不知道該做什麼。請建議：『點擊 X 按鈕，關閉餐點說明，跟著地上的箭頭，走到員工前面』。";
             case PlayerState.MovingToStaff:
                 return "玩家正在走向員工但不知道該做什麼。請建議：『跟著地上的箭頭，走到員工前面，點擊員工頭上的 ! 按鈕』。";
             case PlayerState.OrderingAtStaff:
