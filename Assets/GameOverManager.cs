@@ -25,11 +25,11 @@ public class GameOverManager : MonoBehaviour
 
     [Header("時間回饋門檻（秒）")]
     [Tooltip("ASD/ID 模式建議 60–120 秒")]
-    public float asdIdOptimalMin = 0f;
-    public float asdIdOptimalMax = 120f;
+    public float asdIdOptimalMin = 60f;
+    public float asdIdOptimalMax = 300f;
 
     [Tooltip("STD/SLD 模式建議 180–300 秒")]
-    public float stdSldOptimalMin = 0f;
+    public float stdSldOptimalMin = 60f;
     public float stdSldOptimalMax = 300f;
 
     [Header("顏色回饋（可選）")]

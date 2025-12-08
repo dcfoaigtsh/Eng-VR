@@ -309,7 +309,7 @@ public class AssistantHintController : MonoBehaviour
             case PlayerState.ReadingDescription:
                 if (currentDialoguePage < 4) // 如果不是最後一頁
                 {
-                    return "玩家不知道看完當前說明頁面後該做什麼。請建議：『點擊 Next 按鈕，繼續閱讀下一頁的說明』。";
+                    return "玩家不知道看完當前說明頁面後該做什麼。請建議：『點擊 > 按鈕，繼續閱讀下一頁的說明』。";
                 }
                 else // 最後一頁
                 {
@@ -373,7 +373,7 @@ public class AssistantHintController : MonoBehaviour
 
     string GetForgotOrderGuidance()
     {
-        return "玩家忘記顧客點什麼了。請建議：『請跟著地上的箭頭，走回顧客前面，再問一次顧客想要什麼，記住餐點。』";
+        return "玩家忘記顧客點什麼了。請建議：『請走回顧客前面，點擊顧客頭上的 Review menu 按鈕，再問一次顧客想要什麼，記住餐點。』";
     }
 
     // 發送請求到 OpenAI 並處理回應

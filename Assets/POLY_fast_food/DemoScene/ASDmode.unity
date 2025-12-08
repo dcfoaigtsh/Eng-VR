@@ -4925,7 +4925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.6, y: 18.8}
+  m_AnchoredPosition: {x: 3.6, y: 31.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &163639622
@@ -4961,7 +4961,7 @@ MonoBehaviour:
 '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 04af567302632784a862e45cb217df98, type: 2}
-  m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
+  m_sharedMaterial: {fileID: -2854102420054902691, guid: 04af567302632784a862e45cb217df98, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5024,7 +5024,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 13.183353, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1001 &166890707
@@ -5363,9 +5363,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Next
-
-'
+  m_text: '>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7621,6 +7619,10 @@ PrefabInstance:
     - target: {fileID: 2459292718799946611, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
       propertyPath: m_Name
       value: CornerAssistant
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109937143831707931, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: openAIKey
+      value: 321
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19480,7 +19482,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &762458761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32724,7 +32726,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'perious
+  m_text: '<
 
 '
   m_isRightToLeft: 0
@@ -43030,8 +43032,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.4, y: -35}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: 40, y: -40}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1642919314
 MonoBehaviour:
@@ -45869,8 +45871,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 29.4, y: -35}
-  m_SizeDelta: {x: 60, y: 30}
+  m_AnchoredPosition: {x: 61.8, y: -40}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1752409343
 PrefabInstance:
@@ -48710,7 +48712,7 @@ MonoBehaviour:
   reviewStatementText: {fileID: 1178849269}
   completeIcon: {fileID: 1247999242}
   customerManager: {fileID: 119774790}
-  qaManager: {fileID: 0}
+  qaManager: {fileID: 1188912773}
   drawer: {fileID: 391013545}
   employee1: {fileID: 1428747557}
   agentForThisRoute: {fileID: 1167237971}
@@ -58579,7 +58581,7 @@ PrefabInstance:
     - target: {fileID: 8678825452996321638, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: singleCustomer
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1837967218}
     - target: {fileID: 8678825452996321638, guid: e701a3401db313447b9d214863100396, type: 3}
       propertyPath: agentForThisRoute
       value: 

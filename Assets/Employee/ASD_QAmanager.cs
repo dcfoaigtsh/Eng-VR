@@ -179,6 +179,7 @@ public class ASD_QAmanager : QAmanager
         }
 
         StartCoroutine(SwitchToFinalDialogue());
+
     }
 
     IEnumerator SwitchToFinalDialogue()

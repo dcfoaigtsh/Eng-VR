@@ -78,6 +78,7 @@ public class ASD_Gameflow : Gameflow
         var customer = customerList[0].GetComponent<ASD_SingleCustomer>();
         if (customer != null)
             customer.BeginFinalDialogue();
+        
 
         progressBar?.SetProgress(2);   // 👈 進度 2：回去交餐
     }
