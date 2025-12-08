@@ -18626,7 +18626,7 @@ Transform:
   m_GameObject: {fileID: 563283460}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.99999976, z: -0, w: 0.0006917789}
-  m_LocalPosition: {x: -1.129779, y: 7.800001, z: -3.774027}
+  m_LocalPosition: {x: 0.9, y: 9.8, z: -3.8}
   m_LocalScale: {x: 20, y: 16, z: 20}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -36668,7 +36668,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c657d80bd5eefac42a2e680c84054202, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44366d6d8e4c1714c81dec3be75c574e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -37246,7 +37246,7 @@ RectTransform:
   m_GameObject: {fileID: 1202102139}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -0.011330033}
-  m_LocalScale: {x: 0.1, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.05, y: 0.06, z: 0.05}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1176806836}
@@ -37254,7 +37254,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00029408385, y: 0.000000037252903}
+  m_AnchoredPosition: {x: 0.00029408385, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1202102141
@@ -62565,12 +62565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aee89b6ee71f0b42a4ee8c58c9fa871, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panel: {fileID: 147680034}
-  targetText: {fileID: 1299385465}
-  userText: {fileID: 186839660}
-  speakButton: {fileID: 1889027017}
-  doneButton: {fileID: 1009494265}
-  dictation: {fileID: 1956575466}
 --- !u!1 &1960959415
 GameObject:
   m_ObjectHideFlags: 0
