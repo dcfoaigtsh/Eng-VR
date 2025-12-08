@@ -11,6 +11,9 @@ using Newtonsoft.Json.Linq;
 
 public class AssistantHintController : MonoBehaviour
 {
+    public static AssistantHintController Instance;
+    public int assistantUsageCount = 0;
+
     [Header("UI Components")]
     public Button AssistantImage;            // 打開面板的 Image 按鈕
     public GameObject AssistantHintPanel;    // 主要提示面板
@@ -52,6 +55,18 @@ public class AssistantHintController : MonoBehaviour
 
     void Awake()
     {
+        // 確保單例模式
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // 初始化 HTTP 客戶端
         if (!string.IsNullOrEmpty(openAIKey))
         {
@@ -394,6 +409,7 @@ public class AssistantHintController : MonoBehaviour
             Text.text = "AI助手: 抱歉，發生錯誤，請稍後再試。";
         }
 
+        assistantUsageCount++;
         isWaitingResponse = false;
         SetButtonsInteractable(true);
     }

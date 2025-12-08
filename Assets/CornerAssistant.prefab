@@ -638,6 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959a68a9bb488c040b4821470f196e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  assistantUsageCount: 0
   AssistantImage: {fileID: 973465433250695795}
   AssistantHintPanel: {fileID: 8966577530435208703}
   X_Button: {fileID: 8989354847135219547}

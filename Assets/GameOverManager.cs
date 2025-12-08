@@ -15,6 +15,7 @@ public class GameOverManager : MonoBehaviour
     [Header("UI 元件（必填）")]
     public TextMeshProUGUI accuracyText;          // ex: "Accuracy: 85.0%"
     public TextMeshProUGUI timeText;              // ex: "Time Spent: 2 min 10 sec"
+    public TextMeshProUGUI assistantUsageCountText; // ex: "Assistant Usage Count: 3 times"
 
     [Header("分離顯示回饋（必填）")]
     public TextMeshProUGUI accuracyFeedbackText;  // ex: "Accuracy Feedback: Good work—keep practicing!"
@@ -40,12 +41,19 @@ public class GameOverManager : MonoBehaviour
 
     private LearningMode currentMode;
 
+    private int assistantUsageCount;
+
     void Start()
     {
         // 取得模式
         currentMode = ModeManager.Instance != null
             ? ModeManager.Instance.currentMode
             : LearningMode.Standard; // 安全預設
+
+        // 取得assistantUsageCount
+        assistantUsageCount = AssistantHintController.Instance != null
+            ? AssistantHintController.Instance.assistantUsageCount
+            : 0;
 
         // 讀取數值（若沒存過就給 0）
         float acc = Mathf.Clamp(PlayerPrefs.GetFloat("Accuracy", 0f), 0f, 100f);
@@ -69,6 +77,8 @@ public class GameOverManager : MonoBehaviour
             int seconds = Mathf.FloorToInt(timeInSeconds % 60f);
             timeText.text = $"Time Spent: {minutes} min {seconds} sec";
         }
+        if (assistantUsageCountText != null)
+            assistantUsageCountText.text = $"Assistant Usage Count: {assistantUsageCount} times";
 
         // --- 個別回饋 ---
         string accFeedback  = GenerateAccuracyFeedback(accuracyPercent, out Color accColor);
