@@ -12439,6 +12439,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CornerAssistant
       objectReference: {fileID: 0}
+    - target: {fileID: 9109937143831707931, guid: cd67eeaf0f0692847a0e3b027a4f9787, type: 3}
+      propertyPath: openAIKey
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

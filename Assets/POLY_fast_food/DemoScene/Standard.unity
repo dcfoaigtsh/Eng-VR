@@ -20390,6 +20390,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CornerAssistant
       objectReference: {fileID: 0}
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
